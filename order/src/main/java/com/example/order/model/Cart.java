@@ -1,6 +1,9 @@
 package com.example.order.model;
 
+import com.example.order.dto.OrderItem;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cart {
 
