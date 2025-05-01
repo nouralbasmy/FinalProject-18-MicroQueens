@@ -1,6 +1,6 @@
 package com.example.order.model;
 
-import com.example.order.dto.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,35 +12,34 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private long userId;
     private LocalDateTime orderDate;
     private String status;
     private float totalPrice;
-    private float discount;
+//    private float discount;
 
-//    private List<OrderItem> orderItems;
-    private List<Long> orderItemIds;
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private List<OrderItem> orderItems;
 
-    public Order() {}
-
-    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<Long> orderItemIds) {
-        this.userId = userId;
-        this.orderDate = orderDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
-        this.discount = discount;
-        this.orderItemIds = orderItemIds;
+    public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<Long> orderItemIds) {
+    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.discount = discount;
-        this.orderItemIds = orderItemIds;
+        this.orderItems = orderItems;
+    }
+
+    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, List<OrderItem> orderItems) {
+        this.userId = userId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.orderItems = orderItems;
     }
 
     public long getId() {
@@ -83,19 +82,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public float getDiscount() {
-        return discount;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setDiscount(float discount) {
-        this.discount = discount;
-    }
-
-    public List<Long> getOrderItemIds() {
-        return orderItemIds;
-    }
-
-    public void setOrderItemIds(List<Long> orderItemIds) {
-        this.orderItemIds = orderItemIds;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

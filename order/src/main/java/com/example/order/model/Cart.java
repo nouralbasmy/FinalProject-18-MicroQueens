@@ -1,7 +1,5 @@
 package com.example.order.model;
 
-import com.example.order.dto.OrderItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,24 +7,29 @@ public class Cart {
 
     private Long id;
     private Long userId;
-    private List<OrderItem> orderItems;
     private double totalPrice;
-
-    public Cart(Long id, Long userId, List<OrderItem> orderItems, double totalPrice) {
-        this.id = id;
-        this.userId = userId;
-        this.orderItems = orderItems;
-        this.totalPrice = totalPrice;
-    }
-
-    public Cart(Long userId, List<OrderItem> orderItems, double totalPrice) {
-        this.userId = userId;
-        this.orderItems = orderItems;
-        this.totalPrice = totalPrice;
-    }
+    private List<Double> priceList = new ArrayList<Double>();
+    private List<Long> menuItemIdsList = new ArrayList<Long>();
+    private List<Integer> quantityList = new ArrayList<Integer>();
 
     public Cart() {
-        this.orderItems = new ArrayList<OrderItem>();
+    }
+
+    public Cart(Long id, Long userId, double totalPrice, List<Double> priceList, List<Long> menuItemIdsList, List<Integer> quantityList) {
+        this.id = id;
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+        this.priceList = priceList;
+        this.menuItemIdsList = menuItemIdsList;
+        this.quantityList = quantityList;
+    }
+
+    public Cart(Long userId, double totalPrice, List<Double> priceList, List<Long> menuItemIdsList, List<Integer> quantityList) {
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+        this.priceList = priceList;
+        this.menuItemIdsList = menuItemIdsList;
+        this.quantityList = quantityList;
     }
 
     public Long getId() {
@@ -45,19 +48,35 @@ public class Cart {
         this.userId = userId;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
     public double getTotalPrice() {
         return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<Double> getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(List<Double> priceList) {
+        this.priceList = priceList;
+    }
+
+    public List<Long> getMenuItemIdsList() {
+        return menuItemIdsList;
+    }
+
+    public void setMenuItemIdsList(List<Long> menuItemIdsList) {
+        this.menuItemIdsList = menuItemIdsList;
+    }
+
+    public List<Integer> getQuantityList() {
+        return quantityList;
+    }
+
+    public void setQuantityList(List<Integer> quantityList) {
+        this.quantityList = quantityList;
     }
 }
