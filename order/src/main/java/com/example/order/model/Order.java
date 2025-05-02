@@ -11,12 +11,12 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private LocalDateTime orderDate;
     private String status;
     private float totalPrice;
-//    private float discount;
+    private Long restaurantId;
 
     @OneToMany(mappedBy = "order")
     @JsonIgnore
@@ -25,20 +25,22 @@ public class Order {
     public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, List<OrderItem> orderItems) {
+    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalPrice = totalPrice;
+        this.restaurantId = restaurantId;
         this.orderItems = orderItems;
     }
 
-    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, List<OrderItem> orderItems) {
+    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalPrice = totalPrice;
+        this.restaurantId = restaurantId;
         this.orderItems = orderItems;
     }
 
@@ -88,5 +90,13 @@ public class Order {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

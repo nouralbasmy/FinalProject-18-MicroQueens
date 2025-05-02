@@ -2,42 +2,38 @@ package com.example.order.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Cart {
 
-    private Long id;
+    private String cartId;
     private Long userId;
     private double totalPrice;
-    private List<Double> priceList = new ArrayList<Double>();
-    private List<Long> menuItemIdsList = new ArrayList<Long>();
-    private List<Integer> quantityList = new ArrayList<Integer>();
+    private List<CartItem> cartItemList = new ArrayList<CartItem>();
 
     public Cart() {
     }
 
-    public Cart(Long id, Long userId, double totalPrice, List<Double> priceList, List<Long> menuItemIdsList, List<Integer> quantityList) {
-        this.id = id;
+    public Cart(String cartId, Long userId, double totalPrice, List<CartItem> cartItemList) {
+        this.cartId = cartId;
         this.userId = userId;
         this.totalPrice = totalPrice;
-        this.priceList = priceList;
-        this.menuItemIdsList = menuItemIdsList;
-        this.quantityList = quantityList;
+        this.cartItemList = cartItemList;
     }
 
-    public Cart(Long userId, double totalPrice, List<Double> priceList, List<Long> menuItemIdsList, List<Integer> quantityList) {
+    public Cart(Long userId, double totalPrice, List<CartItem> cartItemList) {
+        this.cartId = UUID.randomUUID().toString(); //to auto-generate cart ids in cache
         this.userId = userId;
         this.totalPrice = totalPrice;
-        this.priceList = priceList;
-        this.menuItemIdsList = menuItemIdsList;
-        this.quantityList = quantityList;
+        this.cartItemList = cartItemList;
     }
 
-    public Long getId() {
-        return id;
+    public String getCartId() {
+        return cartId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public Long getUserId() {
@@ -56,27 +52,11 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public List<Double> getPriceList() {
-        return priceList;
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
     }
 
-    public void setPriceList(List<Double> priceList) {
-        this.priceList = priceList;
-    }
-
-    public List<Long> getMenuItemIdsList() {
-        return menuItemIdsList;
-    }
-
-    public void setMenuItemIdsList(List<Long> menuItemIdsList) {
-        this.menuItemIdsList = menuItemIdsList;
-    }
-
-    public List<Integer> getQuantityList() {
-        return quantityList;
-    }
-
-    public void setQuantityList(List<Integer> quantityList) {
-        this.quantityList = quantityList;
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
     }
 }
