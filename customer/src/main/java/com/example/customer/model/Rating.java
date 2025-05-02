@@ -12,7 +12,7 @@ public class Rating {
     @ManyToOne
     private Restaurant restaurant;
 
-    private String comment;
+
 
     // Getters
     public Long getId() {
@@ -31,9 +31,6 @@ public class Rating {
         return restaurant;
     }
 
-    public String getComment() {
-        return comment;
-    }
 
     // Setters
     public void setId(Long id) {
@@ -52,9 +49,6 @@ public class Rating {
         this.restaurant = restaurant;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
 // Constructors
 
@@ -63,7 +57,7 @@ public class Rating {
     }
 
     // 2. All-args constructor
-    public Rating(Long id, int score, Customer customer, Restaurant restaurant, String comment) {
+    public Rating(Long id, int score, Customer customer, Restaurant restaurant) {
         this.id = id;
         this.score = score;
         this.customer = customer;
@@ -72,7 +66,7 @@ public class Rating {
     }
 
     // 3. Constructor without ID
-    public Rating(int score, Customer customer, Restaurant restaurant, String comment) {
+    public Rating(int score, Customer customer, Restaurant restaurant ) {
         this.score = score;
         this.customer = customer;
         this.restaurant = restaurant;

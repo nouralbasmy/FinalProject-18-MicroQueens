@@ -1,5 +1,5 @@
 package com.example.customer.model;
-
+package com.example.restaurant.model;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -8,7 +8,6 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String email;
     private String password;
