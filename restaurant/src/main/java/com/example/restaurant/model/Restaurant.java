@@ -12,7 +12,7 @@ public class Restaurant {
     private String cuisine;
     private String address;
     private String phone;
-    private float rating;
+    private int rating;
     private boolean active;
 
     @ElementCollection
