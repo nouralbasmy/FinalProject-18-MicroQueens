@@ -9,8 +9,10 @@ public class MenuItem {
     @ElementCollection
     private List<String> dietaryRestrictions;
 
-    @ManyToMany(mappedBy = "menu")
-    private List<Restaurant> restaurants;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
 
     // 1. No-arg constructor
     public MenuItem() {

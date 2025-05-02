@@ -19,14 +19,7 @@ public class Restaurant {
     private List<String> dietaryOptions;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "restaurant_menu",
-            joinColumns = @JoinColumn(name = "restaurant_id"),
-            inverseJoinColumns = @JoinColumn(name = "menu_item_id")
-    )
-
-    @ElementCollection
+    @OneToMany(mappedBy = "restaurant")
     private List<MenuItem> menu;
 
 
