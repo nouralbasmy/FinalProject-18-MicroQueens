@@ -1,16 +1,23 @@
+package com.example.restaurant.model;
+
+import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
+@Table(name = "MenuItems")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private float id;
+    private int id;
     private String name;
-    private Long price;
-    private String Inventory;
+    private float price;
+    private int inventory;
     @ElementCollection
     private List<String> dietaryRestrictions;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id")  // This creates the foreign key in the menu_item table
     private Restaurant restaurant;
 
 
@@ -19,32 +26,32 @@ public class MenuItem {
     }
 
     // 2. All-args constructor (with ID)
-    public MenuItem(Long id, String name, Long price, String inventory,
-                    List<String> dietaryRestrictions, List<Restaurant> restaurants) {
+    public MenuItem(int id, String name, float price, int inventory,
+                    List<String> dietaryRestrictions, Restaurant restaurant) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.inventory = inventory;
         this.dietaryRestrictions = dietaryRestrictions;
-        this.restaurants = restaurants;
+        this.restaurant = restaurant;
     }
 
     // 3. Constructor without ID (for creating new items)
-    public MenuItem(String name, Long price, String inventory,
-                    List<String> dietaryRestrictions, List<Restaurant> restaurants) {
+    public MenuItem(String name, float price, int inventory,
+                    List<String> dietaryRestrictions, Restaurant restaurant) {
         this.name = name;
         this.price = price;
         this.inventory = inventory;
         this.dietaryRestrictions = dietaryRestrictions;
-        this.restaurants = restaurants;
+        this.restaurant = restaurant;
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,19 +63,19 @@ public class MenuItem {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public String getInventory() {
+    public int getInventory() {
         return inventory;
     }
 
-    public void setInventory(String inventory) {
+    public void setInventory(int inventory) {
         this.inventory = inventory;
     }
 
@@ -80,12 +87,12 @@ public class MenuItem {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
-    public List<Restaurant> getRestaurants() {
-        return restaurants;
+    public Restaurant getRestaurants() {
+        return restaurant;
     }
 
-    public void setRestaurants(List<Restaurant> restaurants) {
-        this.restaurants = restaurants;
+    public void setRestaurants(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
 

@@ -1,7 +1,9 @@
 package com.example.customer.model;
-package com.example.restaurant.model;
 import jakarta.persistence.*;
 import java.util.List;
+import com.example.restaurant.model.Restaurant;
+import com.example.customer.model.Rating;
+
 
 @Entity
 public class Customer {
@@ -19,6 +21,7 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "restaurant_id")
     )
     private List<Restaurant> favouriteRestaurants;
+
 
     @OneToMany(mappedBy = "customer")
     private List<Rating> ratings;

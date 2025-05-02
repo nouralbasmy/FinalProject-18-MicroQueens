@@ -1,8 +1,11 @@
 package com.example.restaurant.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
+import java.awt.*;
+import java.util.List;
+@Entity
+@Table(name = "Restaurants")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +31,8 @@ public class Restaurant {
     }
 
     // 2. All-args constructor (with ID)
-    public Restaurant(Long id, String name, String cuisine, String address, String phone,
-                      float rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
+    public Restaurant(int id, String name, String cuisine, String address, String phone,
+                      int rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
         this.id = id;
         this.name = name;
         this.cuisine = cuisine;
@@ -43,7 +46,7 @@ public class Restaurant {
 
     // 3. Constructor without ID (useful for creating new records)
     public Restaurant(String name, String cuisine, String address, String phone,
-                      float rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
+                      int rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
         this.name = name;
         this.cuisine = cuisine;
         this.address = address;
@@ -55,11 +58,11 @@ public class Restaurant {
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -99,7 +102,7 @@ public class Restaurant {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

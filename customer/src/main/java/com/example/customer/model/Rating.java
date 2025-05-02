@@ -1,3 +1,8 @@
+package com.example.customer.model;
+
+import com.example.restaurant.model.Restaurant;
+import jakarta.persistence.*;
+
 @Entity
 public class Rating {
     @Id
@@ -62,7 +67,6 @@ public class Rating {
         this.score = score;
         this.customer = customer;
         this.restaurant = restaurant;
-        this.comment = comment;
     }
 
     // 3. Constructor without ID
@@ -70,7 +74,6 @@ public class Rating {
         this.score = score;
         this.customer = customer;
         this.restaurant = restaurant;
-        this.comment = comment;
     }
 
 }
