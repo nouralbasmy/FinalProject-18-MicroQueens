@@ -1,6 +1,6 @@
 package com.example.customer.model;
 
-import com.example.restaurant.model.Restaurant;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,8 +14,7 @@ public class Rating {
     @ManyToOne
     private Customer customer;
 
-    @ManyToOne
-    private Restaurant restaurant;
+    private Long restaurantId;
 
 
 
@@ -32,8 +31,8 @@ public class Rating {
         return customer;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Long getRestaurant() {
+        return restaurantId;
     }
 
 
@@ -50,8 +49,8 @@ public class Rating {
         this.customer = customer;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurant(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
 
@@ -62,18 +61,18 @@ public class Rating {
     }
 
     // 2. All-args constructor
-    public Rating(Long id, int score, Customer customer, Restaurant restaurant) {
+    public Rating(Long id, int score, Customer customer, Long restaurantId) {
         this.id = id;
         this.score = score;
         this.customer = customer;
-        this.restaurant = restaurant;
+        this.restaurantId = restaurantId;
     }
 
     // 3. Constructor without ID
-    public Rating(int score, Customer customer, Restaurant restaurant ) {
+    public Rating(int score, Customer customer, Long restaurantId ) {
         this.score = score;
         this.customer = customer;
-        this.restaurant = restaurant;
+        this.restaurantId = restaurantId;
     }
 
 }

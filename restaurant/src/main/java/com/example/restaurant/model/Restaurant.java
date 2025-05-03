@@ -9,7 +9,7 @@ import java.util.List;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
     private String cuisine;
@@ -31,7 +31,7 @@ public class Restaurant {
     }
 
     // 2. All-args constructor (with ID)
-    public Restaurant(int id, String name, String cuisine, String address, String phone,
+    public Restaurant(Long id, String name, String cuisine, String address, String phone,
                       int rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
         this.id = id;
         this.name = name;
@@ -58,11 +58,11 @@ public class Restaurant {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

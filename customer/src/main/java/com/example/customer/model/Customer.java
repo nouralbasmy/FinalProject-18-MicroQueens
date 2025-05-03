@@ -1,7 +1,6 @@
 package com.example.customer.model;
 import jakarta.persistence.*;
 import java.util.List;
-import com.example.restaurant.model.Restaurant;
 import com.example.customer.model.Rating;
 
 
@@ -14,13 +13,10 @@ public class Customer {
     private String email;
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "customer_favourites",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
-    )
-    private List<Restaurant> favouriteRestaurants;
+
+    @ElementCollection
+    private List<Long> favouriteRestaurantIds;
+
 
 
     @OneToMany(mappedBy = "customer")
@@ -43,8 +39,8 @@ public class Customer {
         return password;
     }
 
-    public List<Restaurant> getFavouriteRestaurants() {
-        return favouriteRestaurants;
+    public List<Long> getFavouriteRestaurants() {
+        return favouriteRestaurantIds;
     }
 
     public List<Rating> getRatings() {
@@ -68,8 +64,8 @@ public class Customer {
         this.password = password;
     }
 
-    public void setFavouriteRestaurants(List<Restaurant> favouriteRestaurants) {
-        this.favouriteRestaurants = favouriteRestaurants;
+    public void setFavouriteRestaurants(List<Long> favouriteRestaurantIds) {
+        this.favouriteRestaurantIds = favouriteRestaurantIds;
     }
 
     public void setRatings(List<Rating> ratings) {
@@ -84,22 +80,22 @@ public class Customer {
 
     // 2. All-args constructor
     public Customer(Long id, String username, String email, String password,
-                    List<Restaurant> favouriteRestaurants, List<Rating> ratings) {
+                    List<Long> favouriteRestaurantIds, List<Rating> ratings) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.favouriteRestaurants = favouriteRestaurants;
+        this.favouriteRestaurantIds = favouriteRestaurantIds;
         this.ratings = ratings;
     }
 
     // 3. Constructor without ID (for new objects before DB insert)
     public Customer(String username, String email, String password,
-                    List<Restaurant> favouriteRestaurants, List<Rating> ratings) {
+                    List<Long> favouriteRestaurantIds, List<Rating> ratings) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.favouriteRestaurants = favouriteRestaurants;
+        this.favouriteRestaurantIds = favouriteRestaurantIds;
         this.ratings = ratings;
     }
 }

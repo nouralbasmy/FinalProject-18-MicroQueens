@@ -9,7 +9,7 @@ import java.util.List;
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private float price;
     private int inventory;
@@ -17,7 +17,7 @@ public class MenuItem {
     private List<String> dietaryRestrictions;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")  // This creates the foreign key in the menu_item table
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
 
@@ -26,7 +26,7 @@ public class MenuItem {
     }
 
     // 2. All-args constructor (with ID)
-    public MenuItem(int id, String name, float price, int inventory,
+    public MenuItem(Long id, String name, float price, int inventory,
                     List<String> dietaryRestrictions, Restaurant restaurant) {
         this.id = id;
         this.name = name;
@@ -47,11 +47,11 @@ public class MenuItem {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
