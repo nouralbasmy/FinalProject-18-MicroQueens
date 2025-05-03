@@ -34,4 +34,4 @@ spring:
     type: redis
 
 server:
-  port: 8081
+  port: 8090

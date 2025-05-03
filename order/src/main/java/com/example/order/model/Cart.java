@@ -1,40 +1,39 @@
 package com.example.order.model;
 
-import com.example.order.dto.OrderItem;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Cart {
 
-    private Long id;
+    private String cartId;
     private Long userId;
-    private List<OrderItem> orderItems;
     private double totalPrice;
-
-    public Cart(Long id, Long userId, List<OrderItem> orderItems, double totalPrice) {
-        this.id = id;
-        this.userId = userId;
-        this.orderItems = orderItems;
-        this.totalPrice = totalPrice;
-    }
-
-    public Cart(Long userId, List<OrderItem> orderItems, double totalPrice) {
-        this.userId = userId;
-        this.orderItems = orderItems;
-        this.totalPrice = totalPrice;
-    }
+    private List<CartItem> cartItemList = new ArrayList<CartItem>();
 
     public Cart() {
-        this.orderItems = new ArrayList<OrderItem>();
     }
 
-    public Long getId() {
-        return id;
+    public Cart(String cartId, Long userId, double totalPrice, List<CartItem> cartItemList) {
+        this.cartId = cartId;
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+        this.cartItemList = cartItemList;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Cart(Long userId, double totalPrice, List<CartItem> cartItemList) {
+        this.cartId = UUID.randomUUID().toString(); //to auto-generate cart ids in cache
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+        this.cartItemList = cartItemList;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public Long getUserId() {
@@ -45,19 +44,19 @@ public class Cart {
         this.userId = userId;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
     public double getTotalPrice() {
         return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
+    }
+
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
     }
 }
