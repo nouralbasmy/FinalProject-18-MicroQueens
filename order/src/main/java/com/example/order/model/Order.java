@@ -1,9 +1,8 @@
 package com.example.order.model;
 
-import com.example.order.dto.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,35 +11,37 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    private long userId;
+    private Long id;
+    private Long userId;
     private LocalDateTime orderDate;
     private String status;
     private float totalPrice;
-    private float discount;
+    private Long restaurantId;
 
-    private String orderItemIds;
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private List<OrderItem> orderItems;
 
-    public Order() {}
-
-    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<String> orderItemIds) {
-        this.userId = userId;
-        this.orderDate = orderDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
-        this.discount = discount;
-        this.orderItemIds = orderItemIds;
+    public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<String> orderItemIds) {
+    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.discount = discount;
-        this.orderItemIds = orderItemIds;
+        this.restaurantId = restaurantId;
+        this.orderItems = orderItems;
+    }
+
+    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
+        this.userId = userId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.restaurantId = restaurantId;
+        this.orderItems = orderItems;
     }
 
     public long getId() {
@@ -83,19 +84,19 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public float getDiscount() {
-        return discount;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setDiscount(float discount) {
-        this.discount = discount;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public List<String> getOrderItemIds() {
-        return orderItemIds;
+    public long getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setOrderItemIds(List<String> orderItemIds) {
-        this.orderItemIds = orderItemIds;
+    public void setRestaurantId(long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }
