@@ -7,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.order.model.CartItem;
-import com.example.order.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -62,7 +59,7 @@ public class CartController {
     // (2)
     @DeleteMapping("/user/{userId}/remove")
     public String removeFromCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
-        boolean success = cartService.removeFromCart(userId, cartItem);
+        boolean success = cartService.removeItemFromCart(userId, cartItem);
         if (success) {
             return "Item removed successfully!";
         }

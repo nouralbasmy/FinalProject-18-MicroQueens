@@ -6,11 +6,9 @@ import com.example.order.repository.OrderRepository;
 import com.example.order.service.state.*;
 import com.example.order.model.Cart;
 import com.example.order.model.CartItem;
-import com.example.order.model.Order;
 import com.example.order.model.OrderItem;
 import com.example.order.rabbitmq.RabbitMQProducer;
 import com.example.order.repository.OrderItemRepository;
-import com.example.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,7 +133,7 @@ public class OrderService {
             }
 
             // Delete Cart
-            cartService.deleteCart(cart.getCartId());
+            cartService.deleteCart(cart.getId());
 
             // Notify via RabbitMQ ("customerId;restaurantId")
             String message = userId + ";" + restaurantId;
