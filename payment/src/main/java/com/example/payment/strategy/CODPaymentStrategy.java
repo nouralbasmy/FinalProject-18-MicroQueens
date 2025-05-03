@@ -14,7 +14,7 @@ public class CODPaymentStrategy implements PaymentStrategy{
     }
 
     private void validateBillingAddress(CODPayment codPayment) {
-        if (codPayment.getBillingAddress() == null || codPayment.getBillingAddress().isEmpty()) {
+        if (codPayment.getBillingAddress() == null || codPayment.getBillingAddress().trim().isEmpty()) {
             throw new IllegalArgumentException("Billing address cannot be null or empty");
         }
     }
