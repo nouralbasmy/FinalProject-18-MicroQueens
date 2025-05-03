@@ -1,11 +1,12 @@
 package com.example.payment.model;
 
+import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "payment_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Payment {
+public abstract class Payment implements PaymentStrategy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,4 +61,7 @@ public abstract class Payment {
         this.orderId = orderId;
         this.userId = userId;
     }
+
+    @Override
+    public abstract void pay();
 }

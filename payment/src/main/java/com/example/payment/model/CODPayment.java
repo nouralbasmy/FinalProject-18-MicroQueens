@@ -1,5 +1,6 @@
 package com.example.payment.model;
 
+import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -22,5 +23,11 @@ public class CODPayment extends Payment{
 
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
+    }
+
+    @Override
+    public void pay() {
+        //COD LOGIC HEREEEE
+        System.out.println("CASH ON DELIVERYYY!");
     }
 }

@@ -1,5 +1,6 @@
 package com.example.payment.model;
 
+import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -43,5 +44,11 @@ public class CreditCardPayment extends Payment{
 
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public void pay() {
+        //COD LOGIC HEREEEE
+        System.out.println("CREDIT CARD HEREEE");
     }
 }
