@@ -2,10 +2,7 @@ package com.example.notification.service;
 
 import com.example.notification.model.Notification;
 import com.example.notification.repository.NotificationRepository;
-<<<<<<< Updated upstream
-=======
 import com.example.notification.strategy.NotificationSender;
->>>>>>> Stashed changes
 import com.mongodb.client.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,17 +17,8 @@ import java.util.Optional;
 public class NotificationService {
     private NotificationRepository notificationRepository;
     private MongoClient mongoClient;
-<<<<<<< Updated upstream
-
-    @Autowired
-    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient) {
-        this.notificationRepository = notificationRepository;
-        this.mongoClient = mongoClient;
-    }
-
-    public Notification addNotification(Notification notification) {
-=======
     private final NotificationSender sender;
+
 
     @Autowired
     public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender sender) {
@@ -41,7 +29,6 @@ public class NotificationService {
 
     public Notification addNotification(Notification notification) {
         sender.send(notification);
->>>>>>> Stashed changes
         return notificationRepository.save(notification);
     }
     public List<Notification> getAllNotifications() {

@@ -6,11 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document(collection = "notifications")
-<<<<<<< Updated upstream
 public class Notification {
-=======
-public abstract class Notification {
->>>>>>> Stashed changes
+
     @Id
     private String id;
     private Long userId;
