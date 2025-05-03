@@ -1,9 +1,12 @@
 package com.example.order.model;
 
+import org.springframework.data.redis.core.RedisHash;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@RedisHash("Cart")
 public class Cart {
 
     private String cartId;

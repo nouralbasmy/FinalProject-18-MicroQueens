@@ -1,8 +1,11 @@
 package com.example.order.controller;
-
-import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
-import com.example.order.service.OrderService;
+import 
+
+
+
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,10 +13,18 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.order.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
-@RequestMapping("/captain")
+@RequestMapping("/order")
 public class OrderController {
+    
     private final OrderService orderService;
+
+    @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -82,6 +93,13 @@ public class OrderController {
     }
 
 
-
-
+    @PostMapping("/placeOrder/{userId}")
+    public ResponseEntity<String> placeOrder(@PathVariable Long userId) {
+        try {
+            orderService.placeOrder(userId);
+            return ResponseEntity.ok("Order placed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to place order");
+        }
+    }
 }

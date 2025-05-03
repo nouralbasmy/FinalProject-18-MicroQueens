@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name= "orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +26,11 @@ public class Order {
     @JsonIgnore
     private List<OrderItem> orderItems;
 
-
     public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId, List<OrderItem> orderItems) {
+    public Order(long id, long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice,
+            long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -40,7 +40,8 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId, List<OrderItem> orderItems) {
+    public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId,
+            List<OrderItem> orderItems) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;

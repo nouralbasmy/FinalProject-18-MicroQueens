@@ -12,12 +12,12 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query(value="SELECT o FROM Order o WHERE o.userId = :userId")
+    @Query(value = "SELECT o FROM Order o WHERE o.userId = :userId")
     List<Order> getOrdersByUserId(@Param("userId") Long userId);
 
-    @Query(value="SELECT o FROM Order o WHERE o.status = :status")
+    @Query(value = "SELECT o FROM Order o WHERE o.status = :status")
     List<Order> getOrdersByStatus(@Param("status") OrderStatus status);
 
-    @Query(value="SELECT o FROM Order o WHERE o.orderDate = :orderDate")
+    @Query(value = "SELECT o FROM Order o WHERE o.orderDate = :orderDate")
     List<Order> getOrdersByOrderDate(@Param("orderDate") LocalDateTime orderDate);
 }
