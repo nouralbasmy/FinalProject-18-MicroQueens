@@ -1,14 +1,20 @@
 package com.example.order.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@RedisHash("Cart")
 public class Cart {
-
+    @Id
     private String cartId;
+    @Indexed
     private Long userId;
-    private double totalPrice;
+    private double totalPrice = 0.0;
     private List<CartItem> cartItemList = new ArrayList<CartItem>();
 
     public Cart() {
