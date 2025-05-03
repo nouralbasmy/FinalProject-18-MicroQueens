@@ -3,10 +3,12 @@ package com.example.order.controller;
 import com.example.order.model.Cart;
 import com.example.order.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.order.model.CartItem;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -31,6 +33,12 @@ public class CartController {
         return cartService.getCartById(cartId);
     }
 
+    @GetMapping
+    public Iterable<Cart> getAllCarts()
+    {
+        return cartService.getAllCarts();
+    }
+
     @PutMapping("/user/{userId}")
     public Cart updateCartByUserId(@PathVariable Long userId, @RequestBody Cart updatedCartData) {
         return cartService.updateCart(userId, updatedCartData);
@@ -51,14 +59,14 @@ public class CartController {
     public Cart getCartByUserId(@PathVariable Long userId) {
         Optional<Cart> cart = cartService.getCartByUserId(userId);
         if (cart.isEmpty()) {
-            throw new RuntimeException("No cart found for this user");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No cart found for this user");
         }
         return cart.get();
     }
 
     // (2)
     @DeleteMapping("/user/{userId}/remove")
-    public String removeFromCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
+    public String removeItemFromCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
         boolean success = cartService.removeItemFromCart(userId, cartItem);
         if (success) {
             return "Item removed successfully!";
@@ -67,11 +75,12 @@ public class CartController {
     }
 
     // (3)
-    @PostMapping("/{userId}/add")
-    public void addToCart(
+    @PostMapping("/user/{userId}/add")
+    public String addToCart(
             @PathVariable Long userId,
             @RequestBody CartItem cartItem) {
         cartService.addToCart(userId, cartItem);
+        return "Item added successfully!";
     }
 
     // (4)

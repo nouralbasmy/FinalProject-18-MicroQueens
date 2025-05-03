@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.order.model.CartItem;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,11 @@ public class CartService {
     // GET cart by id "R"
     public Optional<Cart> getCartById(String cartId) {
         return cartRepository.findById(cartId);
+    }
+
+    public Iterable<Cart> getAllCarts()
+    {
+        return cartRepository.findAll();
     }
 
     // UPDATE "U"
@@ -84,6 +90,9 @@ public class CartService {
             boolean removed = cart.getCartItemList()
                     .removeIf(item -> item.getMenuItemId().equals(itemToRemove.getMenuItemId()));
             if (removed) {
+                double updatedTotalPrice = cart.getCartItemList().stream()
+                        .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
+                cart.setTotalPrice(updatedTotalPrice);
                 cartRepository.save(cart);
                 if(cart.getCartItemList().isEmpty()) //if cart is empty after removing item, delete cart
                     deleteCart(cart.getId());
@@ -110,8 +119,8 @@ public class CartService {
         {
             //cart found
             Cart cart = optionalCart.get();
-            //check if user still adding items from same restaurant
-            if(cartItemToAdd.getRestaurantId().equals(cart.getCartItemList().getFirst().getRestaurantId()))
+            //check if user has empty cart or still adding items from same restaurant
+            if(cart.getCartItemList().isEmpty() || cartItemToAdd.getRestaurantId().equals(cart.getCartItemList().getFirst().getRestaurantId()))
             {
                 //same restaurant hence can still use same list
                 Optional<CartItem> existingItem = cart.getCartItemList().stream()
