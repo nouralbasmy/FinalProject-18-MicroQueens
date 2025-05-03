@@ -22,18 +22,17 @@ import java.util.Optional;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
-    @Autowired
-    private CartService cartService;
+
+    private final CartService cartService;
+    private final OrderItemRepository orderItemRepository;
+    private final RabbitMQProducer rabbitMQProducer;
 
     @Autowired
-    private OrderItemRepository orderItemRepository;
-
-    @Autowired
-    private RabbitMQProducer rabbitMQProducer;
-
-    @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer) {
         this.orderRepository = orderRepository;
+        this.cartService = cartService;
+        this.orderItemRepository = orderItemRepository;
+        this.rabbitMQProducer = rabbitMQProducer;
     }
 
     public Order addOrder(Order order) {
@@ -112,7 +111,8 @@ public class OrderService {
             Order order = new Order();
             order.setUserId(userId);
             order.setTotalPrice(cart.getTotalPrice());
-            order.setStatus("PENDING");
+//            order.setStatus("PENDING");
+            order.setStatus(OrderStatus.PENDING);
             order.setOrderDate(LocalDateTime.now());
             order.setRestaurantId(restaurantId);
 
