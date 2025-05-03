@@ -3,6 +3,7 @@ package com.example.order.model;
 import com.example.order.dto.OrderItem;
 import jakarta.persistence.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,12 +20,11 @@ public class Order {
     private float totalPrice;
     private float discount;
 
-//    private List<OrderItem> orderItems;
-    private List<Long> orderItemIds;
+    private String orderItemIds;
 
     public Order() {}
 
-    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<Long> orderItemIds) {
+    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<String> orderItemIds) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
@@ -33,7 +33,7 @@ public class Order {
         this.orderItemIds = orderItemIds;
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<Long> orderItemIds) {
+    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, float discount, List<String> orderItemIds) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -91,11 +91,11 @@ public class Order {
         this.discount = discount;
     }
 
-    public List<Long> getOrderItemIds() {
+    public List<String> getOrderItemIds() {
         return orderItemIds;
     }
 
-    public void setOrderItemIds(List<Long> orderItemIds) {
+    public void setOrderItemIds(List<String> orderItemIds) {
         this.orderItemIds = orderItemIds;
     }
 }
