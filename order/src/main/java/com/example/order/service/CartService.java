@@ -17,8 +17,7 @@ public class CartService {
     private final CartRepository cartRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository)
-    {
+    public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
 
@@ -36,8 +35,7 @@ public class CartService {
     //UPDATE "U"
     public Cart updateCart(Long userId, Cart updatedCartData) {
         Optional<Cart> cart = cartRepository.findByUserId(userId);
-        if(cart.isEmpty())
-            throw new RuntimeException("No cart found for this user id");
+        if (cart.isEmpty()) throw new RuntimeException("No cart found for this user id");
         Cart existingCart = cart.get();
 //        existingCart.setUserId(updatedCartData.getUserId());
         existingCart.setTotalPrice(updatedCartData.getTotalPrice());
@@ -51,13 +49,11 @@ public class CartService {
     }
 
     public void deleteCartByUserId(Long userId) {
-        cartRepository.findByUserId(userId)
-                .ifPresent(cart -> cartRepository.deleteById(cart.getCartId()));
+        cartRepository.findByUserId(userId).ifPresent(cart -> cartRepository.deleteById(cart.getCartId()));
     }
 
     //(1) get cart by userID
-    public Optional<Cart> getCartByUserId(Long userId)
-    {
+    public Optional<Cart> getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
     }
 
@@ -66,9 +62,7 @@ public class CartService {
         Optional<Cart> optionalCart = getCartByUserId(userId);
         if (optionalCart.isPresent()) {
             Cart cart = optionalCart.get();
-            boolean removed = cart.getCartItemList().removeIf(item ->
-                    item.getMenuItemId().equals(itemToRemove.getMenuItemId())
-            );
+            boolean removed = cart.getCartItemList().removeIf(item -> item.getMenuItemId().equals(itemToRemove.getMenuItemId()));
             if (removed) {
                 cartRepository.save(cart);
                 return true;
@@ -76,4 +70,31 @@ public class CartService {
         }
         return false;
     }
+
+    public void addToCart(Long userId, CartItem cartItemToAdd) {
+        Optional<Cart> optionalCart = getCartByUserId(userId);
+
+        if (optionalCart.isEmpty()) throw new RuntimeException("No cart found for this user!");
+
+        Cart cart = optionalCart.get();
+
+        //check if cart already contains item
+        Optional<CartItem> existingItem = cart.getCartItemList().stream().filter(item -> item.getMenuItemId().equals(cartItemToAdd.getMenuItemId())).findFirst();
+
+        if (existingItem.isPresent()) {
+            // if item exists, quantity+1
+            CartItem item = existingItem.get();
+            item.setQuantity(item.getQuantity() + cartItemToAdd.getQuantity());
+        } else {
+            // If new item, add it to the cart with the quantity
+            cart.getCartItemList().add(cartItemToAdd);
+        }
+
+        // calculate total price
+        double updatedTotalPrice = cart.getCartItemList().stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
+        cart.setTotalPrice(updatedTotalPrice);
+
+        cartRepository.save(cart);
+    }
+
 }

@@ -69,4 +69,13 @@ public class CartController {
         return "Failed to remove Item";
     }
 
+    //(3)
+    @PostMapping("/{userId}/add")
+    public void addToCart(
+            @PathVariable Long userId,
+            @RequestBody CartItem cartItem
+    ) {
+        cartService.addToCart(userId, cartItem);
+    }
+
 }
