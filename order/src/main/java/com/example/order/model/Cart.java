@@ -1,6 +1,9 @@
 package com.example.order.model;
 
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +11,11 @@ import java.util.UUID;
 
 @RedisHash("Cart")
 public class Cart {
-
+    @Id
     private String cartId;
+    @Indexed
     private Long userId;
-    private double totalPrice;
+    private double totalPrice = 0.0;
     private List<CartItem> cartItemList = new ArrayList<CartItem>();
 
     public Cart() {
@@ -25,7 +29,7 @@ public class Cart {
     }
 
     public Cart(Long userId, double totalPrice, List<CartItem> cartItemList) {
-        this.cartId = UUID.randomUUID().toString(); //to auto-generate cart ids in cache
+        this.cartId = UUID.randomUUID().toString(); // to auto-generate cart ids in cache
         this.userId = userId;
         this.totalPrice = totalPrice;
         this.cartItemList = cartItemList;
