@@ -11,7 +11,7 @@ public class EmailNotificationStrategy implements NotificationStrategy{
     @Override
     public void send(Notification notification) {
         EmailNotification email = (EmailNotification) notification;
-        System.out.println("Email was sent to "+ email.getEmail()+ email.getMessage());
+        System.out.println("Email was sent to "+ email.getEmail() + " " + email.getMessage());
 
     }
   

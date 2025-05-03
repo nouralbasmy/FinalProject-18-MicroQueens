@@ -11,7 +11,7 @@ public class PushNotificationStrategy implements NotificationStrategy{
     @Override
     public void send(Notification notification) {
         PushNotification pushed = (PushNotification) notification;
-        System.out.println("Push was sent to token "+pushed.getDeviceToken()+pushed.getMessage());
+        System.out.println("Push was sent to token "+pushed.getDeviceToken()+ " " +pushed.getMessage());
     }
 
 }

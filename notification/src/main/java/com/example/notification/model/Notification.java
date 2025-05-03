@@ -2,9 +2,15 @@ package com.example.notification.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.time.LocalDateTime;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.CLASS,              
+        include = JsonTypeInfo.As.PROPERTY,       
+        property = "@class"                       
+)
 @Document(collection = "notifications")
 public class Notification {
 
