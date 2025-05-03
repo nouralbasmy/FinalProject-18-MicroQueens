@@ -1,5 +1,6 @@
 package com.example.order.model;
 
+import com.example.order.service.state.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -14,18 +15,22 @@ public class Order {
     private Long id;
     private Long userId;
     private LocalDateTime orderDate;
-    private String status;
-    private float totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    private double totalPrice;
     private Long restaurantId;
 
     @OneToMany(mappedBy = "order")
     @JsonIgnore
     private List<OrderItem> orderItems;
 
+
     public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
+    public Order(long id, long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -35,7 +40,7 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public Order(long userId, LocalDateTime orderDate, String status, float totalPrice, long restaurantId, List<OrderItem> orderItems) {
+    public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId, List<OrderItem> orderItems) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
@@ -68,19 +73,19 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
