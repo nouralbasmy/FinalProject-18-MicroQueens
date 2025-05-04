@@ -12,7 +12,7 @@ public class SmsNotification extends Notification{
 
     public SmsNotification(Long userId, Long orderId, Long restaurantId, String message, boolean read, LocalDateTime notificationTime, String phone){
         super(userId, orderId, restaurantId, message, read, notificationTime);
-        this.phone = phone;
+        setPhone(phone);
     }
 
     public String getPhone() {
@@ -20,6 +20,9 @@ public class SmsNotification extends Notification{
     }
 
     public void setPhone(String phone) {
+        if(phone == null || phone.isBlank()){
+            throw new IllegalArgumentException("This variable should not be null");
+        }
         this.phone = phone;
     } 
         

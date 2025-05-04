@@ -10,7 +10,7 @@ public class EmailNotification extends Notification{
     }
     public EmailNotification(Long userId, Long orderId, Long restaurantId, String message, boolean read, LocalDateTime notificationTime, String email){
         super(userId, orderId, restaurantId, message, read, notificationTime);
-        this.email = email;
+        setEmail(email);
     }
 
 
@@ -19,6 +19,9 @@ public class EmailNotification extends Notification{
     }
 
     public void setEmail(String email) {
+        if(email == null || email.isBlank()){
+            throw new IllegalArgumentException("This variable should not be null");
+        }
         this.email = email;
     }
 

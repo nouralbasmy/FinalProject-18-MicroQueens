@@ -14,7 +14,7 @@ public class PushNotification extends Notification{
 
     public PushNotification(Long userId, Long orderId, Long restaurantId, String message, boolean read, LocalDateTime notificationTime, String deviceToken){
         super(userId, orderId, restaurantId, message, read, notificationTime);
-        this.deviceToken = deviceToken;
+        setDeviceToken(deviceToken);
     }
 
     public String getDeviceToken() {
@@ -22,6 +22,9 @@ public class PushNotification extends Notification{
     }
 
     public void setDeviceToken(String deviceToken) {
+        if(deviceToken == null || deviceToken.isBlank()){
+            throw new IllegalArgumentException("This variable should not be null");
+        }
         this.deviceToken = deviceToken;
     }
 

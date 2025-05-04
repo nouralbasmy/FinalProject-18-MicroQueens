@@ -1,44 +1,37 @@
 package com.example.notification.strategy;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.example.notification.model.EmailNotification;
 import com.example.notification.model.Notification;
-import com.example.notification.model.PushNotification;
-import com.example.notification.model.SmsNotification;
+
 
 @Component
 public class NotificationSender {
-    private final EmailNotificationStrategy emailStrategy;
-    private final SmsNotificationStrategy  smsStrategy;
-    private final PushNotificationStrategy pushStrategy;
+    private final ApplicationContext appContext;
 
-    public NotificationSender(EmailNotificationStrategy emailStrategy, 
-                              SmsNotificationStrategy  smsStrategy,
-                              PushNotificationStrategy pushStrategy)
+
+    public NotificationSender(ApplicationContext appContext)
     {
-        this.emailStrategy = emailStrategy;
-        this.smsStrategy  = smsStrategy;
-        this.pushStrategy = pushStrategy;
+        this.appContext = appContext;
+        
     }
     public void send(Notification notification){
-        NotificationStrategy strategy;
-        if (notification instanceof EmailNotification) {
-            strategy = emailStrategy;
-        } 
-        else if (notification instanceof SmsNotification) {
-            strategy = smsStrategy;
-        } 
-        
-        else if (notification instanceof PushNotification) {
-            strategy = pushStrategy;
-        } 
-        
-        else {
+        try{
+            String notificationClassName = notification.getClass().getName(); // now lets say it is EmailNotification
+            String strategyClassName = notificationClassName.replace(".model.", ".strategy.") + "Strategy";
+
+            //reflection
+            Class<?> clazz = Class.forName(strategyClassName);
+            // retrieve the bean from spring
+            NotificationStrategy strategy = (NotificationStrategy) appContext.getBean(clazz);
+
+            strategy.send(notification);
+        }catch(ClassNotFoundException e){
             throw new IllegalArgumentException("Unsupported Notifications type: " + notification.getClass().getSimpleName());
         }
+       
 
-        strategy.send(notification);
     }
 
 }

@@ -11,6 +11,9 @@ public class EmailNotificationStrategy implements NotificationStrategy{
     @Override
     public void send(Notification notification) {
         EmailNotification email = (EmailNotification) notification;
+        if (email.getEmail() == null || email.getEmail().isBlank()) {
+            throw new IllegalArgumentException("this variable is required");
+        }
         System.out.println("Email was sent to "+ email.getEmail() + " " + email.getMessage());
 
     }
