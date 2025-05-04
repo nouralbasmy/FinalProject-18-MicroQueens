@@ -2,15 +2,9 @@ package com.example.notification.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import java.time.LocalDateTime;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.CLASS,              
-        include = JsonTypeInfo.As.PROPERTY,       
-        property = "@class"                       
-)
+
 @Document(collection = "notifications")
 public class Notification {
 
@@ -19,6 +13,10 @@ public class Notification {
     private Long userId;
     private Long orderId;
     private Long restaurantId;
+    private String notificationType;
+    private String email;
+    private String phone;
+    private String deviceToken;
     private String message;
     private boolean read = false;
     private LocalDateTime notificationTime = LocalDateTime.now();
@@ -55,6 +53,7 @@ public class Notification {
         this.restaurantId = restaurantId;
     }
 
+
     public String getMessage() {
         return message;
     }
@@ -77,6 +76,38 @@ public class Notification {
 
     public void setNotificationTime(LocalDateTime notificationTime) {
         this.notificationTime = notificationTime;
+    }
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
+    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     public Notification() {
@@ -104,4 +135,22 @@ public class Notification {
     public Notification(String message) {
         this.message = message;
     }
+
+    public Notification(Long userId, Long orderId, Long restaurantId, String notificationType, String email,
+            String phone, String deviceToken, String message, boolean read, LocalDateTime notificationTime) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.restaurantId = restaurantId;
+        this.notificationType = notificationType;
+        this.email = email;
+        this.phone = phone;
+        this.deviceToken = deviceToken;
+        this.message = message;
+        this.read = read;
+        this.notificationTime = notificationTime;
+    }
+
+
+
+
 }

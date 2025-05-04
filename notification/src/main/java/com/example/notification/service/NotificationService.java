@@ -4,7 +4,10 @@ import com.example.notification.model.Notification;
 import com.example.notification.repository.NotificationRepository;
 import com.example.notification.strategy.NotificationSender;
 import com.mongodb.client.MongoClient;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.BooleanOperators.Not;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,20 +20,24 @@ import java.util.Optional;
 public class NotificationService {
     private NotificationRepository notificationRepository;
     private MongoClient mongoClient;
-    private final NotificationSender sender;
+    private NotificationSender notificationSender;
 
 
     @Autowired
-    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender sender) {
+    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender notificationSender) {
         this.notificationRepository = notificationRepository;
         this.mongoClient = mongoClient;
-        this.sender=sender;
+        this.notificationSender=notificationSender;
     }
 
     public Notification addNotification(Notification notification) {
-        sender.send(notification);
-        return notificationRepository.save(notification);
+
+        Notification savedNotification=notificationRepository.save(notification);
+        notificationSender.send(notification.getNotificationType(), savedNotification);
+        return savedNotification;
+      
     }
+
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
     }

@@ -1,5 +1,8 @@
 package com.example.notification.strategy;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -8,30 +11,34 @@ import com.example.notification.model.Notification;
 
 @Component
 public class NotificationSender {
-    private final ApplicationContext appContext;
 
+    private final Map<String, NotificationStrategy> strategies;
 
-    public NotificationSender(ApplicationContext appContext)
-    {
-        this.appContext = appContext;
+    @Autowired
+      public NotificationSender(
+        EmailNotificationStrategy emailStrategy,
+        SmsNotificationStrategy smsStrategy,
+        PushNotificationStrategy pushStrategy) {
         
+        this.strategies = Map.of(
+            "email", emailStrategy,
+            "EMAIL", emailStrategy,
+            "sms", smsStrategy,
+            "SMS", smsStrategy,
+            "push", pushStrategy,
+            "PUSH", pushStrategy
+        );
     }
-    public void send(Notification notification){
-        try{
-            String notificationClassName = notification.getClass().getName(); // now lets say it is EmailNotification
-            String strategyClassName = notificationClassName.replace(".model.", ".strategy.") + "Strategy";
 
-            //reflection
-            Class<?> clazz = Class.forName(strategyClassName);
-            // retrieve the bean from spring
-            NotificationStrategy strategy = (NotificationStrategy) appContext.getBean(clazz);
 
-            strategy.send(notification);
-        }catch(ClassNotFoundException e){
-            throw new IllegalArgumentException("Unsupported Notifications type: " + notification.getClass().getSimpleName());
+    public void send(String type, Notification notification){
+        NotificationStrategy strategy = strategies.get(type);
+        if(strategy == null){
+            throw new IllegalArgumentException("This notification is null");
         }
-       
-
+        strategy.send(notification);
     }
+
+
 
 }
