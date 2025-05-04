@@ -1,6 +1,8 @@
 package com.example.order.model;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
     private Long menuItemId;
     private String name;
     private int quantity;
