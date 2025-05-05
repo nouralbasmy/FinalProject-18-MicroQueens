@@ -52,6 +52,16 @@ public class PaymentController {
         }
     }
 
+    @GetMapping("/order/{orderId}")
+    public Payment getPaymentByOrderId(@PathVariable Long orderId) {
+        Payment payment = paymentService.getPaymentByOrderId(orderId);
+        if (payment != null) {
+            return payment;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment not found for this order");
+        }
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePayment(@PathVariable Long id) {
@@ -80,5 +90,8 @@ public class PaymentController {
         paymentService.save(payment);
         return "Payment initiated successfully";
     }
+
+
+
 
 }
