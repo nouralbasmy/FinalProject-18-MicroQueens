@@ -1,5 +1,6 @@
 package com.example.payment.model;
 
+import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -22,5 +23,23 @@ public class VFCashPayment extends Payment{
 
     public void setMobileWalletNumber(String mobileWalletNumber) {
         this.mobileWalletNumber = mobileWalletNumber;
+    }
+
+
+    @Override
+    public void processPayment() {
+        //VF Cash LOGIC HEREEEE
+        //Validation
+        String walletNumber = this.getMobileWalletNumber();
+        if (walletNumber == null || !walletNumber.matches("^010\\d{8}$")) {
+            throw new IllegalArgumentException("Invalid mobile wallet number. It must be 11 digits and start with 010.");
+        }
+        //for each item, inventory - quantity
+    }
+
+    @Override
+    public void processRefund() {
+        //VF Cash LOGIC HEREEEE
+        //wallet + amount
     }
 }

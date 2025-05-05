@@ -1,20 +1,7 @@
 package com.example.payment.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.*;
-
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = CreditCardPayment.class, name = "CREDIT_CARD"),
-        @JsonSubTypes.Type(value = VFCashPayment.class, name = "VFCASH"),
-        @JsonSubTypes.Type(value = CODPayment.class, name = "COD")
-})
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -74,4 +61,8 @@ public abstract class Payment {
         this.orderId = orderId;
         this.userId = userId;
     }
+
+    public abstract void processPayment();
+
+    public abstract void processRefund();
 }
