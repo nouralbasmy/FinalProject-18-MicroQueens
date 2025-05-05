@@ -1,6 +1,5 @@
 package com.example.payment.model;
 
-import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.*;
 
 @Entity
