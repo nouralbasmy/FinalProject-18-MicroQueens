@@ -22,6 +22,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Rating> ratings;
 
+
     // Getters
     public Long getId() {
         return id;
@@ -77,17 +78,27 @@ public class Customer {
     // 1. No-arg constructor
     public Customer() {
     }
-
-    // 2. All-args constructor
-    public Customer(Long id, String username, String email, String password,
-                    List<Long> favouriteRestaurantIds, List<Rating> ratings) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.favouriteRestaurantIds = favouriteRestaurantIds;
-        this.ratings = ratings;
+    // Private constructor to enforce builder usage
+    private Customer(Builder builder) {
+        this.id = builder.id;
+        this.username = builder.username;
+        this.email = builder.email;
+        this.password = builder.password;
+        this.favouriteRestaurantIds = builder.favouriteRestaurantIds;
+        this.ratings = builder.ratings;
     }
+
+//    // 2. All-args constructor
+//    public Customer(Long id, String username, String email, String password,
+//                    List<Long> favouriteRestaurantIds, List<Rating> ratings) {
+//        this.id = id;
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//        this.favouriteRestaurantIds = favouriteRestaurantIds;
+//        this.ratings = ratings;
+//    }
+//
 
     // 3. Constructor without ID (for new objects before DB insert)
     public Customer(String username, String email, String password,
@@ -98,4 +109,48 @@ public class Customer {
         this.favouriteRestaurantIds = favouriteRestaurantIds;
         this.ratings = ratings;
     }
+    // 🧱 Static nested Builder class
+    public static class Builder {
+        private Long id;
+        private String username;
+        private String email;
+        private String password;
+        private List<Long> favouriteRestaurantIds;
+        private List<Rating> ratings;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder favouriteRestaurantIds(List<Long> favouriteRestaurantIds) {
+            this.favouriteRestaurantIds = favouriteRestaurantIds;
+            return this;
+        }
+
+        public Builder ratings(List<Rating> ratings) {
+            this.ratings = ratings;
+            return this;
+        }
+
+        public Customer build() {
+            return new Customer(this);  // 👈 uses the private constructor
+        }
+    }
+
 }

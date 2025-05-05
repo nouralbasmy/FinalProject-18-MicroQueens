@@ -18,6 +18,7 @@ public class Rating {
 
 
 
+
     // Getters
     public Long getId() {
         return id;
