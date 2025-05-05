@@ -25,9 +25,18 @@ public class VFCashPayment extends Payment{
         this.mobileWalletNumber = mobileWalletNumber;
     }
 
+
     @Override
-    public void pay() {
-        //VF Cash LOGIC HEREEE
-        System.out.println("VF CASHHH HEREEE!");
+    public void processPayment() {
+        //VF Cash LOGIC HEREEEE
+        //Validation
+        //for each item, inventory - quantity
+    }
+
+    @Override
+    public void processRefund() {
+        //VF Cash LOGIC HEREEEE
+        //Validation
+        //wallet + amount
     }
 }

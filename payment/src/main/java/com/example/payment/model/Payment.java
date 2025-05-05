@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "payment_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Payment implements PaymentStrategy {
+public abstract class Payment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,6 +62,6 @@ public abstract class Payment implements PaymentStrategy {
         this.userId = userId;
     }
 
-    @Override
-    public abstract void pay();
+    public abstract void processPayment();
+    public abstract void processRefund();
 }

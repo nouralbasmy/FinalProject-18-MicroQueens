@@ -46,9 +46,19 @@ public class CreditCardPayment extends Payment{
         this.expirationDate = expirationDate;
     }
 
+
     @Override
-    public void pay() {
-        //COD LOGIC HEREEEE
-        System.out.println("CREDIT CARD HEREEE");
+    public void processPayment() {
+        //CreditCard LOGIC HEREEEE
+        //Validation
+        //for each item, inventory - quantity
+
+    }
+
+    @Override
+    public void processRefund() {
+        //CreditCard LOGIC HEREEEE
+        //Validation
+        //Wallet+amount
     }
 }

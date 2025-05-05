@@ -26,8 +26,19 @@ public class CODPayment extends Payment{
     }
 
     @Override
-    public void pay() {
-        //COD LOGIC HEREEEE
-        System.out.println("CASH ON DELIVERYYY!");
+    public void processPayment() {
+        //CASH ON DELIVERY LOGIC HEREEEE
+        //Validation
+        //for each item, inventory - quantity
+
+
     }
+
+    @Override
+    public void processRefund() {
+        //CASH ON DELIVERY LOGIC HEREEEE
+        //Validation
+        //Wallet+amount
+    }
+
 }
