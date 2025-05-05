@@ -4,6 +4,9 @@ import com.example.payment.strategy.PaymentStrategy;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+
 @Entity
 @DiscriminatorValue("CREDIT_CARD")
 public class CreditCardPayment extends Payment{
@@ -51,14 +54,35 @@ public class CreditCardPayment extends Payment{
     public void processPayment() {
         //CreditCard LOGIC HEREEEE
         //Validation
-        //for each item, inventory - quantity
+        if (this.getCardHolderName() == null || this.getCardHolderName().trim().isEmpty()) {
+            //System.out.println("henaaName");
+            throw new IllegalArgumentException("Cardholder name cannot be null or empty");
+        }
+        if (this.getCardNumber().length() != 16) {
+            //System.out.println("number");
+            throw new IllegalArgumentException("Card number must be 16 digits");
+        }
+        if (isExpired(this.getExpirationDate())) {
+            // System.out.println("expired");
+            throw new IllegalArgumentException("Credit card has expired");
+        }
+
+        //for each item, inventory - quantity!!
 
     }
 
     @Override
     public void processRefund() {
-        //CreditCard LOGIC HEREEEE
-        //Validation
+        //CreditCard LOGIC HEREEE
         //Wallet+amount
+    }
+
+    private boolean isExpired(String expirationDate) {
+        //System.out.println("hi1");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
+        YearMonth expiryDate = YearMonth.parse(expirationDate, formatter);
+        YearMonth currentDate = YearMonth.now();
+        //System.out.println("hi"+ expiryDate.isBefore(currentDate));
+        return expiryDate.isBefore(currentDate);
     }
 }
