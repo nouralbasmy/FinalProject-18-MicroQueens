@@ -22,6 +22,9 @@ public class Order {
     private double totalPrice;
     private Long restaurantId;
 
+    @Transient
+    private OrderState state;
+
     @OneToMany(mappedBy = "order")
     @JsonIgnore
     private List<OrderItem> orderItems;
@@ -38,6 +41,12 @@ public class Order {
         this.totalPrice = totalPrice;
         this.restaurantId = restaurantId;
         this.orderItems = orderItems;
+        switch (status) {
+            case PENDING -> this.state = new PendingState();
+            case CONFIRMED -> this.state = new ConfirmedState();
+            case ON_THE_WAY -> this.state = new OnTheWayState();
+            case DELIVERED -> this.state = new DeliveredState();
+        };
     }
 
     public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId,
@@ -48,14 +57,24 @@ public class Order {
         this.totalPrice = totalPrice;
         this.restaurantId = restaurantId;
         this.orderItems = orderItems;
+        switch (status) {
+            case PENDING -> this.state = new PendingState();
+            case CONFIRMED -> this.state = new ConfirmedState();
+            case ON_THE_WAY -> this.state = new OnTheWayState();
+            case DELIVERED -> this.state = new DeliveredState();
+        };
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public long getUserId() {
@@ -80,6 +99,12 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+        switch (status) {
+            case PENDING -> this.state = new PendingState();
+            case CONFIRMED -> this.state = new ConfirmedState();
+            case ON_THE_WAY -> this.state = new OnTheWayState();
+            case DELIVERED -> this.state = new DeliveredState();
+        }
     }
 
     public double getTotalPrice() {
@@ -104,5 +129,30 @@ public class Order {
 
     public void setRestaurantId(long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public OrderState getState() {
+        if(state == null)
+        {
+            switch (status) {
+                case PENDING -> state = new PendingState();
+                case CONFIRMED -> state = new ConfirmedState();
+                case ON_THE_WAY -> state = new OnTheWayState();
+                case DELIVERED -> state = new DeliveredState();
+            };
+        }
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
+    }
+
+    public void next() {
+        getState().next(this);
     }
 }

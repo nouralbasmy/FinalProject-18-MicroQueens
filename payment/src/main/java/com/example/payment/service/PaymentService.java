@@ -61,6 +61,8 @@ public class PaymentService {
 
     public void processPayment(Payment payment) {
         payment.processPayment();
+        //DECREMENTT INVENTORY CALL HENAAA
+        paymentRepository.save(payment);
     }
 
     public void processRefund(Payment payment) {

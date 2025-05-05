@@ -7,6 +7,7 @@ public class ConfirmedState implements OrderState {
     @Override
     public void next(Order order){
         order.setStatus(OrderStatus.ON_THE_WAY);
+        order.setState(new OnTheWayState());
     }
 
 

@@ -62,7 +62,8 @@ public class OrderController {
     @GetMapping("/ordersByUserId/{userId}")
     public List<Order> getOrdersByUserId(@PathVariable Long userId) {
         try {
-            return orderService.getOrdersByUserId(userId);
+//            return orderService.getOrdersByUserId(userId);
+            return orderService.filterOrders("userid",userId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
@@ -71,7 +72,8 @@ public class OrderController {
     @GetMapping("/ordersByStatus/{status}")
     public List<Order> getOrdersByStatus(@PathVariable OrderStatus status) {
         try {
-            return orderService.getOrdersByStatus(status);
+//            return orderService.getOrdersByStatus(status);
+            return orderService.filterOrders("status",status);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
         }
@@ -81,7 +83,8 @@ public class OrderController {
     @GetMapping("/ordersByDate/{date}")
     public List<Order> getOrdersByDate(@PathVariable LocalDateTime date) {
         try {
-            return orderService.getOrdersByDate(date);
+//            return orderService.getOrdersByDate(date);
+            return orderService.filterOrders("date",date);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Date not found");
         }

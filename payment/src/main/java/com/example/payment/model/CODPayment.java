@@ -26,14 +26,10 @@ public class CODPayment extends Payment{
 
     @Override
     public void processPayment() {
-        //CASH ON DELIVERY LOGIC HEREEEE
         //Validation
         if (this.getBillingAddress() == null || this.getBillingAddress().trim().isEmpty()) {
             throw new IllegalArgumentException("Billing address cannot be null or empty");
         }
-        //for each item, inventory - quantity!!!
-
-
     }
 
     @Override

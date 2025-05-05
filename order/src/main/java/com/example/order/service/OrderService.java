@@ -9,6 +9,10 @@ import com.example.order.model.CartItem;
 import com.example.order.model.OrderItem;
 import com.example.order.rabbitmq.RabbitMQProducer;
 import com.example.order.repository.OrderItemRepository;
+import com.example.order.strategy.DateFilterStrategy;
+import com.example.order.strategy.OrderFilterContext;
+import com.example.order.strategy.StatusFilterStrategy;
+import com.example.order.strategy.UserIdFilterStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +28,15 @@ public class OrderService {
     private final CartService cartService;
     private final OrderItemRepository orderItemRepository;
     private final RabbitMQProducer rabbitMQProducer;
+    private final OrderFilterContext orderFilterContext;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer) {
+    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
         this.rabbitMQProducer = rabbitMQProducer;
+        this.orderFilterContext = orderFilterContext;
     }
 
     public Order addOrder(Order order) {
@@ -46,6 +52,9 @@ public class OrderService {
         if (order.isEmpty()) {
             throw new RuntimeException("Order not found");
         }
+        //Edited N
+        Order orderWithState = order.get();
+        orderWithState.setState(getState(orderWithState.getStatus()));
         return order.get();
     }
 
@@ -65,10 +74,13 @@ public class OrderService {
             throw new RuntimeException("Order not found");
         }
 
-        OrderStatus currentStatus = order.getStatus();
-        OrderState currentState = getState(currentStatus);
+//        OrderStatus currentStatus = order.getStatus();
+//        OrderState currentState = getState(currentStatus);
+//
+//        currentState.next(order);
 
-        currentState.next(order);
+        //state design pattern
+        order.next();
 
         return orderRepository.save(order);
     }
@@ -78,16 +90,20 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
-    public List<Order> getOrdersByUserId(Long userId) {
-        return orderRepository.getOrdersByUserId(userId);
-    }
+//    public List<Order> getOrdersByUserId(Long userId) {
+//        return orderRepository.getOrdersByUserId(userId);
+//    }
+//
+//    public List<Order> getOrdersByStatus(OrderStatus status) {
+//        return orderRepository.getOrdersByStatus(status);
+//    }
+//
+//    public List<Order> getOrdersByDate(LocalDateTime date) {
+//        return orderRepository.getOrdersByOrderDate(date);
+//    }
 
-    public List<Order> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.getOrdersByStatus(status);
-    }
-
-    public List<Order> getOrdersByDate(LocalDateTime date) {
-        return orderRepository.getOrdersByOrderDate(date);
+    public List<Order> filterOrders(String filterType, Object criteria) {
+        return orderFilterContext.filter(filterType, orderRepository, criteria);
     }
 
     @Transactional

@@ -7,6 +7,7 @@ public class OnTheWayState implements OrderState {
     @Override
     public void next(Order order){
         order.setStatus(OrderStatus.DELIVERED);
+        order.setState(new DeliveredState());
     }
 
     @Override

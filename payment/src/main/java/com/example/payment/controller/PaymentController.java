@@ -84,12 +84,10 @@ public class PaymentController {
 
     @PostMapping("/pay")
     public String pay(@RequestParam String paymentType, @RequestParam double amount, @RequestParam Long orderId, @RequestParam Long userId, @RequestParam String extraInfo) {
-
-        // Create payment using the factory
         Payment payment = paymentFactory.createPayment(paymentType,amount,orderId,userId,extraInfo);
         PaymentCommand payCommand = new PayCommand(payment, paymentService);
         payCommand.execute();
-        paymentService.save(payment);
+//        paymentService.save(payment);
         return "Payment initiated successfully";
     }
 

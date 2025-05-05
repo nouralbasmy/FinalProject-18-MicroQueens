@@ -51,7 +51,6 @@ public class CreditCardPayment extends Payment{
 
     @Override
     public void processPayment() {
-        //CreditCard LOGIC HEREEEE
         //Validation
         if (this.getCardHolderName() == null || this.getCardHolderName().trim().isEmpty()) {
             //System.out.println("henaaName");
@@ -65,8 +64,6 @@ public class CreditCardPayment extends Payment{
             // System.out.println("expired");
             throw new IllegalArgumentException("Credit card has expired");
         }
-
-        //for each item, inventory - quantity!!
 
     }
 
