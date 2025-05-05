@@ -2,9 +2,10 @@ server:
   port: 8080
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: api-gateway
-
   cloud:
     gateway:
       routes:
@@ -16,3 +17,6 @@ spring:
           uri: http://localhost:8082
           predicates:
             - Path=/customer/**
+            -
+
+
