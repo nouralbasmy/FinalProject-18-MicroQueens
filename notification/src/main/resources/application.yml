@@ -5,6 +5,15 @@ spring:
   application:
     name: notification
 
+  mail:
+    host: smtp.gmail.com         # or your Mailtrap / company SMTP
+    port: 587
+    username: 
+    password: 
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
   rabbitmq:
     host: localhost
     port: 5672

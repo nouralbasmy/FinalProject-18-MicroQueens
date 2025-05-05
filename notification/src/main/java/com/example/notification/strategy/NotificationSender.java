@@ -14,23 +14,11 @@ public class NotificationSender {
 
     // private final Map<String, NotificationStrategy> strategies;
     private static final String STRATEGY_PACKAGE = "com.example.notification.strategy";
+    private final ApplicationContext appContext;  
 
-    // @Autowired
-    //   public NotificationSender(
-    //     EmailNotificationStrategy emailStrategy,
-    //     SmsNotificationStrategy smsStrategy,
-    //     PushNotificationStrategy pushStrategy) {
-        
-    //     this.strategies = Map.of(
-    //         "email", emailStrategy,
-    //         "EMAIL", emailStrategy,
-    //         "sms", smsStrategy,
-    //         "SMS", smsStrategy,
-    //         "push", pushStrategy,
-    //         "PUSH", pushStrategy
-    //     );
-    // }
-
+    public NotificationSender(ApplicationContext appContext) {
+        this.appContext = appContext;
+    }
 
     public void send(String type, Notification notification){
         if (type == null || type.isEmpty()) {
@@ -41,6 +29,7 @@ public class NotificationSender {
         try {
             Class<?> clazz = Class.forName(className);
             NotificationStrategy strategy = (NotificationStrategy) clazz.getDeclaredConstructor().newInstance();
+            appContext.getAutowireCapableBeanFactory().autowireBean(strategy);
             strategy.send(notification);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("No strategy found for this type");
@@ -59,6 +48,24 @@ public class NotificationSender {
         // }
         // strategy.send(notification);
     }
+
+
+
+    // @Autowired
+    //   public NotificationSender(
+    //     EmailNotificationStrategy emailStrategy,
+    //     SmsNotificationStrategy smsStrategy,
+    //     PushNotificationStrategy pushStrategy) {
+        
+    //     this.strategies = Map.of(
+    //         "email", emailStrategy,
+    //         "EMAIL", emailStrategy,
+    //         "sms", smsStrategy,
+    //         "SMS", smsStrategy,
+    //         "push", pushStrategy,
+    //         "PUSH", pushStrategy
+    //     );
+    // }
 
 
 
