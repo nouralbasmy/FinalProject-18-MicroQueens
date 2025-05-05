@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="payment" />
-        <module name="order" />
         <module name="customer" />
+        <module name="order" />
         <module name="restaurant" />
       </profile>
       <profile name="Annotation profile for notification" enabled="true">
