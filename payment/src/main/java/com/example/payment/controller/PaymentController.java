@@ -79,15 +79,7 @@ public class PaymentController {
         return paymentService.getUserPaymentHistory(userId);
     }
 
-    @GetMapping("/order/{orderId}")
-    public Payment getPaymentByOrderId(@PathVariable Long orderId) {
-        Payment payment = paymentService.getPaymentByOrderId(orderId);
-        if (payment != null) {
-            return payment;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment not found for this order");
-        }
-    }
+   
 
 
     @PostMapping("/pay")
