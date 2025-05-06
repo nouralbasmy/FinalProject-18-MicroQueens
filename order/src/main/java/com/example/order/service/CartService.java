@@ -31,8 +31,7 @@ public class CartService {
         return cartRepository.findById(cartId);
     }
 
-    public Iterable<Cart> getAllCarts()
-    {
+    public Iterable<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
 
@@ -94,7 +93,7 @@ public class CartService {
                         .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
                 cart.setTotalPrice(updatedTotalPrice);
                 cartRepository.save(cart);
-                if(cart.getCartItemList().isEmpty()) //if cart is empty after removing item, delete cart
+                if (cart.getCartItemList().isEmpty()) //if cart is empty after removing item, delete cart
                     deleteCart(cart.getId());
                 return true;
             }
@@ -105,23 +104,19 @@ public class CartService {
     //(3)
     public void addToCart(Long userId, CartItem cartItemToAdd) {
         Optional<Cart> optionalCart = getCartByUserId(userId);
-        if(optionalCart.isEmpty())
-        {
+        if (optionalCart.isEmpty()) {
             //No cart found for this user -> create new cart and add item
-            Cart cart = new Cart(userId,0.0,new ArrayList<CartItem>());
+            Cart cart = new Cart(userId, 0.0, new ArrayList<CartItem>());
             cart.getCartItemList().add(cartItemToAdd);
             double updatedTotalPrice = cart.getCartItemList().stream()
                     .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
             cart.setTotalPrice(updatedTotalPrice);
             cartRepository.save(cart);
-        }
-        else
-        {
+        } else {
             //cart found
             Cart cart = optionalCart.get();
             //check if user has empty cart or still adding items from same restaurant
-            if(cart.getCartItemList().isEmpty() || cartItemToAdd.getRestaurantId().equals(cart.getCartItemList().getFirst().getRestaurantId()))
-            {
+            if (cart.getCartItemList().isEmpty() || cartItemToAdd.getRestaurantId().equals(cart.getCartItemList().getFirst().getRestaurantId())) {
                 //same restaurant hence can still use same list
                 Optional<CartItem> existingItem = cart.getCartItemList().stream()
                         .filter(item -> item.getMenuItemId().equals(cartItemToAdd.getMenuItemId())).findFirst();
@@ -138,11 +133,10 @@ public class CartService {
                         .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
                 cart.setTotalPrice(updatedTotalPrice);
                 cartRepository.save(cart);
-            }
-            else{
+            } else {
                 //user trying to add item from a new restaurant hence will delete old cart, create new one, add item
                 deleteCart(cart.getId());
-                cart = new Cart(userId,0.0,new ArrayList<CartItem>());
+                cart = new Cart(userId, 0.0, new ArrayList<CartItem>());
                 cart.getCartItemList().add(cartItemToAdd);
                 double updatedTotalPrice = cart.getCartItemList().stream()
                         .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();

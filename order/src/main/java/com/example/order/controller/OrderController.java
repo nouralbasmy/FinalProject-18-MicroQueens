@@ -100,4 +100,19 @@ public class OrderController {
             return ResponseEntity.badRequest().body("Failed to place order");
         }
     }
+
+    //checkout cart (turning cart into order)
+    @PostMapping("/checkout/{userId}")
+    public String checkout(@PathVariable Long userId, @RequestParam String paymentType, @RequestParam String extraInfo)
+    {
+        try{
+            Long orderId = orderService.checkout(userId,paymentType,extraInfo);
+            return "Checkout successful! Your OrderId: "+ orderId;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            return "Failed to checkout! "+ e.getMessage();
+        }
+    }
 }

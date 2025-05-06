@@ -1,5 +1,6 @@
 package com.example.order.service;
 
+import com.example.order.clients.PaymentClient;
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
 import com.example.order.repository.OrderRepository;
@@ -30,13 +31,17 @@ public class OrderService {
     private final RabbitMQProducer rabbitMQProducer;
     private final OrderFilterContext orderFilterContext;
 
+
+    private final PaymentClient paymentClient;
+
     @Autowired
-    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext) {
+    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext, PaymentClient paymentClient) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
         this.rabbitMQProducer = rabbitMQProducer;
         this.orderFilterContext = orderFilterContext;
+        this.paymentClient = paymentClient;
     }
 
     public Order addOrder(Order order) {
@@ -73,12 +78,6 @@ public class OrderService {
         if (order == null) {
             throw new RuntimeException("Order not found");
         }
-
-//        OrderStatus currentStatus = order.getStatus();
-//        OrderState currentState = getState(currentStatus);
-//
-//        currentState.next(order);
-
         //state design pattern
         order.next();
 
@@ -107,7 +106,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void placeOrder(Long userId) {
+    public Order placeOrder(Long userId) {
 
         // Get cart from the user
         Optional<Cart> cart_optional = cartService.getCartByUserId(userId);
@@ -131,7 +130,7 @@ public class OrderService {
             order.setRestaurantId(restaurantId);
 
             // Save the order
-            orderRepository.save(order);
+            Order orderPlaced = orderRepository.save(order);
 
             // Create OrderItems from CartItems
             for (CartItem cartItem : cart.getCartItemList()) {
@@ -154,8 +153,22 @@ public class OrderService {
             // Notify via RabbitMQ ("customerId;restaurantId")
             String message = userId + ";" + restaurantId;
             rabbitMQProducer.sendToNotification(message);
+
+            return orderPlaced;
         } else {
             throw new RuntimeException("Cart not found");
         }
+    }
+
+    public Long checkout(Long userId, String paymentType, String extraInfo) {
+        Optional<Cart> optionalCart = cartService.getCartByUserId(userId);
+        if (optionalCart.isEmpty()) {
+            throw new RuntimeException("No cart for this user to checkout");
+        }
+        Cart cart = optionalCart.get();
+        Long paymentId = paymentClient.pay(paymentType, cart.getTotalPrice(), null, cart.getUserId(), extraInfo);
+        Order order = placeOrder(userId);
+        paymentClient.setPaymentOrderId(paymentId, order.getId());
+        return order.getId(); //order placed successfully!
     }
 }

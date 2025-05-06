@@ -84,8 +84,9 @@ public class PaymentController {
 
 
     @PostMapping("/pay")
-    public String pay(@RequestParam String paymentType, @RequestParam double amount, @RequestParam Long orderId, @RequestParam Long userId, @RequestParam String extraInfo) {
+    public Long pay(@RequestParam String paymentType, @RequestParam double amount, @RequestParam Long userId, @RequestParam String extraInfo) {
         Payment payment;
+        Long orderId = null;
         switch (paymentType.toUpperCase()) {
             case "COD": {
                 payment = new CODPaymentFactory().createPayment(amount, orderId, userId, extraInfo);
@@ -102,9 +103,16 @@ public class PaymentController {
             default: throw new IllegalArgumentException("Invalid payment type");
         }
         paymentService.processPayment(payment);
-        return "Payment initiated successfully";
+//        return "Payment initiated successfully";
+        return payment.getId();
     }
 
+
+    @PutMapping("/updateOrderId/{paymentId}")
+    public void setPaymentOrderId(@PathVariable Long paymentId, @RequestParam Long orderId)
+    {
+        paymentService.setPaymentOrderId(paymentId, orderId);
+    }
 
 
 

@@ -60,14 +60,25 @@ public class PaymentService {
         return paymentRepository.findByOrderId(orderId);
     }
 
-    public void processPayment(Payment payment) {
+    public Payment processPayment(Payment payment) {
         PaymentCommand payCommand = new PayCommand(payment);
         payCommand.execute();
         //DECREMENTT INVENTORY CALL HENAAA
-        paymentRepository.save(payment);
+        return paymentRepository.save(payment);
     }
 
     public void processRefund(Payment payment) {
         payment.processRefund();
     }
+
+    public void setPaymentOrderId(Long paymentId, Long orderId)
+    {
+        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
+        if (optionalPayment.isPresent()) {
+            Payment payment = optionalPayment.get();
+            payment.setOrderId(orderId);
+            paymentRepository.save(payment);
+        }
+    }
+
 }
