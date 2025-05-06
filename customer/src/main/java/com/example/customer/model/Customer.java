@@ -109,7 +109,7 @@ public class Customer {
         this.favouriteRestaurantIds = favouriteRestaurantIds;
         this.ratings = ratings;
     }
-    // 🧱 Static nested Builder class
+    // Static nested Builder class
     public static class Builder {
         private Long id;
         private String username;
