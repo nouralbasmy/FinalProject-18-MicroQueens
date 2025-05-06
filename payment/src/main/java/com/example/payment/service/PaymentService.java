@@ -1,5 +1,6 @@
 package com.example.payment.service;
 
+import com.example.payment.command.PayCommand;
 import com.example.payment.command.PaymentCommand;
 import com.example.payment.factory.PaymentFactory;
 import com.example.payment.model.CODPayment;
@@ -60,7 +61,8 @@ public class PaymentService {
     }
 
     public void processPayment(Payment payment) {
-        payment.processPayment();
+        PaymentCommand payCommand = new PayCommand(payment);
+        payCommand.execute();
         //DECREMENTT INVENTORY CALL HENAAA
         paymentRepository.save(payment);
     }
