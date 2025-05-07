@@ -1,5 +1,6 @@
 package com.example.order.service;
 
+import com.example.order.clients.RestaurantClient;
 import com.example.order.model.Cart;
 import com.example.order.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,13 @@ import java.util.Optional;
 @Service
 public class CartService {
     private final CartRepository cartRepository;
+    private final RestaurantClient restaurantClient;
+
 
     @Autowired
-    public CartService(CartRepository cartRepository) {
+    public CartService(CartRepository cartRepository, RestaurantClient restaurantClient) {
         this.cartRepository = cartRepository;
+        this.restaurantClient = restaurantClient;
     }
 
     // Basic CRUD operation
@@ -103,6 +107,11 @@ public class CartService {
 
     //(3)
     public void addToCart(Long userId, CartItem cartItemToAdd) {
+        //inventory validationnn before allowing addToCart logic
+        if(!restaurantClient.checkInventory(cartItemToAdd.getMenuItemId(), cartItemToAdd.getQuantity()))
+        {
+            throw new RuntimeException("Insufficient inventory for requested item!");
+        }
         Optional<Cart> optionalCart = getCartByUserId(userId);
         if (optionalCart.isEmpty()) {
             //No cart found for this user -> create new cart and add item
@@ -145,4 +154,6 @@ public class CartService {
             }
         }
     }
+
+
 }

@@ -63,7 +63,6 @@ public class PaymentService {
     public Payment processPayment(Payment payment) {
         PaymentCommand payCommand = new PayCommand(payment);
         payCommand.execute();
-        //DECREMENTT INVENTORY CALL HENAAA
         return paymentRepository.save(payment);
     }
 

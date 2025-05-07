@@ -1,6 +1,7 @@
 package com.example.order.service;
 
 import com.example.order.clients.PaymentClient;
+import com.example.order.clients.RestaurantClient;
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
 import com.example.order.repository.OrderRepository;
@@ -33,15 +34,17 @@ public class OrderService {
 
 
     private final PaymentClient paymentClient;
+    private final RestaurantClient restaurantClient;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext, PaymentClient paymentClient) {
+    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext, PaymentClient paymentClient, RestaurantClient restaurantClient) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
         this.rabbitMQProducer = rabbitMQProducer;
         this.orderFilterContext = orderFilterContext;
         this.paymentClient = paymentClient;
+        this.restaurantClient = restaurantClient;
     }
 
     public Order addOrder(Order order) {
@@ -169,6 +172,11 @@ public class OrderService {
         Long paymentId = paymentClient.pay(paymentType, cart.getTotalPrice(), null, cart.getUserId(), extraInfo);
         Order order = placeOrder(userId);
         paymentClient.setPaymentOrderId(paymentId, order.getId());
+        //decrement inventory call hereee
+        for(CartItem cartItem : cart.getCartItemList())
+        {
+            restaurantClient.decrementInventory(cartItem.getMenuItemId(), cartItem.getQuantity());
+        }
         return order.getId(); //order placed successfully!
     }
 }

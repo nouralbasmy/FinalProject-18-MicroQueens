@@ -79,8 +79,15 @@ public class CartController {
     public String addToCart(
             @PathVariable Long userId,
             @RequestBody CartItem cartItem) {
-        cartService.addToCart(userId, cartItem);
-        return "Item added successfully!";
+        try
+        {
+            cartService.addToCart(userId, cartItem);
+            return "Item added successfully!";
+        }
+        catch (Exception e)
+        {
+            return "Failed to add item to cart! "+ e.getMessage();
+        }
     }
 
     // (4)
