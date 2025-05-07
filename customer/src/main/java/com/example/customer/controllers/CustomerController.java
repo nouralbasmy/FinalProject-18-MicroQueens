@@ -1,5 +1,6 @@
 package com.example.customer.controllers;
 
+import com.example.customer.model.Customer;
 import com.example.customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +43,19 @@ public class CustomerController {
                 ? ResponseEntity.ok("Rating submitted.")
                 : ResponseEntity.badRequest().body("Failed to submit rating.");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String, String> credentials) {
+        String username = credentials.get("username");
+        String password = credentials.get("password");
+
+        String token = customerService.authenticateAndGenerateToken(username, password);
+        if (token != null) {
+            return ResponseEntity.ok("Bearer " + token);
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password.");
+        }
+    }
+
+
 }

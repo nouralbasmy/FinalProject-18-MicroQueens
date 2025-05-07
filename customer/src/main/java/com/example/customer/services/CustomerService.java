@@ -6,6 +6,8 @@ import com.example.customer.repositories.CustomerRepository;
 import com.example.customer.repositories.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.customer.utilities.JwtUtil;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,4 +50,19 @@ public class CustomerService {
         }
         return false;
     }
+
+    public String authenticateAndGenerateToken(String username, String password) {
+        Optional<Customer> customerOpt = customerRepository.findByUsername(username);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            if (customer.getPassword().equals(password)) {
+                return JwtUtil.getInstance().generateToken(customer.getUsername());
+            }
+        }
+        return null;
+    }
+
+
+
+
 }
