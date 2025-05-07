@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.order.model.CartItem;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -100,5 +102,19 @@ public class CartController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    //(5)
+    @GetMapping("/myCart/{userId}")
+    public Map<String, Object> getMyCart(@PathVariable Long userId) {
+        Optional<Cart> cart = cartService.getCartByUserId(userId);
+        if (cart.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No cart found for this user");
+        }
+        Map<String, Object> cartDTO = new HashMap<>();
+        cartDTO.put("id", cart.get().getId());
+        cartDTO.put("totalPrice", cart.get().getTotalPrice());
+        cartDTO.put("items", cart.get().getCartItemList());
+        return cartDTO;
     }
 }

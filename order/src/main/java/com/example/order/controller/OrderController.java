@@ -115,4 +115,14 @@ public class OrderController {
             return "Failed to checkout! "+ e.getMessage();
         }
     }
+
+    //----------FOR COMMUNICATION CALL WITH PAYMENT MICROSERVICE--------
+    @PutMapping("/refundStatus/{orderId}")
+    public void refundStatus(@PathVariable Long orderId) {
+        try {
+            orderService.updateStatus(orderId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+        }
+    }
 }

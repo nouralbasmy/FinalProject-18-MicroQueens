@@ -67,8 +67,8 @@ public class PaymentService {
         return paymentRepository.save(payment);
     }
 
-    public void processRefund(Long userId, double amount) {
-        PaymentCommand refundCommand = new RefundCommand(userId,amount);
+    public void processRefund(Long userId, double amount, Long orderId) {
+        PaymentCommand refundCommand = new RefundCommand(userId,amount, orderId);
         refundCommand.execute();
     }
 

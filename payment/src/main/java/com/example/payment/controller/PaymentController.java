@@ -114,9 +114,9 @@ public class PaymentController {
         paymentService.setPaymentOrderId(paymentId, orderId);
     }
 
-    @PostMapping("/refund/{userId}/{amount}")
-    public String refund(@RequestParam Long userId, @RequestParam double amount) {
-           paymentService.processRefund(userId,amount);
+    @PostMapping("/refund/{orderId}/{amount}")
+    public String refund(@PathVariable Long orderId, @RequestParam Long userId, @RequestParam double amount) {
+           paymentService.processRefund(userId,amount,orderId);
            return "Refund processed successfully. The amount has been added to your wallet.";
     }
 
