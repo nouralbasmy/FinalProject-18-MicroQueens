@@ -37,4 +37,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Transactional
     void deleteByName(String name);
 
+    List<Restaurant> findByNameContainingIgnoreCase(String name);
+    List<Restaurant> findByCuisine(String cuisine);
+
 }

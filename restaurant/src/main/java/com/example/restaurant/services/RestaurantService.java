@@ -1,7 +1,9 @@
 package com.example.restaurant.services;
 
+import com.example.restaurant.factory.FilterStrategyFactory;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
+import com.example.restaurant.strategy.RestaurantFilterStrategy;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -75,7 +77,19 @@ public class RestaurantService {
         restaurantRepository.deleteByName(name);
     }
 
+    public List<Restaurant> searchRestaurantsByName(String name) {
+        return restaurantRepository.findByNameContainingIgnoreCase(name);
+    }
 
 
+    @Cacheable(value = "restaurant_cache", key = "#cuisine")
+    public List<Restaurant> getRestaurantsByCuisine(String cuisine) {
+        return restaurantRepository.findByCuisine(cuisine);
+    }
 
+    public List<Restaurant> getRestaurantsUsingFilter(String type, String value) {
+        FilterStrategyFactory factory = new FilterStrategyFactory(this);
+        RestaurantFilterStrategy strategy = factory.getStrategy(type);
+        return strategy.filter(value);
+    }
 }
