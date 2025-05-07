@@ -1,6 +1,7 @@
 package com.example.notification.service;
 
 import com.example.notification.model.Notification;
+import com.example.notification.rabbitmq.RabbitMQProducer;
 import com.example.notification.repository.NotificationRepository;
 import com.example.notification.strategy.NotificationSender;
 import com.mongodb.client.MongoClient;
@@ -20,22 +21,30 @@ import java.util.Optional;
 public class NotificationService {
     private NotificationRepository notificationRepository;
     private MongoClient mongoClient;
+    private final RabbitMQProducer rabbitMQProducer;
+
     private NotificationSender notificationSender;
 
 
     @Autowired
-    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender notificationSender) {
+    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender notificationSender, RabbitMQProducer rabbitMQProducer) {
         this.notificationRepository = notificationRepository;
         this.mongoClient = mongoClient;
         this.notificationSender=notificationSender;
+        this.rabbitMQProducer = rabbitMQProducer;
+
     }
 
     public Notification addNotification(Notification notification) {
 
         Notification savedNotification=notificationRepository.save(notification);
         notificationSender.send(notification.getNotificationType(), savedNotification);
+        String toSendMessage = savedNotification.getOrderId() + ";" +
+        savedNotification.getRestaurantId() + ";" +
+        savedNotification.getMessage();
+
+        rabbitMQProducer.sendToCustomer(toSendMessage);
         return savedNotification;
-      
     }
 
     public List<Notification> getAllNotifications() {

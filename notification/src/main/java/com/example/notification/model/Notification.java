@@ -149,7 +149,17 @@ public class Notification {
         this.read = read;
         this.notificationTime = notificationTime;
     }
-
+    public Notification(Long userId, Long orderId, Long restaurantId, String notificationType, String email,
+             String message, boolean read, LocalDateTime notificationTime) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.restaurantId = restaurantId;
+        this.notificationType = notificationType;
+        this.email = email;
+        this.message = message;
+        this.read = read;
+        this.notificationTime = notificationTime;
+    }
 
 
 
