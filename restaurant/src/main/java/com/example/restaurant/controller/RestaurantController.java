@@ -3,6 +3,7 @@ package com.example.restaurant.controller;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.services.RestaurantService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
