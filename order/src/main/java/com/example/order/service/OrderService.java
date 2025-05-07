@@ -114,22 +114,32 @@ public class OrderService {
 
         if (cart_optional.isPresent()) {
             Cart cart = cart_optional.get();
-            if (cart == null) {
-                throw new RuntimeException("Cart not found ");
-            }
+//            if (cart == null) {
+//                throw new RuntimeException("Cart not found ");
+//            }
 
             Long restaurantId = cart.getCartItemList().get(0).getRestaurantId(); // Assuming same restaurant for all
             // items
 
             // Creating Order from Cart
-            Order order = new Order();
-            order.setUserId(userId);
-            order.setTotalPrice(cart.getTotalPrice());
-//            order.setStatus("PENDING");
-            order.setStatus(OrderStatus.CONFIRMED);
-            order.setState(new ConfirmedState());
-            order.setOrderDate(LocalDateTime.now());
-            order.setRestaurantId(restaurantId);
+
+            Order order = new Order(
+                    userId,
+                    LocalDateTime.now(),
+                    OrderStatus.CONFIRMED,
+                    cart.getTotalPrice(),
+                    restaurantId,
+                    new ConfirmedState());
+
+
+//            Order order = new Order();
+//            order.setUserId(userId);
+//            order.setTotalPrice(cart.getTotalPrice());
+////            order.setStatus("PENDING");
+//            order.setStatus(OrderStatus.CONFIRMED);
+//            order.setState(new ConfirmedState());
+//            order.setOrderDate(LocalDateTime.now());
+//            order.setRestaurantId(restaurantId);
 
             // Save the order
             Order orderPlaced = orderRepository.save(order);
@@ -145,6 +155,7 @@ public class OrderService {
                 orderItem.setMenuItemId(cartItem.getMenuItemId());
                 orderItem.setQuantity(cartItem.getQuantity());
                 orderItem.setPrice(cartItem.getPrice());
+
 
                 orderItemRepository.save(orderItem);
             }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,6 +52,17 @@ public class Order {
         this.totalPrice = totalPrice;
         this.restaurantId = restaurantId;
         this.orderItems = orderItems;
+    }
+
+    //used when placing a new Order -- without order items
+    public Order(Long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, Long restaurantId, OrderState state) {
+        this.userId = userId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.restaurantId = restaurantId;
+        this.state = state;
+        this.orderItems = new ArrayList<>();
     }
 
     public Long getId() {
