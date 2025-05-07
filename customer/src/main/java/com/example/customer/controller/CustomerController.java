@@ -1,4 +1,4 @@
-package com.example.customer.controllers;
+package com.example.customer.controller;
 
 import com.example.customer.model.Customer;
 import com.example.customer.services.CustomerService;
@@ -59,15 +59,5 @@ public class CustomerController {
         return added ? "Added to favourites." : "Failed to add to favourites.";
     }
 
-    //  Rate Restaurant
-    @PostMapping("/{customerId}/rate")
-    public String rateRestaurant(
-            @PathVariable Long customerId,
-            @RequestBody Map<String, Object> body) {
 
-        Long restaurantId = Long.valueOf(body.get("restaurantId").toString());
-        int score = Integer.parseInt(body.get("score").toString());
-        boolean success = customerService.rateRestaurant(customerId, restaurantId, score);
-        return success ? "Rating submitted." : "Failed to submit rating.";
-    }
 }

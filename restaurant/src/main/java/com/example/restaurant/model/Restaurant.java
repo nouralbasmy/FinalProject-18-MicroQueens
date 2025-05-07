@@ -131,4 +131,9 @@ public class Restaurant {
     }
 
 
+    public void setTotalRatings(long totalRatings) {
+    }
+
+    public void setAverageRating(double averageScore) {
+    }
 }

@@ -2,8 +2,8 @@ package com.example.customer.services;
 
 import com.example.customer.model.Customer;
 import com.example.customer.model.Rating;
-import com.example.customer.repositories.CustomerRepository;
-import com.example.customer.repositories.RatingRepository;
+import com.example.customer.repository.CustomerRepository;
+import com.example.customer.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,8 @@ public class CustomerService {
 
     @Autowired
     private RatingRepository ratingRepository;
-
+    @Autowired
+    private RatingService ratingService;
 
     //  Create Customer
     public Customer createCustomer(Customer customer) {
@@ -82,7 +83,7 @@ public class CustomerService {
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
             Rating rating = new Rating(score, customer, restaurantId);
-            ratingRepository.save(rating);
+            ratingService.addRating(rating);
             return true;
         }
         return false;

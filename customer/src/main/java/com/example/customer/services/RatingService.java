@@ -1,57 +1,53 @@
 package com.example.customer.services;
 
+import com.example.customer.clients.CustomerRatingClient;
+import com.example.customer.dto.RatingSummaryDTO;
 import com.example.customer.model.Rating;
-import com.example.customer.repositories.RatingRepository;
+import com.example.customer.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RatingService {
+    private final RatingRepository ratingRepository;
+    private final CustomerRatingClient customerRatingClient;
 
-    @Autowired
-    private RatingRepository ratingRepository;
-
-    // Create Rating
-    public Rating createRating(Rating rating) {
-        return ratingRepository.save(rating);
+    public RatingService(RatingRepository repo, CustomerRatingClient client) {
+        this.ratingRepository = repo;
+        this.customerRatingClient = client;
     }
 
-    // Get all Ratings
-    public List<Rating> getAllRatings() {
-        return ratingRepository.findAll();
+    public Rating addRating(Rating rating) {
+        Rating saved = ratingRepository.save(rating);
+        updateRestaurantRatingSummary(saved.getRestaurantId());
+        return saved;
     }
 
-    // Get Rating by ID
-    public Rating getRatingById(Long id) {
-        return ratingRepository.findById(id).orElse(null);
-    }
-
-    // Get Ratings for a specific Restaurant
-    public List<Rating> getRatingsForRestaurant(Long restaurantId) {
-        return ratingRepository.findByRestaurantId(restaurantId);
-    }
-
-    // Update Rating
-    public Rating updateRating(Long id, Rating updatedRating) {
-        Optional<Rating> optional = ratingRepository.findById(id);
-        if (optional.isPresent()) {
-            Rating existing = optional.get();
-            existing.setScore(updatedRating.getScore());
-            return ratingRepository.save(existing);
+    public Rating updateRating(Long ratingId, int newScore) {
+        Optional<Rating> optionalRating = ratingRepository.findById(ratingId);
+        if (optionalRating.isPresent()) {
+            Rating rating = optionalRating.get();
+            rating.setScore(newScore);
+            Rating updated = ratingRepository.save(rating);
+            updateRestaurantRatingSummary(updated.getRestaurantId());
+            return updated;
         }
         return null;
     }
 
-    // Delete Rating
-    public boolean deleteRating(Long id) {
-        if (ratingRepository.existsById(id)) {
-            ratingRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    private void updateRestaurantRatingSummary(Long restaurantId) {
+        List<Rating> allRatings = ratingRepository.findByRestaurantId(restaurantId);
+        double average = allRatings.stream()
+                .mapToInt(Rating::getScore)
+                .average()
+                .orElse(0.0);
+
+        long total = allRatings.size();
+        RatingSummaryDTO summaryDTO = new RatingSummaryDTO(average, total);
+        customerRatingClient.sendRating(restaurantId, summaryDTO);
     }
 }
-
