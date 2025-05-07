@@ -1,8 +1,9 @@
-package com.example.order.service.state;
+package com.example.order.state;
 
 import com.example.order.model.Order;
 
 public interface OrderState {
     void next(Order order);
-    String getStatus();
+
+    void refund(Order order);
 }

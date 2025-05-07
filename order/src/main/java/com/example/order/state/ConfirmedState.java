@@ -1,4 +1,4 @@
-package com.example.order.service.state;
+package com.example.order.state;
 
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
@@ -10,9 +10,9 @@ public class ConfirmedState implements OrderState {
         order.setState(new OnTheWayState());
     }
 
-
     @Override
-    public String getStatus(){
-        return OrderStatus.CONFIRMED.name();
+    public void refund(Order order){
+        throw new IllegalStateException("Can not refund order now, the order is confirmed");
     }
+
 }

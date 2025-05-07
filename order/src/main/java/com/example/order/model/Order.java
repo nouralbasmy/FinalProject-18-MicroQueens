@@ -1,6 +1,6 @@
 package com.example.order.model;
 
-import com.example.order.service.state.*;
+import com.example.order.state.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -33,7 +33,7 @@ public class Order {
     }
 
     public Order(long id, long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice,
-            long restaurantId, List<OrderItem> orderItems) {
+                 long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -41,28 +41,16 @@ public class Order {
         this.totalPrice = totalPrice;
         this.restaurantId = restaurantId;
         this.orderItems = orderItems;
-        switch (status) {
-            case PENDING -> this.state = new PendingState();
-            case CONFIRMED -> this.state = new ConfirmedState();
-            case ON_THE_WAY -> this.state = new OnTheWayState();
-            case DELIVERED -> this.state = new DeliveredState();
-        };
     }
 
     public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId,
-            List<OrderItem> orderItems) {
+                 List<OrderItem> orderItems) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalPrice = totalPrice;
         this.restaurantId = restaurantId;
         this.orderItems = orderItems;
-        switch (status) {
-            case PENDING -> this.state = new PendingState();
-            case CONFIRMED -> this.state = new ConfirmedState();
-            case ON_THE_WAY -> this.state = new OnTheWayState();
-            case DELIVERED -> this.state = new DeliveredState();
-        };
     }
 
     public Long getId() {
@@ -99,12 +87,6 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
-        switch (status) {
-            case PENDING -> this.state = new PendingState();
-            case CONFIRMED -> this.state = new ConfirmedState();
-            case ON_THE_WAY -> this.state = new OnTheWayState();
-            case DELIVERED -> this.state = new DeliveredState();
-        }
     }
 
     public double getTotalPrice() {
@@ -135,14 +117,15 @@ public class Order {
         this.restaurantId = restaurantId;
     }
 
+
     public OrderState getState() {
         if(state == null)
         {
             switch (status) {
-                case PENDING -> state = new PendingState();
                 case CONFIRMED -> state = new ConfirmedState();
                 case ON_THE_WAY -> state = new OnTheWayState();
                 case DELIVERED -> state = new DeliveredState();
+                case REFUNDED -> state = new RefundedState();
             };
         }
         return state;

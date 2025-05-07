@@ -5,12 +5,13 @@ import com.example.order.clients.MenuItemClient;
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
 import com.example.order.repository.OrderRepository;
-import com.example.order.service.state.*;
+import com.example.order.state.*;
 import com.example.order.model.Cart;
 import com.example.order.model.CartItem;
 import com.example.order.model.OrderItem;
 import com.example.order.rabbitmq.RabbitMQProducer;
 import com.example.order.repository.OrderItemRepository;
+import com.example.order.state.ConfirmedState;
 import com.example.order.strategy.OrderFilterContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class OrderService {
 
     public OrderState getState(OrderStatus orderStatus) {
         return switch (orderStatus) {
-            case PENDING -> new PendingState();
+            case REFUNDED -> new RefundedState();
             case CONFIRMED -> new ConfirmedState();
             case ON_THE_WAY -> new OnTheWayState();
             case DELIVERED -> new DeliveredState();
@@ -118,14 +119,15 @@ public class OrderService {
             }
 
             Long restaurantId = cart.getCartItemList().get(0).getRestaurantId(); // Assuming same restaurant for all
-                                                                                 // items
+            // items
 
             // Creating Order from Cart
             Order order = new Order();
             order.setUserId(userId);
             order.setTotalPrice(cart.getTotalPrice());
 //            order.setStatus("PENDING");
-            order.setStatus(OrderStatus.PENDING);
+            order.setStatus(OrderStatus.CONFIRMED);
+            order.setState(new ConfirmedState());
             order.setOrderDate(LocalDateTime.now());
             order.setRestaurantId(restaurantId);
 

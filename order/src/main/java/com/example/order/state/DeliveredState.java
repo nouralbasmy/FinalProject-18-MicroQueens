@@ -1,4 +1,4 @@
-package com.example.order.service.state;
+package com.example.order.state;
 
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
@@ -10,7 +10,8 @@ public class DeliveredState implements OrderState{
     }
 
     @Override
-    public String getStatus(){
-        return OrderStatus.DELIVERED.name();
+    public void refund(Order order){
+        order.setStatus(OrderStatus.REFUNDED);
+        order.setState(new RefundedState());
     }
 }
