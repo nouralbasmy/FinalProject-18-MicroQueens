@@ -1,6 +1,5 @@
 package com.example.restaurant.services;
 
-import com.example.restaurant.dto.RatingSummaryDTO;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,11 +14,9 @@ import java.util.Optional;
 @Service
 public class RestaurantService {
 
-    //private final CustomerRatingClient customerRatingClient;
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantService( RestaurantRepository restaurantRepository) {
-
+    public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 
@@ -84,14 +81,7 @@ public class RestaurantService {
         restaurantRepository.deleteByName(name);
     }
 
-    //  update the restaurant's rating
-    public void updateRatingSummary(Long restaurantId, RatingSummaryDTO summaryDTO) {
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
-        restaurant.setAverageRating(summaryDTO.getAverageScore());
-        restaurant.setTotalRatings(summaryDTO.getTotalRatings());
-        restaurantRepository.save(restaurant);
-    }
-    }
+
+}

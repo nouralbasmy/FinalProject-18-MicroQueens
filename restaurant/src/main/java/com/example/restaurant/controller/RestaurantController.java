@@ -1,6 +1,5 @@
 package com.example.restaurant.controller;
 
-import com.example.restaurant.dto.RatingSummaryDTO;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.services.RestaurantService;
 import org.springframework.http.HttpStatus;
@@ -79,13 +78,5 @@ public class RestaurantController {
         return ResponseEntity.ok("Restaurant '" + name + "' deleted successfully");
     }
 
-    @PostMapping("/{restaurantId}/rating-summary")
-    public void updateRatingSummary(@PathVariable Long restaurantId,
-                                    @RequestBody RatingSummaryDTO ratingSummaryDTO) {
-        restaurantService.updateRatingSummary(restaurantId, ratingSummaryDTO);
 
-        System.out.println("Received rating summary for restaurant ID: " + restaurantId);
-        System.out.println("Average Score: " + ratingSummaryDTO.getAverageScore());
-        System.out.println("Total Ratings: " + ratingSummaryDTO.getTotalRatings());
-    }
 }
