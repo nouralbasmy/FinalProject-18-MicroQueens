@@ -32,7 +32,7 @@ public class Rating {
         return customer;
     }
 
-    public Long getRestaurant() {
+    public Long getRestaurantId() {
         return restaurantId;
     }
 
@@ -50,7 +50,7 @@ public class Rating {
         this.customer = customer;
     }
 
-    public void setRestaurant(Long restaurantId) {
+    public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
 
@@ -75,5 +75,6 @@ public class Rating {
         this.customer = customer;
         this.restaurantId = restaurantId;
     }
+
 
 }
