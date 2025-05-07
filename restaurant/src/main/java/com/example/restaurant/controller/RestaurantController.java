@@ -71,5 +71,11 @@ public class RestaurantController {
         return "Restaurant status updated successfully";
     }
 
+    @DeleteMapping("/deletebyname/{name}")
+    public ResponseEntity<String> deleteRestaurantByName(@PathVariable String name) {
+        restaurantService.deleteRestaurantByName(name);
+        return ResponseEntity.ok("Restaurant '" + name + "' deleted successfully");
+    }
+
 
 }

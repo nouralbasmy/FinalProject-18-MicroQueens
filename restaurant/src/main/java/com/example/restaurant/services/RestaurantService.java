@@ -3,6 +3,7 @@ package com.example.restaurant.services;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -19,11 +20,12 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @Cacheable(value = "restaurantsByRestriction", key = "#restriction")
+    @Cacheable(value = "restaurant_cache", key = "#restriction")
     public List<Restaurant> getRestaurantsByDietaryRestriction(String restriction) {
         return restaurantRepository.findByMenuDietaryRestriction(restriction);
     }
 
+    @CachePut(value = "restaurant_cache", key = "#result.id")
     public Restaurant addRestaurant(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
@@ -32,11 +34,12 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
+    @Cacheable(value = "restaurant_cache", key = "#id")
     public Optional<Restaurant> getRestaurantById(Long id) {
         return restaurantRepository.findById(id);
     }
 
-    @CacheEvict(value = {"restaurantsByRestriction"}, allEntries = true)
+    @CachePut(value = "restaurant_cache", key = "#id")
     public Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant) {
         return restaurantRepository.findById(id)
                 .map(restaurant -> {
@@ -55,19 +58,19 @@ public class RestaurantService {
                 });
     }
 
-    @CacheEvict(value = {"restaurantsByRestriction"}, allEntries = true)
+    @CachePut(value = "restaurant_cache", key = "#id")
     public Restaurant updateRestaurantStatus(Long id, boolean active) {
         restaurantRepository.updateActiveStatus(id, active);
         return restaurantRepository.findById(id).orElseThrow();
     }
 
-    @CacheEvict(value = {"restaurantsByRestriction"}, allEntries = true)
+    @CacheEvict(value = "restaurant_cache", key = "#id")
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
 
     }
 
-    @CacheEvict(value = {"restaurantsByRestriction"}, allEntries = true)
+    @CacheEvict(value = "restaurant_cache", key = "#name")
     public void deleteRestaurantByName(String name) {
         restaurantRepository.deleteByName(name);
     }
