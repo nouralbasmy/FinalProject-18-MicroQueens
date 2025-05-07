@@ -154,5 +154,11 @@ public class CartService {
         }
     }
 
+    // (6) explicitly checking inventory only -- for additional fn requirement
+    public boolean checkInventory(Long menuItemId, int quantity)
+    {
+        return menuItemClient.checkInventory(menuItemId,quantity);
+    }
+
 
 }

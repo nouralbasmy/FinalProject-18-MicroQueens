@@ -117,4 +117,10 @@ public class CartController {
         cartDTO.put("items", cart.get().getCartItemList());
         return cartDTO;
     }
+
+    // (6) explicitly checking inventory only -- for additional fn requirement
+    @GetMapping("/checkInventory/{menuItemId}/{quantity}")
+    public boolean checkInventory(@PathVariable Long menuItemId, @PathVariable int quantity) {
+        return cartService.checkInventory(menuItemId,quantity);
+    }
 }
