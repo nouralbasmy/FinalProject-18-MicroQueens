@@ -19,6 +19,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query("SELECT DISTINCT r FROM Restaurant r JOIN r.menu m WHERE :restriction MEMBER OF m.dietaryRestrictions")
     List<Restaurant> findByMenuDietaryRestriction(@Param("restriction") String restriction);
 
+    List<Restaurant> findByNameContainingIgnoreCase(String name);
 
     // Find by name (exact match)
     Optional<Restaurant> findByName(String name);

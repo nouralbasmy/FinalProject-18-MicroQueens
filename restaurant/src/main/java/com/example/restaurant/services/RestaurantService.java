@@ -39,6 +39,12 @@ public class RestaurantService {
         return restaurantRepository.findById(id);
     }
 
+    @Cacheable(value = "restaurant_cache", key = "#name")
+    public List<Restaurant> searchRestaurantsByName(String name) {
+        return restaurantRepository.findByNameContainingIgnoreCase(name);
+    }
+
+
     @CachePut(value = "restaurant_cache", key = "#id")
     public Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant) {
         return restaurantRepository.findById(id)
