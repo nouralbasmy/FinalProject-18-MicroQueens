@@ -98,7 +98,7 @@ public class Restaurant {
         this.phone = phone;
     }
 
-    public float getRating() {
+    public int getRating() {
         return rating;
     }
 
