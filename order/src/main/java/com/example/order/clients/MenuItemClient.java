@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "restaurant-service", url = "http://localhost:8093/restaurant")
-public interface RestaurantClient {
+@FeignClient(name = "restaurant-service", url = "http://localhost:8093/menuItems")
+public interface MenuItemClient {
     @GetMapping("/checkInventory/{menuItemId}")
     boolean checkInventory(@PathVariable Long menuItemId, @RequestParam int quantity);
 

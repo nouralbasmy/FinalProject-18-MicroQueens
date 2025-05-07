@@ -31,12 +31,4 @@ public class CODPayment extends Payment{
             throw new IllegalArgumentException("Billing address cannot be null or empty");
         }
     }
-
-    @Override
-    public void processRefund() {
-        //CASH ON DELIVERY LOGIC HEREEEE
-        //Wallet+amount
-    }
-
-
 }

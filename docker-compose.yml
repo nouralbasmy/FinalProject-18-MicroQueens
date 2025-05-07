@@ -34,9 +34,19 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: paymentDB
+      POSTGRES_DB: restaurantDB
     ports:
       - "5434:5432" # Host port 5433 for restaurant-db
+
+  customer-db:
+    image: postgres:latest
+    container_name: customer-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: customerDB
+    ports:
+      - "5435:5432" # Host port 5433 for customer-db
 
   redis_cache:
     image: redis:latest

@@ -33,10 +33,4 @@ public class VFCashPayment extends Payment{
             throw new IllegalArgumentException("Invalid mobile wallet number. It must be 11 digits and start with 010.");
         }
     }
-
-    @Override
-    public void processRefund() {
-        //VF Cash LOGIC HEREEEE
-        //wallet + amount
-    }
 }

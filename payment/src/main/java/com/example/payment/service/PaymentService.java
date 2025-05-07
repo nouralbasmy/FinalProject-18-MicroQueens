@@ -2,6 +2,7 @@ package com.example.payment.service;
 
 import com.example.payment.command.PayCommand;
 import com.example.payment.command.PaymentCommand;
+import com.example.payment.command.RefundCommand;
 import com.example.payment.factory.PaymentFactory;
 import com.example.payment.model.CODPayment;
 import com.example.payment.model.CreditCardPayment;
@@ -66,8 +67,9 @@ public class PaymentService {
         return paymentRepository.save(payment);
     }
 
-    public void processRefund(Payment payment) {
-        payment.processRefund();
+    public void processRefund(Long userId, double amount) {
+        PaymentCommand refundCommand = new RefundCommand(userId,amount);
+        refundCommand.execute();
     }
 
     public void setPaymentOrderId(Long paymentId, Long orderId)

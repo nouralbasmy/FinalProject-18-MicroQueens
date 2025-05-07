@@ -67,12 +67,6 @@ public class CreditCardPayment extends Payment{
 
     }
 
-    @Override
-    public void processRefund() {
-        //CreditCard LOGIC HEREEE
-        //Wallet+amount
-    }
-
     private boolean isExpired(String expirationDate) {
         //System.out.println("hi1");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");

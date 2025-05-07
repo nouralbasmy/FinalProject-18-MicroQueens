@@ -1,7 +1,7 @@
 package com.example.order.service;
 
 import com.example.order.clients.PaymentClient;
-import com.example.order.clients.RestaurantClient;
+import com.example.order.clients.MenuItemClient;
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
 import com.example.order.repository.OrderRepository;
@@ -11,10 +11,7 @@ import com.example.order.model.CartItem;
 import com.example.order.model.OrderItem;
 import com.example.order.rabbitmq.RabbitMQProducer;
 import com.example.order.repository.OrderItemRepository;
-import com.example.order.strategy.DateFilterStrategy;
 import com.example.order.strategy.OrderFilterContext;
-import com.example.order.strategy.StatusFilterStrategy;
-import com.example.order.strategy.UserIdFilterStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,17 +31,17 @@ public class OrderService {
 
 
     private final PaymentClient paymentClient;
-    private final RestaurantClient restaurantClient;
+    private final MenuItemClient restaurantClient;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext, PaymentClient paymentClient, RestaurantClient restaurantClient) {
+    public OrderService(OrderRepository orderRepository, CartService cartService, OrderItemRepository orderItemRepository, RabbitMQProducer rabbitMQProducer, OrderFilterContext orderFilterContext, PaymentClient paymentClient, MenuItemClient menuItemClient) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
         this.rabbitMQProducer = rabbitMQProducer;
         this.orderFilterContext = orderFilterContext;
         this.paymentClient = paymentClient;
-        this.restaurantClient = restaurantClient;
+        this.restaurantClient = menuItemClient;
     }
 
     public Order addOrder(Order order) {

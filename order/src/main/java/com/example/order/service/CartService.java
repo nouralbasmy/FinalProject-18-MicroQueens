@@ -1,6 +1,6 @@
 package com.example.order.service;
 
-import com.example.order.clients.RestaurantClient;
+import com.example.order.clients.MenuItemClient;
 import com.example.order.model.Cart;
 import com.example.order.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +9,18 @@ import org.springframework.stereotype.Service;
 import com.example.order.model.CartItem;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CartService {
     private final CartRepository cartRepository;
-    private final RestaurantClient restaurantClient;
+    private final MenuItemClient menuItemClient;
 
 
     @Autowired
-    public CartService(CartRepository cartRepository, RestaurantClient restaurantClient) {
+    public CartService(CartRepository cartRepository, MenuItemClient menuItemClient) {
         this.cartRepository = cartRepository;
-        this.restaurantClient = restaurantClient;
+        this.menuItemClient = menuItemClient;
     }
 
     // Basic CRUD operation
@@ -108,7 +107,7 @@ public class CartService {
     //(3)
     public void addToCart(Long userId, CartItem cartItemToAdd) {
         //inventory validationnn before allowing addToCart logic
-        if(!restaurantClient.checkInventory(cartItemToAdd.getMenuItemId(), cartItemToAdd.getQuantity()))
+        if(!menuItemClient.checkInventory(cartItemToAdd.getMenuItemId(), cartItemToAdd.getQuantity()))
         {
             throw new RuntimeException("Insufficient inventory for requested item!");
         }
