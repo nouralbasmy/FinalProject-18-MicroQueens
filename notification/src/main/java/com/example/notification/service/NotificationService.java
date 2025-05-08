@@ -69,4 +69,32 @@ public class NotificationService {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+
+    public List<Notification> getByUserId(Long userId) {
+        return notificationRepository.findByUserId(userId);
+    }
+
+
+    public List<Notification> getByRestaurantId(Long restaurantId) {
+        return notificationRepository.findByRestaurantId(restaurantId);
+    }
+
+    public Notification markAsRead(String id) {
+        return updateReadStatus(id, true);
+    }
+
+    public Notification markAsUnread(String id) {
+        return updateReadStatus(id, false);
+    }
+
+    public Notification updateReadStatus(String id, boolean read) {
+        Optional<Notification> optional = notificationRepository.findById(id);
+        if (optional.isPresent()) {
+            Notification notification = optional.get();
+            notification.setRead(read);
+            return notificationRepository.save(notification);
+        }
+        return null;
+    }
 }

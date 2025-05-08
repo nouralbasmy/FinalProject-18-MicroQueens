@@ -50,5 +50,31 @@ public class NotificationController {
         return "Service is up!";
     }
 
+///////////////////////////////////////////////////
+
+    @GetMapping("/user/{userId}")
+    public List<Notification> getByUser(@PathVariable Long userId) {
+        return notificationService.getByUserId(userId);
+    }
+
+    @GetMapping("/restaurant/{restaurantId}")
+    public List<Notification> getByRestaurant(@PathVariable Long restaurantId) {
+        return notificationService.getByRestaurantId(restaurantId);
+    }
+
+    @PutMapping("/{id}/read")
+    public Notification markAsRead(@PathVariable String id) {
+        return notificationService.markAsRead(id);
+    }
+
+    @PutMapping("/{id}/unread")
+    public Notification markAsUnread(@PathVariable String id) {
+        return notificationService.markAsUnread(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public Notification updateStatus(@PathVariable String id, @RequestParam boolean read) {
+        return notificationService.updateReadStatus(id, read);
+    }
 
 }
