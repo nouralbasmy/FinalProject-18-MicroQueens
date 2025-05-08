@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository // It's good practice to add @Repository annotation
+@Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findByRestaurantId(Long restaurantId);
 
-
-    //Optional<Rating> findByCustomer_IdAndRestaurantId(Long customerId, Long restaurantId);
 
 }

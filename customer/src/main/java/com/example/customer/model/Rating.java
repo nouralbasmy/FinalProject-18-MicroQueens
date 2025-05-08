@@ -13,6 +13,7 @@ public class Rating {
 
     @ManyToOne
     private Customer customer;
+    private Long customerId;
 
     private Long restaurantId;
 
@@ -77,4 +78,11 @@ public class Rating {
     }
 
 
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 }

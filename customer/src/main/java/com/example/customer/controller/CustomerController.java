@@ -15,25 +15,24 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    // Create Customer
+
     @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
-    // Get Customer by ID
+
     @GetMapping("/{customerId}")
     public Customer getCustomer(@PathVariable Long customerId) {
         return customerService.getCustomerById(customerId);
     }
 
-    //  Get All Customers
+
     @GetMapping
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    //  Update Customer
     @PutMapping("/{customerId}")
     public Customer updateCustomer(
             @PathVariable Long customerId,
@@ -41,14 +40,13 @@ public class CustomerController {
         return customerService.updateCustomer(customerId, updatedCustomer);
     }
 
-    //  Delete Customer
+
     @DeleteMapping("/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         boolean deleted = customerService.deleteCustomer(customerId);
         return deleted ? "Customer deleted." : "Customer not found.";
     }
 
-    //  Add to Favourites
     @PostMapping("/{customerId}/favourites")
     public String addToFavourites(
             @PathVariable Long customerId,

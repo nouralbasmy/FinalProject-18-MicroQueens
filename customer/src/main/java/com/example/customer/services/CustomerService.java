@@ -1,5 +1,6 @@
 package com.example.customer.services;
 
+import com.example.customer.clients.RestaurantClient;
 import com.example.customer.model.Customer;
 import com.example.customer.model.Rating;
 import com.example.customer.repository.CustomerRepository;
@@ -16,33 +17,28 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
-    private RatingRepository ratingRepository;
-    @Autowired
-    private RatingService ratingService;
+    private RestaurantClient restaurantClient;
 
-    //  Create Customer
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    //  Read Customer by ID
+
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
 
-    //  Read All Customers
+
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
-    //  Update Customer
+
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
         if (optionalCustomer.isPresent()) {
             Customer existing = optionalCustomer.get();
-            // You can customize which fields to update
             existing.setUsername(updatedCustomer.getUsername());
             existing.setEmail(updatedCustomer.getEmail());
             existing.setFavouriteRestaurants(updatedCustomer.getFavouriteRestaurants());
@@ -51,7 +47,7 @@ public class CustomerService {
         return null;
     }
 
-    //  Delete Customer
+
     public boolean deleteCustomer(Long id) {
         if (customerRepository.existsById(id)) {
             customerRepository.deleteById(id);
@@ -60,8 +56,10 @@ public class CustomerService {
         return false;
     }
 
-    //  Add to Favourites
     public boolean addToFavourites(Long customerId, Long restaurantId) {
+        if (!restaurantClient.restaurantExists(restaurantId)) {
+            return false;
+        }
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
@@ -70,23 +68,14 @@ public class CustomerService {
             if (!favourites.contains(restaurantId)) {
                 favourites.add(restaurantId);
                 customer.setFavouriteRestaurants(favourites);
-                customerRepository.save(customer); // Save update
+                customerRepository.save(customer);
                 return true;
             }
         }
         return false;
     }
 
-    // Rate Restaurant
-    public boolean rateRestaurant(Long customerId, Long restaurantId, int score) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            Rating rating = new Rating(score, customer, restaurantId);
-            ratingService.addRating(rating);
-            return true;
-        }
-        return false;
-    }
+
+
 }
 

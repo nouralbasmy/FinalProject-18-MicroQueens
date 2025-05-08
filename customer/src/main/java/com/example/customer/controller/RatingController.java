@@ -26,14 +26,12 @@ public class RatingController {
 
     // Add a rating using restaurantId and score
     @PostMapping("/rate")
-    public ResponseEntity<String> rateRestaurant(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Rating> rateRestaurant(@RequestBody Map<String, Object> body) {
+        Long customerId = Long.valueOf(body.get("customerId").toString());
         Long restaurantId = Long.valueOf(body.get("restaurantId").toString());
         int score = Integer.parseInt(body.get("score").toString());
-
-        Rating rating = new Rating(score, null, restaurantId); // Assuming constructor: Rating(score, customer, restaurantId)
-        ratingService.addRating(rating);
-
-        return ResponseEntity.ok("Rating submitted.");
+        Rating rating = ratingService.rateRestaurant(customerId, restaurantId, score);
+        return ResponseEntity.ok(rating);
     }
 
     // Update an existing rating
@@ -42,7 +40,6 @@ public class RatingController {
                                                @RequestBody Map<String, Object> body) {
         int newScore = Integer.parseInt(body.get("score").toString());
         Rating updated = ratingService.updateRating(ratingId, newScore);
-
         if (updated != null) {
             return ResponseEntity.ok("Rating updated.");
         } else {

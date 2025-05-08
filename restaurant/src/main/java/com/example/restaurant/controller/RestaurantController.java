@@ -88,4 +88,8 @@ public class RestaurantController {
         System.out.println("Average Score: " + ratingSummaryDTO.getAverageScore());
         System.out.println("Total Ratings: " + ratingSummaryDTO.getTotalRatings());
     }
+    @GetMapping("/{restaurantId}/exists")
+    public boolean restaurantExists(@PathVariable Long restaurantId) {
+        return restaurantService.restaurantExists(restaurantId);
+    }
 }

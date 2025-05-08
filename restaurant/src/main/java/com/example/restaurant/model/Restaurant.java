@@ -135,5 +135,6 @@ public class Restaurant {
     }
 
     public void setAverageRating(double averageScore) {
+
     }
 }

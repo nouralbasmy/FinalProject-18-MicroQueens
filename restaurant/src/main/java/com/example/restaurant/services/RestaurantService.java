@@ -94,4 +94,7 @@ public class RestaurantService {
         restaurant.setTotalRatings(summaryDTO.getTotalRatings());
         restaurantRepository.save(restaurant);
     }
+    public boolean restaurantExists(Long restaurantId) {
+        return restaurantRepository.existsById(restaurantId);
+    }
     }

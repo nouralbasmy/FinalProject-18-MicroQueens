@@ -50,4 +50,13 @@ public class RatingService {
         RatingSummaryDTO summaryDTO = new RatingSummaryDTO(average, total);
         customerRatingClient.sendRating(restaurantId, summaryDTO);
     }
+    public Rating rateRestaurant(Long customerId, Long restaurantId, int score) {
+        Rating rating = new Rating();
+        rating.setCustomerId(customerId);
+        rating.setRestaurantId(restaurantId);
+        rating.setScore(score);
+        Rating saved = ratingRepository.save(rating);
+        updateRestaurantRatingSummary(restaurantId);
+        return saved;
+    }
 }
