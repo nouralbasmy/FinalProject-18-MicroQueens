@@ -38,7 +38,7 @@ public class MenuItemService {
                     menuItem.setPrice(updatedItem.getPrice());
                     menuItem.setInventory(updatedItem.getInventory());
                     menuItem.setDietaryRestrictions(updatedItem.getDietaryRestrictions());
-                    menuItem.setRestaurants(updatedItem.getRestaurants());
+                    menuItem.setRestaurant(updatedItem.getRestaurant());
                     return menuItemRepository.save(menuItem);
                 }).orElseThrow(() -> new RuntimeException("MenuItem not found"));
     }

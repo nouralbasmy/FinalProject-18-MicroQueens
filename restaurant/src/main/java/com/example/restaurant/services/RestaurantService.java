@@ -1,9 +1,7 @@
 package com.example.restaurant.services;
 
-import com.example.restaurant.factory.FilterStrategyFactory;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
-import com.example.restaurant.strategy.RestaurantFilterStrategy;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -87,9 +85,4 @@ public class RestaurantService {
         return restaurantRepository.findByCuisine(cuisine);
     }
 
-    public List<Restaurant> getRestaurantsUsingFilter(String type, String value) {
-        FilterStrategyFactory factory = new FilterStrategyFactory(this);
-        RestaurantFilterStrategy strategy = factory.getStrategy(type);
-        return strategy.filter(value);
-    }
 }
