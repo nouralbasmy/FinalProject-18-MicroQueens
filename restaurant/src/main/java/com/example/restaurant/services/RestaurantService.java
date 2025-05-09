@@ -33,6 +33,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
     }
@@ -85,6 +86,7 @@ public class RestaurantService {
     }
 
     //  update the restaurant's rating
+    @CachePut(value = "restaurant_cache", key = "#restaurantId")
     public void updateRatingSummary(Long restaurantId, RatingSummaryDTO summaryDTO) {
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
