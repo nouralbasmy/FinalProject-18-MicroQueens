@@ -1,6 +1,7 @@
 package com.example.restaurant.controller;
 
 import com.example.restaurant.dto.RatingSummaryDTO;
+import com.example.restaurant.dto.RestaurantDTO;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.services.RestaurantService;
 import com.example.restaurant.strategy.CuisineFilterStrategy;
@@ -123,4 +124,10 @@ public class RestaurantController {
         System.out.println("Average Score: " + ratingSummaryDTO.getAverageScore());
         System.out.println("Total Ratings: " + ratingSummaryDTO.getTotalRatings());
     }
+    @PostMapping("/getRestaurantInfo")
+    public ResponseEntity<List<RestaurantDTO>> getRestaurantsByIds(@RequestBody List<Long> ids) {
+        List<RestaurantDTO> restaurants = restaurantService.getRestaurantsByIds(ids);
+        return ResponseEntity.ok(restaurants);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.restaurant.services;
 
 import com.example.restaurant.dto.RatingSummaryDTO;
+import com.example.restaurant.dto.RestaurantDTO;
 import com.example.restaurant.enums.Cuisine;
 import com.example.restaurant.enums.DietaryOption;
 import com.example.restaurant.model.Restaurant;
@@ -14,6 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
@@ -137,6 +139,21 @@ public class RestaurantService {
             restaurantRepository.updateActiveStatus(restaurant.getId(), isActive);
         }
     }
+    public List<RestaurantDTO> getRestaurantsByIds(List<Long> ids) {
+        return restaurantRepository.findAllById(ids)
+                .stream()
+                .map(r -> new RestaurantDTO(
+                        r.getId(),
+                        r.getName(),
+                        r.getCuisines(),
+                        r.getDietaryOptions(),// or r.getCuisines() if it's a list
+                        r.getAddress(),
+                        r.isActive(),
+                        r.getAvgRating()
+                ))
+                .collect(Collectors.toList());
+    }
+
 
 
 }

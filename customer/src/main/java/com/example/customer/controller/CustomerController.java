@@ -1,10 +1,14 @@
 package com.example.customer.controller;
 
+import com.example.customer.dto.RestaurantDTO;
 import com.example.customer.model.Customer;
 import com.example.customer.services.CustomerService;
+import com.example.customer.utilities.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +19,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     // Create Customer
     @PostMapping
@@ -50,14 +57,44 @@ public class CustomerController {
     }
 
     //  Add to Favourites
-    @PostMapping("/{customerId}/favourites")
-    public String addToFavourites(
-            @PathVariable Long customerId,
+    @PostMapping("/addToFav")
+    public ResponseEntity<String> addToFavourites(
+            @RequestHeader("Authorization") String authHeader,
             @RequestBody Map<String, Long> body) {
 
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.validateTokenAndGetUsername(token);
+
+        if (username == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
+        }
+
+        Customer customer = customerService.getCustomerByUsername(username);
         Long restaurantId = body.get("restaurantId");
-        boolean added = customerService.addToFavourites(customerId, restaurantId);
-        return added ? "Added to favourites." : "Failed to add to favourites.";
+
+        boolean added = customerService.addToFavourites(customer.getId(), restaurantId);
+        return added
+                ? ResponseEntity.ok("Added to favourites.")
+                : ResponseEntity.ok("Already in favourites.");
+    }
+
+
+    @GetMapping("/myFavourites")
+    public ResponseEntity<?> getFavouriteRestaurants(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.validateTokenAndGetUsername(token);
+
+        if (username == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
+        }
+
+        Customer customer = customerService.getCustomerByUsername(username);
+        List<Long> restaurantIds = customer.getFavouriteRestaurantIds();
+
+        // Call Restaurant service to get full info
+        List<RestaurantDTO> favouriteRestaurants = customerService.getFavouriteRestaurantsInfo(restaurantIds);
+
+        return ResponseEntity.ok(favouriteRestaurants);
     }
 
 

@@ -1,14 +1,18 @@
 package com.example.customer.services;
 
+import com.example.customer.clients.RestaurantClient;
+import com.example.customer.dto.RestaurantDTO;
 import com.example.customer.model.Customer;
 import com.example.customer.model.Rating;
 import com.example.customer.repository.CustomerRepository;
 import com.example.customer.repository.RatingRepository;
 import com.example.customer.utilities.JwtUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +26,8 @@ public class CustomerService {
     private RatingRepository ratingRepository;
     @Autowired
     private RatingService ratingService;
+    @Autowired
+    private RestaurantClient restaurantClient;
 
 
     //  Create Customer
@@ -63,6 +69,7 @@ public class CustomerService {
     }
 
     //  Add to Favourites
+    @Transactional
     public boolean addToFavourites(Long customerId, Long restaurantId) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {
@@ -78,6 +85,15 @@ public class CustomerService {
         }
         return false;
     }
+
+
+    public List<RestaurantDTO> getFavouriteRestaurantsInfo(List<Long> restaurantIds) {
+        if (restaurantIds == null || restaurantIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return restaurantClient.getRestaurantsByIds(restaurantIds);
+    }
+
 
     // Rate Restaurant
     public boolean rateRestaurant(Long customerId, Long restaurantId, int score) {
