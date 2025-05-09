@@ -29,8 +29,19 @@ public class RestaurantService {
 
     @CachePut(value = "restaurant_cache", key = "#result.id")
     public Restaurant addRestaurant(Restaurant restaurant) {
+        int now = LocalTime.now().getHour();
+        int open = restaurant.getOpenTime();
+        int close = restaurant.getCloseTime();
+
+        boolean isActive = (open < close)
+                ? now >= open && now < close
+                : now >= open || now < close;
+
+        restaurant.setActive(isActive);
+
         return restaurantRepository.save(restaurant);
     }
+
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
