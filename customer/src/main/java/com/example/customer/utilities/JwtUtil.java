@@ -14,7 +14,11 @@ public class JwtUtil {
     private final Key key;
 
     private JwtUtil() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        //this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        // Use a fixed base64-encoded secret (at least 256 bits for HS256)
+        String secret = "mysupersecretkeyformyjwtthatisverysecure1234"; // Replace with env variable in production
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
 

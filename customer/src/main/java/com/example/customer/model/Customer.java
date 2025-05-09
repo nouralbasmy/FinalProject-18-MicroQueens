@@ -1,4 +1,5 @@
 package com.example.customer.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 import com.example.customer.model.Rating;
@@ -20,6 +21,7 @@ public class Customer {
 
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Rating> ratings;
 
 

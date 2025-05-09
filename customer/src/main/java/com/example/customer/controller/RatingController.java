@@ -43,6 +43,9 @@ public class RatingController {
         String token = authHeader.replace("Bearer ", "");
         String username = jwtUtil.validateTokenAndGetUsername(token);
 
+        System.out.println("Received token: " + token);
+        System.out.println("Extracted username: " + username);
+
         // If token is invalid or expired
         if (username == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
