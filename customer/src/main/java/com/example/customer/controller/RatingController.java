@@ -22,11 +22,15 @@ public class RatingController {
     private CustomerService customerService;
 
 
+
+
     @Autowired
     private JwtUtil jwtUtil;
 
-    public RatingController(RatingService ratingService) {
+    public RatingController(RatingService ratingService, CustomerService customerService, JwtUtil jwtUtil) {
         this.ratingService = ratingService;
+        this.customerService = customerService;
+        this.jwtUtil = jwtUtil;
     }
 
     // Add a new rating
@@ -50,11 +54,8 @@ public class RatingController {
         }
 
         // Inject the current customer
-        
-        rating.setScore(rating.getScore());
-        rating.setRestaurantId(rating.getRestaurantId());
-        Customer customer2 = customerService.getCustomerById(rating.getCustomer().getId());
-        rating.setCustomer(customer2);
+
+        rating.setCustomer(customer);
 
         Rating saved = ratingService.addRating(rating);
         return ResponseEntity.ok(saved);
