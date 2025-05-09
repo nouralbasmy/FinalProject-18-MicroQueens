@@ -40,7 +40,7 @@ public class Restaurant {
         this.address = address;
         this.phone = phone;
         this.avgRating = avgRating;
-        this.active = active;
+        this.active = false;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
         this.totalRatings = totalRatings;
@@ -54,7 +54,7 @@ public class Restaurant {
         this.address = address;
         this.phone = phone;
         this.avgRating = avgRating;
-        this.active = active;
+        this.active = false;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
         this.totalRatings = totalRatings;

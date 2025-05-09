@@ -24,6 +24,11 @@ public class RestaurantController {
     public List<Restaurant> getRestaurantsByDietaryRestriction(@RequestParam String restriction) {
         return restaurantService.getRestaurantsByDietaryRestriction(restriction);
     }
+    @GetMapping("/filterByCuisine")
+    public List<Restaurant> filterRestaurants(
+            @RequestParam String cuisine) {
+        return restaurantService.getRestaurantsByCuisine( cuisine);
+    }
 
     // Create a new restaurant
     @PostMapping

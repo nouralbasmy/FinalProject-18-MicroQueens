@@ -6,6 +6,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "MenuItems")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "item_type")
+
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,14 +90,12 @@ public class MenuItem {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
-    public Restaurant getRestaurants() {
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurants(Restaurant restaurant) {
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
-
-
 
 }
