@@ -4,6 +4,7 @@ import com.example.customer.model.Customer;
 import com.example.customer.model.Rating;
 import com.example.customer.repository.CustomerRepository;
 import com.example.customer.repository.RatingRepository;
+import com.example.customer.utilities.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class CustomerService {
     private RatingRepository ratingRepository;
     @Autowired
     private RatingService ratingService;
+
 
     //  Create Customer
     public Customer createCustomer(Customer customer) {
@@ -45,7 +47,7 @@ public class CustomerService {
             // You can customize which fields to update
             existing.setUsername(updatedCustomer.getUsername());
             existing.setEmail(updatedCustomer.getEmail());
-            existing.setFavouriteRestaurants(updatedCustomer.getFavouriteRestaurants());
+            existing.setFavouriteRestaurantIds(updatedCustomer.getFavouriteRestaurantIds());
             return customerRepository.save(existing);
         }
         return null;
@@ -65,11 +67,11 @@ public class CustomerService {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
-            List<Long> favourites = customer.getFavouriteRestaurants();
+            List<Long> favourites = customer.getFavouriteRestaurantIds();
             if (favourites == null) favourites = new ArrayList<>();
             if (!favourites.contains(restaurantId)) {
                 favourites.add(restaurantId);
-                customer.setFavouriteRestaurants(favourites);
+                customer.setFavouriteRestaurantIds(favourites);
                 customerRepository.save(customer); // Save update
                 return true;
             }
@@ -87,6 +89,20 @@ public class CustomerService {
             return true;
         }
         return false;
+    }
+
+    public String authenticateAndGenerateToken(String username, String password) {
+        Optional<Customer> customerOpt = customerRepository.findByUsername(username);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            if (customer.getPassword().equals(password)) {
+                return JwtUtil.getInstance().generateToken(customer.getUsername());
+            }
+        }
+        return null;
+    }
+    public Customer getCustomerByUsername(String username) {
+        return customerRepository.findByUsername(username).orElse(null);
     }
 }
 

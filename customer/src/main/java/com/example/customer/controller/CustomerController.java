@@ -3,6 +3,7 @@ package com.example.customer.controller;
 import com.example.customer.model.Customer;
 import com.example.customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,5 +60,18 @@ public class CustomerController {
         return added ? "Added to favourites." : "Failed to add to favourites.";
     }
 
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String, String> credentials) {
+        String username = credentials.get("username");
+        String password = credentials.get("password");
+
+        String token = customerService.authenticateAndGenerateToken(username, password);
+        if (token != null) {
+            return ResponseEntity.ok("Bearer " + token);
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password.");
+        }
+    }
 
 }

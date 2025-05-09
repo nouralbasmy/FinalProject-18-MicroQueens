@@ -40,7 +40,7 @@ public class Customer {
         return password;
     }
 
-    public List<Long> getFavouriteRestaurants() {
+    public List<Long> getFavouriteRestaurantIds() {
         return favouriteRestaurantIds;
     }
 
@@ -65,7 +65,7 @@ public class Customer {
         this.password = password;
     }
 
-    public void setFavouriteRestaurants(List<Long> favouriteRestaurantIds) {
+    public void setFavouriteRestaurantIds(List<Long> favouriteRestaurantIds) {
         this.favouriteRestaurantIds = favouriteRestaurantIds;
     }
 

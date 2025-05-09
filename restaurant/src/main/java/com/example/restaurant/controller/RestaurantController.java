@@ -39,11 +39,10 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public String getRestaurantById(@PathVariable Long id) {
-        restaurantService.getRestaurantById(id)
+    public Restaurant getRestaurantById(@PathVariable Long id) {
+        return restaurantService.getRestaurantById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Restaurant not found"));
-        return "Restaurant exists";
     }
 
     @PutMapping("/{id}")

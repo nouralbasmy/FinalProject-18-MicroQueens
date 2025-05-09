@@ -12,9 +12,11 @@ public class Rating {
     private int score;
 
     @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    private Long restaurantId;
+    @Column(name = "restaurant_id")
+    private Long restaurantId;  // Stores the ID of the restaurant
 
 
 
@@ -29,8 +31,10 @@ public class Rating {
     }
 
     public Customer getCustomer() {
-        return customer;
+            return customer;
     }
+
+
 
     public Long getRestaurantId() {
         return restaurantId;
@@ -49,7 +53,6 @@ public class Rating {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }

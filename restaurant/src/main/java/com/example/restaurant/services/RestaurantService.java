@@ -56,7 +56,7 @@ public class RestaurantService {
                     restaurant.setCuisine(updatedRestaurant.getCuisine());
                     restaurant.setAddress(updatedRestaurant.getAddress());
                     restaurant.setPhone(updatedRestaurant.getPhone());
-                    restaurant.setRating(updatedRestaurant.getRating());
+                    restaurant.setAvgRating(updatedRestaurant.getAvgRating());
                     restaurant.setActive(updatedRestaurant.isActive());
                     restaurant.setDietaryOptions(updatedRestaurant.getDietaryOptions());
                     return restaurantRepository.save(restaurant);
@@ -90,7 +90,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
-        restaurant.setAverageRating(summaryDTO.getAverageScore());
+        restaurant.setAvgRating(summaryDTO.getAverageScore());
         restaurant.setTotalRatings(summaryDTO.getTotalRatings());
         restaurantRepository.save(restaurant);
     }

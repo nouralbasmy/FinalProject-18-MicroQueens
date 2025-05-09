@@ -15,8 +15,9 @@ public class Restaurant {
     private String cuisine;
     private String address;
     private String phone;
-    private int rating;
+    private double avgRating;
     private boolean active;
+    private long totalRatings;
 
     @ElementCollection
     private List<String> dietaryOptions;
@@ -32,29 +33,32 @@ public class Restaurant {
 
     // 2. All-args constructor (with ID)
     public Restaurant(Long id, String name, String cuisine, String address, String phone,
-                      int rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
+                      double avgRating, boolean active, List<String> dietaryOptions, List<MenuItem> menu, long totalRatings ) {
         this.id = id;
         this.name = name;
         this.cuisine = cuisine;
         this.address = address;
         this.phone = phone;
-        this.rating = rating;
+        this.avgRating = avgRating;
         this.active = active;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
+        this.totalRatings = totalRatings;
     }
 
     // 3. Constructor without ID (useful for creating new records)
     public Restaurant(String name, String cuisine, String address, String phone,
-                      int rating, boolean active, List<String> dietaryOptions, List<MenuItem> menu) {
+                      double avgRating, boolean active, List<String> dietaryOptions, List<MenuItem> menu, long totalRatings ) {
         this.name = name;
         this.cuisine = cuisine;
         this.address = address;
         this.phone = phone;
-        this.rating = rating;
+        this.avgRating = avgRating;
         this.active = active;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
+        this.totalRatings = totalRatings;
+
     }
 
 
@@ -98,12 +102,12 @@ public class Restaurant {
         this.phone = phone;
     }
 
-    public int getRating() {
-        return rating;
+    public double getAvgRating() {
+        return avgRating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public boolean isActive() {
@@ -132,8 +136,11 @@ public class Restaurant {
 
 
     public void setTotalRatings(long totalRatings) {
+        this.totalRatings = totalRatings;
+    }
+    public long getTotalRatings() {
+        return totalRatings;
     }
 
-    public void setAverageRating(double averageScore) {
-    }
+
 }
