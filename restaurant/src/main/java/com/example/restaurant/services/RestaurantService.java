@@ -1,6 +1,8 @@
 package com.example.restaurant.services;
 
 import com.example.restaurant.dto.RatingSummaryDTO;
+import com.example.restaurant.enums.Cuisine;
+import com.example.restaurant.enums.DietaryOption;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,17 +20,12 @@ public class RestaurantService {
 
     //private final CustomerRatingClient customerRatingClient;
     private final RestaurantRepository restaurantRepository;
-    private static final LocalTime OPEN_TIME = LocalTime.of(9, 0);  // 9:00 AM
-    private static final LocalTime CLOSE_TIME = LocalTime.of(21, 0);  // 9:00 PM
 
     public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @Cacheable(value = "restaurant_cache", key = "#restriction")
-    public List<Restaurant> getRestaurantsByDietaryRestriction(String restriction) {
-        return restaurantRepository.findByMenuDietaryRestriction(restriction);
-    }
+
 
     @CachePut(value = "restaurant_cache", key = "#result.id")
     public Restaurant addRestaurant(Restaurant restaurant) {
@@ -55,7 +52,7 @@ public class RestaurantService {
         return restaurantRepository.findById(id)
                 .map(restaurant -> {
                     restaurant.setName(updatedRestaurant.getName());
-                    restaurant.setCuisine(updatedRestaurant.getCuisine());
+                    restaurant.setCuisines(updatedRestaurant.getCuisines());
                     restaurant.setAddress(updatedRestaurant.getAddress());
                     restaurant.setPhone(updatedRestaurant.getPhone());
                     restaurant.setAvgRating(updatedRestaurant.getAvgRating());
@@ -99,21 +96,36 @@ public class RestaurantService {
     }
 
     @Cacheable(value = "restaurant_cache", key = "#cuisine")
-    public List<Restaurant> getRestaurantsByCuisine(String cuisine) {
-        return restaurantRepository.findByCuisine(cuisine);
+    public List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine) {
+        return restaurantRepository.findByCuisinesContaining(cuisine);
+    }
+    @Cacheable(value = "restaurant_cache", key = "#restriction")
+    public List<Restaurant> getRestaurantsByDietaryRestriction(DietaryOption restriction) {
+        return restaurantRepository.findByDietaryOptionsContaining(restriction);
     }
 
-    @Scheduled(cron = "0 * * * * *")  // This cron expression runs the method every minute
+
+    @Scheduled(cron = "0 0 * * * *")  // This cron expression runs the method every hour
     public void updateRestaurantStatusByTime() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
-
+        int now = LocalTime.now().getHour();
         // Loop through all restaurants and update their status
         for (Restaurant restaurant : restaurants) {
-            LocalTime currentTime = LocalTime.now();
-            boolean isActive = currentTime.isAfter(OPEN_TIME) && currentTime.isBefore(CLOSE_TIME);
+            int open = restaurant.getOpenTime();
+            int close = restaurant.getCloseTime();
+            boolean isActive;
+            if (open < close) {
+                // Same-day hours (e.g., 9 to 22)
+                isActive = now >= open && now < close;
+            } else {
+                // Overnight hours (e.g., 20 to 4)
+                isActive = now >= open || now < close;
+            }
 
-            // Update the restaurant's status
+            // Update active status in DB
             restaurantRepository.updateActiveStatus(restaurant.getId(), isActive);
         }
     }
+
+
 }

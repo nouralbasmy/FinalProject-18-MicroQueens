@@ -3,6 +3,9 @@ package com.example.restaurant.controller;
 import com.example.restaurant.dto.RatingSummaryDTO;
 import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.services.RestaurantService;
+import com.example.restaurant.strategy.CuisineFilterStrategy;
+import com.example.restaurant.strategy.DietaryRestrictionFilterStrategy;
+import com.example.restaurant.strategy.RestaurantFilterContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +22,52 @@ public class RestaurantController {
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
-
     @GetMapping("/filter")
-    public List<Restaurant> getRestaurantsByDietaryRestriction(@RequestParam String restriction) {
-        return restaurantService.getRestaurantsByDietaryRestriction(restriction);
-    }
-    @GetMapping("/filterByCuisine")
     public List<Restaurant> filterRestaurants(
-            @RequestParam String cuisine) {
-        return restaurantService.getRestaurantsByCuisine( cuisine);
+            @RequestParam String type,
+            @RequestParam String value) {
+
+        RestaurantFilterContext context = new RestaurantFilterContext();
+
+        switch (type.toLowerCase()) {
+            case "dietary" -> context.setStrategy(new DietaryRestrictionFilterStrategy(restaurantService));
+            case "cuisine" -> context.setStrategy(new CuisineFilterStrategy(restaurantService));
+            default -> throw new IllegalArgumentException("Invalid filter type");
+        }
+
+        return context.filter(value);
     }
+
+//    @GetMapping("/filterByDietary")
+//    public List<Restaurant> getRestaurantsByDietaryRestriction(@RequestParam String restriction) {
+//        return restaurantService.getRestaurantsByDietaryRestriction(restriction);
+//    }
+//    @GetMapping("/filterByCuisine")
+//    public List<Restaurant> filterRestaurants(
+//            @RequestParam String cuisine) {
+//        return restaurantService.getRestaurantsByCuisine( cuisine);
+//    }
 
     // Create a new restaurant
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createRestaurant(@RequestBody Restaurant restaurant) {
-        Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
-        return "Restaurant created successfully with ID: " + savedRestaurant.getId();
+    public ResponseEntity<String> createRestaurant(@RequestBody Restaurant restaurant) {
+        try {
+            // Optional: Basic range check (0–23)
+            if (restaurant.getOpenTime() < 0 || restaurant.getOpenTime() > 23 ||
+                    restaurant.getCloseTime() < 0 || restaurant.getCloseTime() > 23) {
+                return ResponseEntity.badRequest().body("Open and close hours must be between 0 and 23.");
+            }
+
+            Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
+            return ResponseEntity.ok("Restaurant created successfully with ID: " + savedRestaurant.getId());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create restaurant: " + e.getMessage());
+        }
     }
+
 
     @GetMapping
     public List<Restaurant> getAllRestaurants() {
@@ -77,7 +108,7 @@ public class RestaurantController {
         return "Restaurant status updated successfully";
     }
 
-    @DeleteMapping("/deletebyname/{name}")
+    @DeleteMapping("/deleteByName/{name}")
     public ResponseEntity<String> deleteRestaurantByName(@PathVariable String name) {
         restaurantService.deleteRestaurantByName(name);
         return ResponseEntity.ok("Restaurant '" + name + "' deleted successfully");

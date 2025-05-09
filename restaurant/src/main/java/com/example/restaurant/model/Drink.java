@@ -1,5 +1,6 @@
 package com.example.restaurant.model;
 
+import com.example.restaurant.enums.DietaryOption;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -15,7 +16,7 @@ public class Drink extends MenuItem {
         // No-arg constructor
     }
 
-    public Drink(String name, float price, int inventory, java.util.List<String> dietaryRestrictions,
+    public Drink(String name, float price, int inventory, java.util.List<DietaryOption> dietaryRestrictions,
                  Restaurant restaurant, boolean isCold, String volume, String flavor) {
         super(name, price, inventory, dietaryRestrictions, restaurant);
         this.isCold = isCold;

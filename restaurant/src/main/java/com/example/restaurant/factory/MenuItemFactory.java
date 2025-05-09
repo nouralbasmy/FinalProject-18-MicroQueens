@@ -1,4 +1,5 @@
 package com.example.restaurant.factory;
+import com.example.restaurant.enums.DietaryOption;
 import com.example.restaurant.model.*;
 
 
@@ -58,7 +59,7 @@ public class MenuItemFactory {
         item.setName((String) attrs.get("name"));
         item.setPrice(((Number) attrs.get("price")).floatValue());
         item.setInventory((int) attrs.get("inventory"));
-        item.setDietaryRestrictions((List<String>) attrs.get("dietaryRestrictions"));
+        item.setDietaryRestrictions((List<DietaryOption>) attrs.get("dietaryRestrictions"));
         item.setRestaurant(restaurant);
         return item;
     }

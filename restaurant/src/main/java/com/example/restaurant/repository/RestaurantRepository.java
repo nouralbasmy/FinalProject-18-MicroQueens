@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.example.restaurant.enums.Cuisine;
+import com.example.restaurant.enums.DietaryOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Modifying
     @Transactional
     void deleteByName(String name);
-
-    List<Restaurant> findByNameContainingIgnoreCase(String name);
-    List<Restaurant> findByCuisine(String cuisine);
+    List<Restaurant> findByDietaryOptionsContaining(DietaryOption option);
+    List<Restaurant> findByCuisinesContaining(Cuisine cuisine);
 
 }
