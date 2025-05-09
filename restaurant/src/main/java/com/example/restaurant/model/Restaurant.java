@@ -39,7 +39,7 @@ public class Restaurant {
         this.address = address;
         this.phone = phone;
         this.rating = rating;
-        this.active = active;
+        this.active = false;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
     }
@@ -52,7 +52,7 @@ public class Restaurant {
         this.address = address;
         this.phone = phone;
         this.rating = rating;
-        this.active = active;
+        this.active = false;
         this.dietaryOptions = dietaryOptions;
         this.menu = menu;
     }
