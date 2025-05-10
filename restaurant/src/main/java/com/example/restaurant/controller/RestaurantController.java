@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;

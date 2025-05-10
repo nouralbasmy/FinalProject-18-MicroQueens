@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Restaurant
+    name: restaurant-service
 
   rabbitmq:
     host: rabbitmq

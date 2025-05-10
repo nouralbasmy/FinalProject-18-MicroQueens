@@ -41,8 +41,14 @@ public class RatingController {
 
         // Extract token from "Bearer <token>"
         String token = authHeader.replace("Bearer ", "");
-        String username = jwtUtil.validateTokenAndGetUsername(token);
+        //String username = jwtUtil.validateTokenAndGetUsername(token);
+        Map<String, String> userInfo = jwtUtil.validateToken(token);
+        if (userInfo == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
+        String userId = userInfo.get("userId");
+        String username = userInfo.get("username");
         System.out.println("Received token: " + token);
         System.out.println("Extracted username: " + username);
 
