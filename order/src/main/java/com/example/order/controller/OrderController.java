@@ -125,4 +125,21 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
     }
+
+    //----------FOR COMMUNICATION CALL WITH CUSTOMER MICROSERVICE--------
+    @GetMapping("/restaurantId/{orderId}")
+    public Long getRestaurantIdByOrderId(@PathVariable Long orderId) {
+        Order order = getOrderById(orderId);
+        return order.getRestaurantId();
+    }
+
+    @PutMapping("/customerOrderStatus/{orderId}")
+    public boolean customerUpdateOrder(@PathVariable Long orderId) {
+        try {
+            Order order = orderService.updateStatus(orderId);
+            return true;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+        }
+    }
 }

@@ -15,9 +15,10 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @PostMapping("/addNotification")
-    public Notification addNotification(@RequestBody Notification notification) {
-        return notificationService.addNotification(notification);
+    @PostMapping("/addNotification/{userId}")
+    public String addNotification(@PathVariable Long userId, @RequestParam Long restaurantId, @RequestParam Long orderId, @RequestParam String notificationType) {
+        Notification notification = notificationService.addNotification(userId, restaurantId, orderId, notificationType);
+        return notification.getMessage();
     }
 
     @GetMapping

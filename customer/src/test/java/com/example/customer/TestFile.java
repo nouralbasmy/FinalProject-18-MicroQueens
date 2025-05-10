@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 
@@ -25,20 +26,41 @@ public class TestFile {
     private JwtUtil jwtUtil;
 
 
-
-
+    //    @Test
+//    public void testGenerateAndValidateToken() {
+//        // Given
+//        String username = "jake_brown";
+//
+//        // When
+//        String token = jwtUtil.generateToken(username);
+//
+//        // Then
+//        assertNotNull(token, "Token should not be null");
+//        String extractedUsername = jwtUtil.validateTokenAndGetUsername(token);
+//        assertEquals(username, extractedUsername, "Extracted username should match the original username");
+//    }
     @Test
     public void testGenerateAndValidateToken() {
         // Given
+        Long userId = 1L;
         String username = "jake_brown";
 
         // When
-        String token = jwtUtil.generateToken(username);
+        String token = jwtUtil.generateToken(userId, username);
 
         // Then
         assertNotNull(token, "Token should not be null");
-        String extractedUsername = jwtUtil.validateTokenAndGetUsername(token);
+
+        // Validate token and extract the username and userId
+        Map<String, String> userInfo = jwtUtil.validateToken(token);
+        assertNotNull(userInfo, "Token should contain user information");
+
+        String extractedUsername = userInfo.get("username");
+        String extractedUserId = userInfo.get("userId");
+
+        // Assert the username and userId match the expected values
         assertEquals(username, extractedUsername, "Extracted username should match the original username");
+        assertEquals(userId.toString(), extractedUserId, "Extracted userId should match the original userId");
     }
 
     @Test
@@ -79,9 +101,6 @@ public class TestFile {
     }
 
     // Testing rate a restaurant
-
-
-
 
 
 }

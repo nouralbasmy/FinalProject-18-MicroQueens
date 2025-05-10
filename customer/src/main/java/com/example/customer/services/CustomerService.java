@@ -1,24 +1,24 @@
 package com.example.customer.services;
 
 import com.example.customer.clients.CartClient;
+import com.example.customer.clients.NotificationClient;
+import com.example.customer.clients.OrderClient;
 import com.example.customer.model.Customer;
-import com.example.customer.repositories.CustomerRepository;
+import com.example.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.Map;
 import com.example.customer.clients.RestaurantClient;
 import com.example.customer.dto.RestaurantDTO;
-import com.example.customer.model.Customer;
 import com.example.customer.model.Rating;
-import com.example.customer.repository.CustomerRepository;
 import com.example.customer.repository.RatingRepository;
 import com.example.customer.utilities.JwtUtil;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,10 +39,14 @@ public class CustomerService {
     private RestaurantClient restaurantClient;
 
     private final CartClient cartClient;
+    private final OrderClient orderClient;
+    private final NotificationClient notificationClient;
 
     @Autowired
-    public CustomerService(CartClient cartClient) {
+    public CustomerService(CartClient cartClient, OrderClient orderClient, NotificationClient notificationClient) {
         this.cartClient = cartClient;
+        this.orderClient =orderClient;
+        this.notificationClient = notificationClient;
     }
 
     // Create Customer
@@ -126,7 +130,8 @@ public class CustomerService {
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
             if (customer.getPassword().equals(password)) {
-                return JwtUtil.getInstance().generateToken(customer.getUsername());
+//                return JwtUtil.getInstance().generateToken(customer.getUsername());
+                return JwtUtil.getInstance().generateToken(customer.getId(),customer.getUsername());
             }
         }
         return null;
@@ -171,4 +176,11 @@ public class CustomerService {
         return optionalCustomer.get().getEmail();
     }
 
+    //------------FOR COMMUNICATION WITH ORDER & NOTIFICATION MICROSERVICE----------------
+    public String markOrderDelivered(Long userId, Long orderId)
+    {
+        Long restaurantId = orderClient.getRestaurantIdByOrderId(orderId);
+        orderClient.customerUpdateOrder(orderId);
+        return notificationClient.addNotification(userId,restaurantId,orderId,"sms");
+    }
 }

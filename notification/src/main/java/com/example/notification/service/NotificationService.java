@@ -40,8 +40,26 @@ public class NotificationService {
 
     }
 
-    public Notification addNotification(Notification notification) {
+//    public Notification addNotification(Notification notification) {
+//
+//        String email = customerClient.getEmailById(notification.getUserId());
+//        String phoneNumber = customerClient.getPhoneNumberById(notification.getUserId());
+//        notification.setEmail(email);
+//        notification.setPhone(phoneNumber);
+//        Notification savedNotification=notificationRepository.save(notification);
+//
+//        notificationSender.send(notification.getNotificationType(), savedNotification);
+//        String toSendMessage = savedNotification.getOrderId() + ";" +
+//        savedNotification.getRestaurantId() + ";" +
+//        savedNotification.getMessage();
+//
+//        rabbitMQProducer.sendToCustomer(toSendMessage);
+//        return savedNotification;
+//    }
 
+    public Notification addNotification(Long userId, Long restaurantId,Long orderId, String notificationType) {
+
+        Notification notification = new Notification(userId,orderId, restaurantId,notificationType,false,"");
         String email = customerClient.getEmailById(notification.getUserId());
         String phoneNumber = customerClient.getPhoneNumberById(notification.getUserId());
         notification.setEmail(email);
@@ -50,8 +68,8 @@ public class NotificationService {
 
         notificationSender.send(notification.getNotificationType(), savedNotification);
         String toSendMessage = savedNotification.getOrderId() + ";" +
-        savedNotification.getRestaurantId() + ";" +
-        savedNotification.getMessage();
+                savedNotification.getRestaurantId() + ";" +
+                savedNotification.getMessage();
 
         rabbitMQProducer.sendToCustomer(toSendMessage);
         return savedNotification;

@@ -22,8 +22,8 @@ public class RabbitMQConsumer {
         Long restaurantId  = Long.valueOf(parts[1]);
         Long orderId = Long.valueOf(parts[2]);
 
-        Notification notification = new Notification(userId,orderId,restaurantId,"email",false, "");
-        notificationService.addNotification(notification);
+        //Notification notification = new Notification(userId,orderId,restaurantId,"email",false, "");
+        notificationService.addNotification(userId, restaurantId,orderId,"email");
 
     }
 }

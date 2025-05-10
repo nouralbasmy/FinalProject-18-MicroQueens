@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -27,25 +29,56 @@ public class JwtUtil {
     }
 
 
-    public String generateToken(String username) {
+//    public String generateToken(String username) {
+//        return Jwts.builder()
+//                .setSubject(username)
+//                .setIssuedAt(new Date())
+//                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+//                .signWith(key)
+//                .compact();
+//    }
+
+    public String generateToken(Long userId, String username) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId.toString())
+                .claim("username", username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
                 .signWith(key)
                 .compact();
     }
 
-    public String validateTokenAndGetUsername(String token) {
+    public Map<String, String> validateToken(String token) {
         try {
-            return Jwts.parserBuilder()
+            Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
+                    .getBody();
+
+            String userId = claims.getSubject();
+            String username = claims.get("username", String.class);
+
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("userId", userId);
+            userInfo.put("username", username);
+
+            return userInfo;
         } catch (JwtException e) {
             return null;
         }
     }
+
+//    public String validateTokenAndGetUsername(String token) {
+//        try {
+//            return Jwts.parserBuilder()
+//                    .setSigningKey(key)
+//                    .build()
+//                    .parseClaimsJws(token)
+//                    .getBody()
+//                    .getSubject();
+//        } catch (JwtException e) {
+//            return null;
+//        }
+//    }
 }
