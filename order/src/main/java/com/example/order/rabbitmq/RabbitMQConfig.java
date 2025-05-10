@@ -1,9 +1,6 @@
 package com.example.order.rabbitmq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,26 +9,27 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String NOTIFICATION_QUEUE = "notification_queue";
-    public static final String EXCHANGE = "shared_exchange";
-    public static final String NOTIFICATION_ROUTING_KEY = "notification_routing_key";
+    public static final String ORDER_NOTIFICATION_QUEUE = "order_notification_queue";
+    public static final String ORDER_NOTIFICATION_EXCHANGE = "order_notification_exchange";
+    public static final String ORDER_NOTIFICATION_ROUTING_KEY = "order_notification_key";
 
+    //Order
     @Bean
-    public Queue queue() {
-        return new Queue(NOTIFICATION_QUEUE);
+    public Queue orderNotificationQueue() {
+        return new Queue(ORDER_NOTIFICATION_QUEUE);
     }
 
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE);
+    public DirectExchange orderNotificationExchange() {
+        return new DirectExchange(ORDER_NOTIFICATION_EXCHANGE);
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
+    public Binding orderNotificationBinding(Queue queue, DirectExchange exchange) {
         return BindingBuilder
                 .bind(queue)
                 .to(exchange)
-                .with(NOTIFICATION_ROUTING_KEY);
+                .with(ORDER_NOTIFICATION_ROUTING_KEY);
     }
 
 }

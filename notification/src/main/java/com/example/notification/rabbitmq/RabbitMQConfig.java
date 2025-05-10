@@ -1,9 +1,6 @@
 package com.example.notification.rabbitmq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,25 +9,51 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
+    //Order
+    public static final String ORDER_NOTIFICATION_QUEUE = "order_notification_queue";
+    public static final String ORDER_NOTIFICATION_EXCHANGE = "order_notification_exchange";
+    public static final String ORDER_NOTIFICATION_ROUTING_KEY = "order_notification_key";
+
+    //Customer
     public static final String CUSTOMER_NOTIFICATION_QUEUE = "customer_notification_queue";
-    public static final String EXCHANGE = "shared_exchange";
+    public static final String CUSTOMER_NOTIFICATION_EXCHANGE = "customer_notification_exchange";
     public static final String CUSTOMER_NOTIFICATION_KEY= "customer_notification_routing_key";
 
+    //Order
     @Bean
-    public Queue queue() {
+    public Queue orderNotificationQueue() {
+        return new Queue(ORDER_NOTIFICATION_QUEUE);
+    }
+
+    @Bean
+    public DirectExchange orderNotificationExchange() {
+        return new DirectExchange(ORDER_NOTIFICATION_EXCHANGE);
+    }
+
+    @Bean
+    public Binding orderNotificationBinding() {
+        return BindingBuilder
+                .bind(orderNotificationQueue())
+                .to(orderNotificationExchange())
+                .with(ORDER_NOTIFICATION_ROUTING_KEY);
+    }
+
+    //Customer
+    @Bean
+    public Queue customerNotificationQueue() {
         return new Queue(CUSTOMER_NOTIFICATION_QUEUE);
     }
 
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE);
+    public DirectExchange notificationCustomerExchange() {
+        return new DirectExchange(CUSTOMER_NOTIFICATION_EXCHANGE);
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
+    public Binding binding() {
         return BindingBuilder
-                .bind(queue)
-                .to(exchange)
+                .bind(customerNotificationQueue())
+                .to(notificationCustomerExchange())
                 .with(CUSTOMER_NOTIFICATION_KEY);
     }
 

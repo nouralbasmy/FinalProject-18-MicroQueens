@@ -164,7 +164,7 @@ public class OrderService {
             cartService.deleteCart(cart.getId());
 
             // Notify via RabbitMQ ("customerId;restaurantId")
-            String message = userId + ";" + restaurantId;
+            String message = userId + ";" + restaurantId +";"+ order.getId();
             rabbitMQProducer.sendToNotification(message);
 
             return orderPlaced;

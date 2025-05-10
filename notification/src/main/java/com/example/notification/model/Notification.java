@@ -16,7 +16,6 @@ public class Notification {
     private String notificationType;
     private String email;
     private String phone;
-    private String deviceToken;
     private String message;
     private boolean read = false;
     private LocalDateTime notificationTime = LocalDateTime.now();
@@ -102,13 +101,6 @@ public class Notification {
         this.phone = phone;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
-
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
 
     public Notification() {
     }
@@ -136,19 +128,7 @@ public class Notification {
         this.message = message;
     }
 
-    public Notification(Long userId, Long orderId, Long restaurantId, String notificationType, String email,
-            String phone, String deviceToken, String message, boolean read, LocalDateTime notificationTime) {
-        this.userId = userId;
-        this.orderId = orderId;
-        this.restaurantId = restaurantId;
-        this.notificationType = notificationType;
-        this.email = email;
-        this.phone = phone;
-        this.deviceToken = deviceToken;
-        this.message = message;
-        this.read = read;
-        this.notificationTime = notificationTime;
-    }
+
     public Notification(Long userId, Long orderId, Long restaurantId, String notificationType, String email,
              String message, boolean read, LocalDateTime notificationTime) {
         this.userId = userId;
@@ -162,5 +142,13 @@ public class Notification {
     }
 
 
-
+    public Notification(Long userId, Long orderId, Long restaurantId, String notificationType, boolean read, String message) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.restaurantId = restaurantId;
+        this.notificationType = notificationType;
+        this.read = read;
+        this.message = message;
+        this.notificationTime = LocalDateTime.now();
+    }
 }

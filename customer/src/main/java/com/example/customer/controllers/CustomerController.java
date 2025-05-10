@@ -30,4 +30,19 @@ public class CustomerController {
     {
         return customerService.getMyCart(userId);
     }
+
+    //------------FOR SYNC COMMUNICATION WITH NOTIFICATION MICROSERVICE----------------
+    //(1)
+    @GetMapping("/phoneNumber/{userId}")
+    public String getPhoneNumberById(@PathVariable Long userId)
+    {
+        return customerService.getPhoneNumberById(userId);
+    }
+
+    //(2)
+    @GetMapping("/email/{userId}")
+    public String getEmailById(@PathVariable Long userId)
+    {
+        return customerService.getEmailById(userId);
+    }
 }

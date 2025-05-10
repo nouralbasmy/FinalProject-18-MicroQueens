@@ -12,8 +12,8 @@ public class RabbitMQProducer {
 
     public void sendToNotification(String message) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE,
-                RabbitMQConfig.NOTIFICATION_ROUTING_KEY,
+                RabbitMQConfig.ORDER_NOTIFICATION_EXCHANGE,
+                RabbitMQConfig.ORDER_NOTIFICATION_ROUTING_KEY,
                 message
         );
         System.out.println("Sent From Orders (id): " + message);

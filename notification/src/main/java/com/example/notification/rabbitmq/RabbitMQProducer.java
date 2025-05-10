@@ -12,7 +12,7 @@ public class RabbitMQProducer {
 
     public void sendToCustomer(String message) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE,
+                RabbitMQConfig.CUSTOMER_NOTIFICATION_EXCHANGE,
                 RabbitMQConfig.CUSTOMER_NOTIFICATION_KEY,
                 message
         );

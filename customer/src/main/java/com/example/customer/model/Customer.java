@@ -1,5 +1,7 @@
 package com.example.customer.model;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.example.customer.model.Rating;
 
@@ -15,6 +17,10 @@ public class Customer {
 
     //ADDED FOR REFUNDING (KNYHT)
     private double wallet = 0.0;
+
+    //ADDED FOR NOTIFICATION
+    //for sms notification
+    private String phoneNumber;
 
     @ElementCollection
     private List<Long> favouriteRestaurantIds;
@@ -82,6 +88,15 @@ public class Customer {
         this.wallet = wallet;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
     // Constructors
 
     // 1. No-arg constructor
@@ -108,4 +123,20 @@ public class Customer {
         this.favouriteRestaurantIds = favouriteRestaurantIds;
         this.ratings = ratings;
     }
+
+
+    //FOR WHEN ADDING NEW CUSTOMER ACCOUNT
+    public Customer(Long id, String username, String email, String password, String phoneNumber) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.favouriteRestaurantIds = new ArrayList<>();
+        this.ratings = new ArrayList<>();
+    }
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.notification.service;
 
+import com.example.notification.clients.CustomerClient;
 import com.example.notification.model.Notification;
 import com.example.notification.rabbitmq.RabbitMQProducer;
 import com.example.notification.repository.NotificationRepository;
@@ -26,18 +27,27 @@ public class NotificationService {
     private NotificationSender notificationSender;
 
 
+
+    private final CustomerClient customerClient;
+
     @Autowired
-    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender notificationSender, RabbitMQProducer rabbitMQProducer) {
+    public NotificationService(NotificationRepository notificationRepository, MongoClient mongoClient, NotificationSender notificationSender, RabbitMQProducer rabbitMQProducer, CustomerClient customerClient) {
         this.notificationRepository = notificationRepository;
         this.mongoClient = mongoClient;
         this.notificationSender=notificationSender;
         this.rabbitMQProducer = rabbitMQProducer;
+        this.customerClient = customerClient;
 
     }
 
     public Notification addNotification(Notification notification) {
 
+        String email = customerClient.getEmailById(notification.getUserId());
+        String phoneNumber = customerClient.getPhoneNumberById(notification.getUserId());
+        notification.setEmail(email);
+        notification.setPhone(phoneNumber);
         Notification savedNotification=notificationRepository.save(notification);
+
         notificationSender.send(notification.getNotificationType(), savedNotification);
         String toSendMessage = savedNotification.getOrderId() + ";" +
         savedNotification.getRestaurantId() + ";" +

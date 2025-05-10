@@ -37,9 +37,28 @@ public class CustomerService {
     }
 
     //------------FOR SYNC COMMUNICATION WITH ORDER MICROSERVICE----------------
-    public Map<String, Object> getMyCart(@PathVariable Long userId)
+    public Map<String, Object> getMyCart(Long userId)
     {
         return cartClient.getMyCart(userId);
+    }
+
+    //------------FOR SYNC COMMUNICATION WITH NOTIFICATION MICROSERVICE----------------
+    //(1) get phone number by id
+    public String getPhoneNumberById(Long userId)
+    {
+        Optional<Customer> optionalCustomer = customerRepository.findById(userId);
+        if(optionalCustomer.isEmpty())
+            return null;
+        return optionalCustomer.get().getPhoneNumber();
+    }
+
+    //(2) get email by id
+    public String getEmailById(Long userId)
+    {
+        Optional<Customer> optionalCustomer = customerRepository.findById(userId);
+        if(optionalCustomer.isEmpty())
+            return null;
+        return optionalCustomer.get().getEmail();
     }
 
 }
