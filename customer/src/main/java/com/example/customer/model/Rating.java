@@ -1,6 +1,5 @@
 package com.example.customer.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -12,11 +11,11 @@ public class Rating {
     private int score;
 
     @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    private Long restaurantId;
-
-
+    @Column(name = "restaurant_id")
+    private Long restaurantId; // Stores the ID of the restaurant
 
     // Getters
     public Long getId() {
@@ -31,10 +30,9 @@ public class Rating {
         return customer;
     }
 
-    public Long getRestaurant() {
+    public Long getRestaurantId() {
         return restaurantId;
     }
-
 
     // Setters
     public void setId(Long id) {
@@ -49,12 +47,11 @@ public class Rating {
         this.customer = customer;
     }
 
-    public void setRestaurant(Long restaurantId) {
+    public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
 
-
-// Constructors
+    // Constructors
 
     // 1. No-arg constructor
     public Rating() {
@@ -69,7 +66,7 @@ public class Rating {
     }
 
     // 3. Constructor without ID
-    public Rating(int score, Customer customer, Long restaurantId ) {
+    public Rating(int score, Customer customer, Long restaurantId) {
         this.score = score;
         this.customer = customer;
         this.restaurantId = restaurantId;

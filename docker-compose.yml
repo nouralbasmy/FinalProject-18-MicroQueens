@@ -36,7 +36,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: restaurantDB
     ports:
-      - "5434:5432" # Host port 5433 for restaurant-db
+      - "5434:5432" # Host port 5434 for restaurant-db
 
   customer-db:
     image: postgres:latest
@@ -46,7 +46,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: customerDB
     ports:
-      - "5435:5432" # Host port 5433 for customer-db
+      - "5435:5432"  # Host port 5435 maps to container's 5432
 
   redis_cache:
     image: redis:latest

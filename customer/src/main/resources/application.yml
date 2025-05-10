@@ -1,6 +1,6 @@
 spring:
   application:
-    name: PaymentService
+    name: Customer
 
   rabbitmq:
     host: rabbitmq
@@ -9,7 +9,6 @@ spring:
     password: guest
 
   datasource:
-    #    url: jdbc:postgresql://postgres:5432/paymentDB
     url: jdbc:postgresql://localhost:5435/customerDB
     username: postgres
     password: 1234
@@ -28,3 +27,5 @@ spring:
 
 server:
   port: 8094
+restaurant:
+  url: http://localhost:8093
