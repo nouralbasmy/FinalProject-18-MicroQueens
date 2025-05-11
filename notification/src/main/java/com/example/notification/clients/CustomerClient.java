@@ -9,10 +9,10 @@ import java.util.Map;
 
 @FeignClient(name = "customer-service", url = "http://localhost:8094/customer")
 public interface CustomerClient {
-    @GetMapping("/phoneNumber")
+    @GetMapping("/phoneNumber/{userId}")
     String getPhoneNumberById(@PathVariable Long userId);
 
-    @GetMapping("/email")
+    @GetMapping("/email/{userId}")
     String getEmailById(@PathVariable Long userId);
 
     @GetMapping("/validateToken")

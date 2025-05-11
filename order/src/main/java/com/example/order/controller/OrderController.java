@@ -125,7 +125,7 @@ public class OrderController {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
             }
             Long userId = Long.parseLong(userInfo.get("userId"));
-            Long orderId = orderService.checkout(userId,paymentType,extraInfo);
+            Long orderId = orderService.checkout(authHeader,userId,paymentType,extraInfo);
             return "Checkout successful! Your OrderId: "+ orderId;
         }
         catch(Exception e)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "Restaurant-Rating" , url = "${restaurant.url}")
 public interface CustomerRatingClient {
 
-    @PostMapping("/restaurants/{restaurantId}/rating-summary")
+    @PostMapping("/restaurant/{restaurantId}/rating-summary")
     void sendRating(@PathVariable("restaurantId") Long restaurantId,
                     @RequestBody RatingSummaryDTO summary);
 }

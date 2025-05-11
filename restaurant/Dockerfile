@@ -9,7 +9,7 @@ COPY target/restaurant-0.0.1-SNAPSHOT.jar /app/restaurant.jar
 
 
 # Expose the application port
-EXPOSE 8081
+EXPOSE 8093
 
 # Set the entry point to run the application
 CMD ["java", "-jar", "restaurant.jar"]

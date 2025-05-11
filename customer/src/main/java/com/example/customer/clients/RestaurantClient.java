@@ -12,6 +12,6 @@ import java.util.List;
 @FeignClient(name = "Restaurant-Info", url = "${restaurant.url}")
 public interface RestaurantClient {
 
-    @PostMapping("/restaurants/getRestaurantInfo")
+    @PostMapping("/restaurant/getRestaurantInfo")
     List<RestaurantDTO> getRestaurantsByIds(@RequestBody List<Long> ids);
 }

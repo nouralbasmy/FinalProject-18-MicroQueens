@@ -173,13 +173,13 @@ public class OrderService {
         }
     }
 
-    public Long checkout(Long userId, String paymentType, String extraInfo) {
+    public Long checkout(String authHeader,Long userId, String paymentType, String extraInfo) {
         Optional<Cart> optionalCart = cartService.getCartByUserId(userId);
         if (optionalCart.isEmpty()) {
             throw new RuntimeException("No cart for this user to checkout");
         }
         Cart cart = optionalCart.get();
-        Long paymentId = paymentClient.pay(paymentType, cart.getTotalPrice(), null, cart.getUserId(), extraInfo);
+        Long paymentId = paymentClient.pay(authHeader,paymentType, cart.getTotalPrice(), extraInfo);
         Order order = placeOrder(userId);
         paymentClient.setPaymentOrderId(paymentId, order.getId());
         //decrement inventory call hereee

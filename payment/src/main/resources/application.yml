@@ -1,6 +1,6 @@
 spring:
   application:
-    name: PaymentService
+    name: payment-service
 
   rabbitmq:
     host: rabbitmq

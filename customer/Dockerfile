@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/customer-0.0.1-SNAPSHOT.jar /app/customer.jar
 
 # Expose the port (adjust if needed)
-EXPOSE 8082
+EXPOSE 8094
 
 # Run the app
 CMD ["java", "-jar", "customer.jar"]
