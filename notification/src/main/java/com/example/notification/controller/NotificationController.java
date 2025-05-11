@@ -1,8 +1,12 @@
 package com.example.notification.controller;
 
+import com.example.notification.clients.CustomerClient;
 import com.example.notification.model.Notification;
 import com.example.notification.service.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -11,12 +15,22 @@ import java.util.Map;
 @RequestMapping("/notifications")
 public class NotificationController {
     private final NotificationService notificationService;
-    public NotificationController(NotificationService notificationService) {
+    private final CustomerClient customerClient;
+
+    @Autowired
+    public NotificationController(NotificationService notificationService, CustomerClient customerClient) {
         this.notificationService = notificationService;
+        this.customerClient = customerClient;
     }
 
-    @PostMapping("/addNotification/{userId}")
-    public String addNotification(@PathVariable Long userId, @RequestParam Long restaurantId, @RequestParam Long orderId, @RequestParam String notificationType) {
+    @PostMapping("/addNotification")
+    public String addNotification(@RequestHeader("Authorization") String authHeader, @RequestParam Long restaurantId, @RequestParam Long orderId, @RequestParam String notificationType) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
+
         Notification notification = notificationService.addNotification(userId, restaurantId, orderId, notificationType);
         return notification.getMessage();
     }
@@ -53,8 +67,13 @@ public class NotificationController {
 
 ///////////////////////////////////////////////////
 
-    @GetMapping("/user/{userId}")
-    public List<Notification> getByUser(@PathVariable Long userId) {
+    @GetMapping("/user/getNotification")
+    public List<Notification> getByUser(@RequestHeader("Authorization") String authHeader) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         return notificationService.getByUserId(userId);
     }
 

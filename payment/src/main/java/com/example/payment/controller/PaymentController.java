@@ -1,5 +1,6 @@
 package com.example.payment.controller;
 
+import com.example.payment.clients.CustomerClient;
 import com.example.payment.command.PayCommand;
 import com.example.payment.command.PaymentCommand;
 import com.example.payment.factory.CODPaymentFactory;
@@ -24,11 +25,13 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final CustomerClient customerClient;
 
     @Autowired
-    public PaymentController(PaymentService paymentService)
+    public PaymentController(PaymentService paymentService, CustomerClient customerClient)
     {
         this.paymentService = paymentService;
+        this.customerClient = customerClient;
     }
 
     @GetMapping("/allPayments")
@@ -77,14 +80,25 @@ public class PaymentController {
     }
 
 
-    @GetMapping("/user/{userId}")
-    public List<Payment> getUserPaymentHistory(@PathVariable Long userId) {
+    @GetMapping("/user/paymentHistory")
+    public List<Payment> getUserPaymentHistory(@RequestHeader("Authorization") String authHeader) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         return paymentService.getUserPaymentHistory(userId);
     }
 
 
     @PostMapping("/pay")
-    public Long pay(@RequestParam String paymentType, @RequestParam double amount, @RequestParam Long userId, @RequestParam String extraInfo) {
+    public Long pay(@RequestHeader("Authorization") String authHeader, @RequestParam String paymentType, @RequestParam double amount, @RequestParam String extraInfo) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
+
         Payment payment;
         Long orderId = null;
         switch (paymentType.toUpperCase()) {
@@ -115,9 +129,14 @@ public class PaymentController {
     }
 
     @PostMapping("/refund/{orderId}/{amount}")
-    public String refund(@PathVariable Long orderId, @RequestParam Long userId, @RequestParam double amount) {
-           paymentService.processRefund(userId,amount,orderId);
-           return "Refund processed successfully. The amount has been added to your wallet.";
+    public String refund(@RequestHeader("Authorization") String authHeader, @PathVariable Long orderId, @RequestParam double amount) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
+        paymentService.processRefund(userId,amount,orderId);
+        return "Refund processed successfully. The amount has been added to your wallet.";
     }
 
 

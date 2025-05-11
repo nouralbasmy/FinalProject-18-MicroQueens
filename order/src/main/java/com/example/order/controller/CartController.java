@@ -1,5 +1,6 @@
 package com.example.order.controller;
 
+import com.example.order.clients.CustomerClient;
 import com.example.order.model.Cart;
 import com.example.order.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,13 @@ import java.util.Optional;
 public class CartController {
 
     private final CartService cartService;
+    private final CustomerClient customerClient;
+
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, CustomerClient customerClient) {
         this.cartService = cartService;
+        this.customerClient = customerClient;
     }
 
     @PostMapping
@@ -36,13 +40,18 @@ public class CartController {
     }
 
     @GetMapping
-    public Iterable<Cart> getAllCarts()
-    {
+    public Iterable<Cart> getAllCarts() {
         return cartService.getAllCarts();
     }
 
-    @PutMapping("/user/{userId}")
-    public Cart updateCartByUserId(@PathVariable Long userId, @RequestBody Cart updatedCartData) {
+    @PutMapping("/user/updateCart")
+    public Cart updateCartByUserId(@RequestHeader("Authorization") String authHeader, @RequestBody Cart updatedCartData) {
+
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         return cartService.updateCart(userId, updatedCartData);
     }
 
@@ -51,14 +60,24 @@ public class CartController {
         cartService.deleteCart(cartId);
     }
 
-    @DeleteMapping("/user/{userId}")
-    public void deleteCartByUserId(@PathVariable Long userId) {
+    @DeleteMapping("/user/deleteCart")
+    public void deleteCartByUserId(@RequestHeader("Authorization") String authHeader) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         cartService.deleteCartByUserId(userId);
     }
 
     // (1)
-    @GetMapping("/user/{userId}")
-    public Cart getCartByUserId(@PathVariable Long userId) {
+    @GetMapping("/user/getCart")
+    public Cart getCartByUserId(@RequestHeader("Authorization") String authHeader) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         Optional<Cart> cart = cartService.getCartByUserId(userId);
         if (cart.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No cart found for this user");
@@ -67,8 +86,13 @@ public class CartController {
     }
 
     // (2)
-    @DeleteMapping("/user/{userId}/remove")
-    public String removeItemFromCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
+    @DeleteMapping("/user/removeItemFromCart")
+    public String removeItemFromCart(@RequestHeader("Authorization") String authHeader, @RequestBody CartItem cartItem) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
         boolean success = cartService.removeItemFromCart(userId, cartItem);
         if (success) {
             return "Item removed successfully!";
@@ -77,18 +101,20 @@ public class CartController {
     }
 
     // (3)
-    @PostMapping("/user/{userId}/add")
+    @PostMapping("/user/addItemToCart")
     public String addToCart(
-            @PathVariable Long userId,
+            @RequestHeader("Authorization") String authHeader,
             @RequestBody CartItem cartItem) {
-        try
-        {
+        try {
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
             cartService.addToCart(userId, cartItem);
             return "Item added successfully!";
-        }
-        catch (Exception e)
-        {
-            return "Failed to add item to cart! "+ e.getMessage();
+        } catch (Exception e) {
+            return "Failed to add item to cart! " + e.getMessage();
         }
     }
 
@@ -105,8 +131,14 @@ public class CartController {
     }
 
     //(5)
-    @GetMapping("/myCart/{userId}")
-    public Map<String, Object> getMyCart(@PathVariable Long userId) {
+    @GetMapping("/myCart")
+    public Map<String, Object> getMyCart(@RequestHeader("Authorization") String authHeader) {
+        Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+        if (userInfo == null || !userInfo.containsKey("userId")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+        Long userId = Long.parseLong(userInfo.get("userId"));
+
         Optional<Cart> cart = cartService.getCartByUserId(userId);
         if (cart.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No cart found for this user");
@@ -121,6 +153,6 @@ public class CartController {
     // (6) explicitly checking inventory only -- for additional fn requirement
     @GetMapping("/checkInventory/{menuItemId}/{quantity}")
     public boolean checkInventory(@PathVariable Long menuItemId, @PathVariable int quantity) {
-        return cartService.checkInventory(menuItemId,quantity);
+        return cartService.checkInventory(menuItemId, quantity);
     }
 }

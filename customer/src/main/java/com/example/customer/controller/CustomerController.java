@@ -1,5 +1,8 @@
 package com.example.customer.controller;
 
+import com.example.customer.clients.CartClient;
+import com.example.customer.clients.NotificationClient;
+import com.example.customer.clients.OrderClient;
 import com.example.customer.dto.RestaurantDTO;
 import com.example.customer.model.Customer;
 import com.example.customer.services.CustomerService;
@@ -19,6 +22,13 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CartClient cartClient;
+    @Autowired
+    private OrderClient orderClient;
+    @Autowired
+    private NotificationClient notificationClient;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -131,9 +141,9 @@ public class CustomerController {
     }
 
     //------------FOR SYNC COMMUNICATION WITH ORDER MICROSERVICE----------------
-    @GetMapping("/myCart/{userId}")
-    public Map<String, Object> getMyCart(@PathVariable Long userId) {
-        return customerService.getMyCart(userId);
+    @GetMapping("/myCart")
+    public Map<String, Object> getMyCart(@RequestHeader("Authorization") String authHeader) {
+        return cartClient.getMyCart(authHeader);
     }
 
     //------------FOR SYNC COMMUNICATION WITH NOTIFICATION MICROSERVICE----------------
@@ -151,9 +161,18 @@ public class CustomerController {
 
 
     //------------FOR COMMUNICATION WITH ORDER & NOTIFICATION MICROSERVICE----------------
-    @PutMapping("/markOrder/{userId}")
-    public String markOrderDelivered(@PathVariable Long userId, @RequestParam Long orderId) {
-        return customerService.markOrderDelivered(userId, orderId);
+    @PutMapping("/markOrder")
+    public String markOrderDelivered(@RequestHeader("Authorization") String authHeader,@RequestParam Long orderId) {
+        return customerService.markOrderDelivered(authHeader, orderId);
+    }
+
+    //------------FOR DECODING TOKENS IN OTHER MICROSERVICES----------------
+    @GetMapping("/validateToken")
+    public Map<String, String> decodeToken(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        return jwtUtil.validateToken(token);
+//        String userId = userInfo.get("userId");
+//        String username = userInfo.get("username");
     }
 
 }
