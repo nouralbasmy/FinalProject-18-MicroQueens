@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: OrderService
+
+  rabbitmq:
+    #    host: rabbitmq
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderDB  # changed postgres to localhost to run locally
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  data:
+    redis:
+#      host: redis_cache  # Docker service name
+      host: localhost
+      port: 6379
+
+  cache:
+    type: redis
+
+server:
+  port: 8090
+
+restaurant:
+  url: ${RESTAURANT_URL:http://localhost:8093}/menuItems
+
+payment:
+  url: ${PAYMENT_URL:http://localhost:8091}/payment

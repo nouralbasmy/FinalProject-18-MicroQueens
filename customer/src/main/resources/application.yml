@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: Customer
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    url: jdbc:postgresql://localhost:5435/customerDB
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+server:
+  port: 8094
+restaurant:
+  url: ${RESTAURANT_URL:http://localhost:8093}
+
+# URL properties:
+cart:
+  url: ${CART_SERVICE_URL:http://localhost:8090}/cart
+
+notification:
+  url: ${NOTIFICATION_SERVICE_URL:http://localhost:8092}/notifications
+
+order:
+  url: ${ORDER_SERVICE_URL:http://localhost:8090}/order
+

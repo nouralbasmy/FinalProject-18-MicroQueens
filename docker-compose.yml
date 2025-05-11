@@ -1,0 +1,83 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  order-db:
+    image: postgres:latest
+    container_name: order-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: orderDB
+    ports:
+      - "5432:5432" # Host port 5432 for order-db
+
+  payment-db:
+    image: postgres:latest
+    container_name: payment-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: paymentDB
+    ports:
+      - "5433:5432" # Host port 5433 for payment-db
+
+  restaurant-db:
+    image: postgres:latest
+    container_name: restaurant-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: restaurantDB
+    ports:
+      - "5434:5432" # Host port 5434 for restaurant-db
+
+  customer-db:
+    image: postgres:latest
+    container_name: customer-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: customerDB
+    ports:
+      - "5435:5432"  # Host port 5435 maps to container's 5432
+
+  redis_cache:
+    image: redis:latest
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+
+  # MongoDB
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: MicroQueens_mongo
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: mongod --bind_ip_all
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "9000:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
