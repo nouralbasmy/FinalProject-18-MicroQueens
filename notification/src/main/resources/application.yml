@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: notification
+    name: notification-service
 
   mail:
     host: smtp.gmail.com         

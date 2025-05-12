@@ -1,5 +1,7 @@
 package com.example.notification.clients;
 
+import java.util.Map;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +12,9 @@ public interface CustomerClient {
     @GetMapping("/phoneNumber/{userId}")
     String getPhoneNumberById(@PathVariable Long userId);
 
-
     @GetMapping("/email/{userId}")
     String getEmailById(@PathVariable Long userId);
+
+    @GetMapping("/validateToken")
+    Map<String, String> decodeToken(@RequestHeader("Authorization") String authHeader);
 }

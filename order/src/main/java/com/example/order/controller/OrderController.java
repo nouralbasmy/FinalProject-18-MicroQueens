@@ -1,4 +1,5 @@
 package com.example.order.controller;
+import com.example.order.clients.CustomerClient;
 import com.example.order.model.Order;
 import com.example.order.model.OrderStatus;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    
+
     private final OrderService orderService;
+    private final CustomerClient customerClient;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, CustomerClient customerClient) {
         this.orderService = orderService;
+        this.customerClient = customerClient;
     }
 
     @PostMapping("/addOrder")
@@ -59,10 +63,15 @@ public class OrderController {
     }
 
 
-    @GetMapping("/ordersByUserId/{userId}")
-    public List<Order> getOrdersByUserId(@PathVariable Long userId) {
+    @GetMapping("/ordersByUserId")
+    public List<Order> getOrdersByUserId(@RequestHeader("Authorization") String authHeader) {
         try {
 //            return orderService.getOrdersByUserId(userId);
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
             return orderService.filterOrders("userid",userId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -91,9 +100,14 @@ public class OrderController {
     }
 
 
-    @PostMapping("/placeOrder/{userId}")
-    public ResponseEntity<String> placeOrder(@PathVariable Long userId) {
+    @PostMapping("/placeOrder")
+    public ResponseEntity<String> placeOrder(@RequestHeader("Authorization") String authHeader) {
         try {
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
             orderService.placeOrder(userId);
             return ResponseEntity.ok("Order placed successfully");
         } catch (Exception e) {
@@ -102,11 +116,16 @@ public class OrderController {
     }
 
     //checkout cart (turning cart into order)
-    @PostMapping("/checkout/{userId}")
-    public String checkout(@PathVariable Long userId, @RequestParam String paymentType, @RequestParam String extraInfo)
+    @PostMapping("/checkout")
+    public String checkout(@RequestHeader("Authorization") String authHeader, @RequestParam String paymentType, @RequestParam String extraInfo)
     {
         try{
-            Long orderId = orderService.checkout(userId,paymentType,extraInfo);
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
+            Long orderId = orderService.checkout(authHeader,userId,paymentType,extraInfo);
             return "Checkout successful! Your OrderId: "+ orderId;
         }
         catch(Exception e)

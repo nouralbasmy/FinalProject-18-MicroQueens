@@ -153,10 +153,6 @@ public class CustomerService {
         return true;
     }
 
-    // ------------FOR SYNC COMMUNICATION WITH ORDER MICROSERVICE----------------
-    public Map<String, Object> getMyCart(Long userId) {
-        return cartClient.getMyCart(userId);
-    }
 
     // ------------FOR SYNC COMMUNICATION WITH NOTIFICATION
     // MICROSERVICE----------------
@@ -177,10 +173,10 @@ public class CustomerService {
     }
 
     //------------FOR COMMUNICATION WITH ORDER & NOTIFICATION MICROSERVICE----------------
-    public String markOrderDelivered(Long userId, Long orderId)
+    public String markOrderDelivered(String authHeader, Long orderId)
     {
         Long restaurantId = orderClient.getRestaurantIdByOrderId(orderId);
         orderClient.customerUpdateOrder(orderId);
-        return notificationClient.addNotification(userId,restaurantId,orderId,"sms");
+        return notificationClient.addNotification(authHeader,restaurantId,orderId,"sms");
     }
 }

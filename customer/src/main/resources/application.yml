@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Customer
+    name: customer-service
 
   rabbitmq:
     host: rabbitmq
