@@ -12,7 +12,7 @@ spring:
         - id: restaurant-service
           uri: http://localhost:8093
           predicates:
-            - Path=/restaurant/**
+            - Path=/restaurant/** , /menuitem/**
         - id: customer-service
           uri: http://localhost:8094
           predicates:
@@ -20,7 +20,7 @@ spring:
         - id: order-service
           uri: http://localhost:8090
           predicates:
-            - Path=/order/**
+            - Path=/order/** , /cart/**
         - id: payment-service
           uri: http://localhost:8091
           predicates:
