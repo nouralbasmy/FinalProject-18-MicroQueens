@@ -11,7 +11,6 @@ import com.example.order.model.CartItem;
 import com.example.order.model.OrderItem;
 import com.example.order.rabbitmq.RabbitMQProducer;
 import com.example.order.repository.OrderItemRepository;
-import com.example.order.state.ConfirmedState;
 import com.example.order.strategy.OrderFilterContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +78,7 @@ public class OrderService {
         if (order == null) {
             throw new RuntimeException("Order not found");
         }
+        
         //state design pattern
         order.next();
 

@@ -24,6 +24,7 @@ public class Order {
     private Long restaurantId;
 
     @Transient
+    @JsonIgnore
     private OrderState state;
 
     @OneToMany(mappedBy = "order")
@@ -33,8 +34,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(long id, long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice,
-                 long restaurantId, List<OrderItem> orderItems) {
+    public Order(Long id, Long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice,
+    Long restaurantId, List<OrderItem> orderItems) {
         this.id = id;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -44,7 +45,7 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public Order(long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, long restaurantId,
+    public Order(Long userId, LocalDateTime orderDate, OrderStatus status, double totalPrice, Long restaurantId,
                  List<OrderItem> orderItems) {
         this.userId = userId;
         this.orderDate = orderDate;
@@ -73,15 +74,11 @@ public class Order {
         this.id = id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -109,6 +106,14 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -116,19 +121,6 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-
-    public long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(long restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
 
     public OrderState getState() {
         if(state == null)
