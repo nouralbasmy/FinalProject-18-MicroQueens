@@ -27,6 +27,6 @@ spring:
       username: root
       password: example
       authentication-database: admin
-
+      
 customer:
-  url: ${CUSTOMER_SERVICE_URL:http://localhost:8094/order}
+  url: ${CUSTOMER_SERVICE_URL:http://localhost:8094/customer}

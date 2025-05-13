@@ -13,8 +13,6 @@ public class EmailNotificationStrategy implements NotificationStrategy{
     @Autowired
     private JavaMailSender mailSender;
 
- 
-
     @Override
     public void send(Notification notification) {
         Notification e = (Notification) notification;
