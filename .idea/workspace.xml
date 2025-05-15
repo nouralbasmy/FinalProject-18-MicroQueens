@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/customer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customer/src/main/java/com/example/customer/rabbitmq/RabbitMQConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/customer/src/main/java/com/example/customer/rabbitmq/RabbitMQConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/customer/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/src/main/java/com/example/notification/rabbitmq/RabbitMQConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/java/com/example/notification/rabbitmq/RabbitMQConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/src/main/java/com/example/notification/strategy/EmailNotificationStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/java/com/example/notification/strategy/EmailNotificationStrategy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notification/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
