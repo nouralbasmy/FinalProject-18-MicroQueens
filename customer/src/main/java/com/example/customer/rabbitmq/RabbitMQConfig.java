@@ -14,25 +14,25 @@ public class RabbitMQConfig {
 
     public static final String CUSTOMER_NOTIFICATION_QUEUE = "customer_notification_queue";
     public static final String CUSTOMER_NOTIFICATION_EXCHANGE = "customer_notification_exchange";
-    public static final String CUSTOMER_NOTIFICATION_ROUTING_KEY = "customer_notification_key";
+    public static final String CUSTOMER_NOTIFICATION_KEY = "customer_notification_key";
 
-    //Order
+    //Customer
     @Bean
-    public Queue orderNotificationQueue() {
+    public Queue customerNotificationQueue() {
         return new Queue(CUSTOMER_NOTIFICATION_QUEUE);
     }
 
     @Bean
-    public DirectExchange orderNotificationExchange() {
+    public DirectExchange notificationCustomerExchange() {
         return new DirectExchange(CUSTOMER_NOTIFICATION_EXCHANGE);
     }
 
     @Bean
-    public Binding orderNotificationBinding(Queue queue, DirectExchange exchange) {
+    public Binding binding() {
         return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(CUSTOMER_NOTIFICATION_ROUTING_KEY);
+                .bind(customerNotificationQueue())
+                .to(notificationCustomerExchange())
+                .with(CUSTOMER_NOTIFICATION_KEY);
     }
 
 }

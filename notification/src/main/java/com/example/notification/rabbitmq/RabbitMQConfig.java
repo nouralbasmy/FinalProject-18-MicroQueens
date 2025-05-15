@@ -17,7 +17,7 @@ public class RabbitMQConfig {
     //Customer
     public static final String CUSTOMER_NOTIFICATION_QUEUE = "customer_notification_queue";
     public static final String CUSTOMER_NOTIFICATION_EXCHANGE = "customer_notification_exchange";
-    public static final String CUSTOMER_NOTIFICATION_KEY= "customer_notification_routing_key";
+    public static final String CUSTOMER_NOTIFICATION_KEY= "customer_notification_key";
 
     //Order
     @Bean
