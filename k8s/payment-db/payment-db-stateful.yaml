@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: order-db
+  name: payment-db
 spec:
-  serviceName: "order-db"
+  serviceName: "payment-db"
   replicas: 1
   selector:
     matchLabels:
-      app: order-db
+      app: payment-db
   template:
     metadata:
       labels:
-        app: order-db
+        app: payment-db
     spec:
       containers:
-        - name: order-db
+        - name: payment-db
           image: postgres
           ports:
             - containerPort: 5432
@@ -22,24 +22,24 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: order-db-secret
+                  name: payment-db-secret
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: order-db-secret
+                  name: payment-db-secret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: order-db-secret
+                  name: payment-db-secret
                   key: POSTGRES_PASSWORD
           volumeMounts:
-            - name: order-db-persistent-storage
+            - name: payment-db-persistent-storage
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
-        name: order-db-persistent-storage
+        name: payment-db-persistent-storage
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
