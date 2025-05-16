@@ -1,12 +1,16 @@
 package com.example.restaurant.controller;
 
+import com.example.restaurant.factory.MenuItemFactory;
 import com.example.restaurant.model.MenuItem;
+import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.services.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/menuitem")
@@ -52,7 +56,36 @@ public class MenuItemController {
         return ResponseEntity.noContent().build();
     }
 
-    // ------------FOR SYNC COMMUNICATION WITH ORDER MICROSERVICE----------------
+    //NEWWW
+    @PostMapping("/{restaurantId}")
+    public ResponseEntity<MenuItem> createMenuItemWithType(
+            @PathVariable Long restaurantId,
+            @RequestBody Map<String, Object> attributes) {
+
+        Optional<Restaurant> restaurantOptional = menuItemService.getRestaurantById(restaurantId);
+        if (restaurantOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Restaurant restaurant = restaurantOptional.get();
+
+        try {
+            MenuItem menuItem = MenuItemFactory.createMenuItem(attributes, restaurant);
+            MenuItem savedItem = menuItemService.createMenuItem(menuItem);
+            return ResponseEntity.ok(savedItem);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+        // (3) increment inventory when restaurant do more
+        @PutMapping("/incrementInventory/{menuItemId}")
+        public boolean incrementInventory(@PathVariable Long menuItemId, @RequestParam int quantity) {
+            return menuItemService.incrementInventory(menuItemId, quantity);
+        }
+
+
+        // ------------FOR SYNC COMMUNICATION WITH ORDER MICROSERVICE----------------
     // (1) inventory checking
     @GetMapping("/checkInventory/{menuItemId}")
     public boolean checkInventory(@PathVariable Long menuItemId, @RequestParam int quantity) {

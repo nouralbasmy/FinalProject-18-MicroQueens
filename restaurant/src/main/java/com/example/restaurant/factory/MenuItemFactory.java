@@ -3,11 +3,14 @@ import com.example.restaurant.enums.DietaryOption;
 import com.example.restaurant.model.*;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MenuItemFactory {
-    public static MenuItem createMenuItem(String type, Map<String, Object> attributes, Restaurant restaurant) {
+    public static MenuItem createMenuItem( Map<String, Object> attributes, Restaurant restaurant) {
+        String type = ((String) attributes.get("type")).toUpperCase();
         switch (type.toUpperCase()) {
             case "MAIN_DISH" -> {
                 MainDish dish = new MainDish();
@@ -59,8 +62,20 @@ public class MenuItemFactory {
         item.setName((String) attrs.get("name"));
         item.setPrice(((Number) attrs.get("price")).floatValue());
         item.setInventory((int) attrs.get("inventory"));
-        item.setDietaryRestrictions((List<DietaryOption>) attrs.get("dietaryRestrictions"));
+        List<DietaryOption> dietaryOptions = parseDietaryOptions(attrs.get("dietaryRestrictions"));
+        item.setDietaryRestrictions(dietaryOptions);
+        item.setType((String) attrs.get("type"));
         item.setRestaurant(restaurant);
         return item;
+    }
+    private static List<DietaryOption> parseDietaryOptions(Object raw) {
+        if (raw instanceof List<?> rawList) {
+            return rawList.stream()
+                    .map(Object::toString)
+                    .map(String::toUpperCase)
+                    .map(DietaryOption::valueOf)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,8 +38,13 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private List<Cuisine> cuisines;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<MenuItem> menu;
+//    @OneToMany(mappedBy = "restaurant")
+//    private List<MenuItem> menu;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<MenuItem> menu = new ArrayList<>();
+
 
     // 1. No-arg constructor (required by JPA)
     public Restaurant() {

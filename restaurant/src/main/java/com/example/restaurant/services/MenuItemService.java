@@ -1,6 +1,7 @@
 package com.example.restaurant.services;
 
 import com.example.restaurant.model.MenuItem;
+import com.example.restaurant.model.Restaurant;
 import com.example.restaurant.repository.MenuItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.Optional;
 @Service
 public class MenuItemService {
     private final MenuItemRepository menuItemRepository;
+    private final RestaurantService restaurantService;
 
     @Autowired
-    public MenuItemService(MenuItemRepository menuItemRepository) {
+    public MenuItemService(MenuItemRepository menuItemRepository, RestaurantService restaurantService) {
         this.menuItemRepository = menuItemRepository;
+        this.restaurantService = restaurantService;
     }
 
     public MenuItem createMenuItem(MenuItem menuItem) {
@@ -72,4 +75,23 @@ public class MenuItemService {
         menuItemRepository.save(menuItem);
         return true;
     }
+
+    // (3) Increment inventory on restaurant adding
+    public boolean incrementInventory(Long menuItemId, int quantity) {
+        Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(menuItemId);
+        if (optionalMenuItem.isEmpty())
+            return false; // failed to find item
+
+        MenuItem menuItem = optionalMenuItem.get();
+        menuItem.setInventory(menuItem.getInventory() + quantity);
+        menuItemRepository.save(menuItem);
+        return true;
+    }
+
+    public Optional<Restaurant> getRestaurantById(Long restaurantId){
+
+        return restaurantService.getRestaurantById(restaurantId);
+
+    }
+
 }

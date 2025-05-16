@@ -1,6 +1,7 @@
 package com.example.restaurant.model;
 
 import com.example.restaurant.enums.DietaryOption;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,7 +24,10 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
+    @JsonBackReference
     private Restaurant restaurant;
+
+    private String type;  //Don't add in constructors
 
     // 1. No-arg constructor
     public MenuItem() {
@@ -98,4 +102,11 @@ public class MenuItem {
         this.restaurant = restaurant;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

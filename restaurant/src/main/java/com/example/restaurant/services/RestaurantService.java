@@ -49,10 +49,11 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
-    @Cacheable(value = "restaurant_cache", key = "#id")
+    @Cacheable(value = "restaurant_cache", key = "#id" , unless = "#result == null or #result.isEmpty()")
     public Optional<Restaurant> getRestaurantById(Long id) {
         return restaurantRepository.findById(id);
     }
+
 
     @Cacheable(value = "restaurant_cache", key = "#name")
     public List<Restaurant> searchRestaurantsByName(String name) {
@@ -98,7 +99,7 @@ public class RestaurantService {
 
     //  update the restaurant's rating
     @CachePut(value = "restaurant_cache", key = "#restaurantId")
-    public void updateRatingSummary(Long restaurantId, RatingSummaryDTO summaryDTO) {
+    public Restaurant updateRatingSummary(Long restaurantId, RatingSummaryDTO summaryDTO) {
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RuntimeException("Restaurant not found"));
@@ -106,7 +107,10 @@ public class RestaurantService {
         restaurant.setAvgRating(summaryDTO.getAverageScore());
         restaurant.setTotalRatings(summaryDTO.getTotalRatings());
         restaurantRepository.save(restaurant);
+        updateRestaurant(restaurantId, restaurant);
+        return restaurantRepository.save(restaurant);
     }
+
 
     @Cacheable(value = "restaurant_cache", key = "#cuisine")
     public List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine) {
