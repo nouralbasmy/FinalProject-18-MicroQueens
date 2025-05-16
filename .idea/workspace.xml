@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/controller/MenuItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/controller/MenuItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/factory/MenuItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/factory/MenuItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/model/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/model/MenuItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/model/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/model/Restaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/services/MenuItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/services/MenuItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/controller/RestaurantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/controller/RestaurantController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/services/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/example/restaurant/services/RestaurantService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -130,4 +130,11 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurants);
     }
 
+    //added -N
+    @GetMapping("/activeRestaurants")
+    public ResponseEntity<List<RestaurantDTO>> getActiveRestaurants() {
+        List<RestaurantDTO> restaurants = restaurantService.getActiveRestaurants();
+        return ResponseEntity.ok(restaurants);
+    }
+
 }

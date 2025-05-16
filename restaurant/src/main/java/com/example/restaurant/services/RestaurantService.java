@@ -158,6 +158,22 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    //added -N
+    public List<RestaurantDTO> getActiveRestaurants()
+    {
+        return restaurantRepository.findAll().stream()
+                .filter(Restaurant::isActive)
+                .map(r -> new RestaurantDTO(
+                        r.getId(),
+                        r.getName(),
+                        r.getCuisines(),
+                        r.getDietaryOptions(),
+                        r.getAddress(),
+                        r.isActive(),
+                        r.getAvgRating()
+                ))
+                .collect(Collectors.toList());
+    }
 
 
 }
