@@ -5,25 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/k8s/customer-db/customer-db-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/customer-db/customer-db-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/customer-db/customer-db-stateful.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/mongo/mongo-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/mongo/mongo-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/mongo/mongo-stateful.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/payment-db/payment-db-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/payment-db/payment-db-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/payment-db/payment-db-stateful.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/rabbitmq/rabbitmq-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/rabbitmq/rabbitmq-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/rabbitmq/rabbitmq-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/redis/redis-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/redis/redis-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/restaurant-db/restaurant-db-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/restaurant-db/restaurant-db-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/restaurant-db/restaurant-db-stateful.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/order-db/order-db-stateful.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/order-db/order-db-stateful.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/customer/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
