@@ -1,5 +1,7 @@
 package com.example.payment.service;
 
+import com.example.payment.clients.CustomerClient;
+import com.example.payment.clients.OrderClient;
 import com.example.payment.command.PayCommand;
 import com.example.payment.command.PaymentCommand;
 import com.example.payment.command.RefundCommand;
@@ -17,8 +19,18 @@ import java.util.Optional;
 
 @Service
 public class PaymentService {
-    @Autowired
+
     private PaymentRepository paymentRepository;
+    private final CustomerClient customerClient;
+    private final OrderClient orderClient;
+
+    @Autowired
+    public PaymentService(PaymentRepository paymentRepository, CustomerClient customerClient, OrderClient orderClient)
+    {
+        this.paymentRepository = paymentRepository;
+        this.customerClient = customerClient;
+        this.orderClient = orderClient;
+    }
 
     public Payment save(Payment payment) {
         return paymentRepository.save(payment);
@@ -68,7 +80,7 @@ public class PaymentService {
     }
 
     public void processRefund(Long userId, double amount, Long orderId) {
-        PaymentCommand refundCommand = new RefundCommand(userId,amount, orderId);
+        PaymentCommand refundCommand = new RefundCommand(userId,amount, orderId, customerClient,orderClient);
         refundCommand.execute();
     }
 

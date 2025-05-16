@@ -85,6 +85,19 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public Order refundStatus(Long orderId) {
+        Order order = getOrderById(orderId);
+
+        if (order == null) {
+            throw new RuntimeException("Order not found");
+        }
+
+        //state design pattern
+        order.refund();
+
+        return orderRepository.save(order);
+    }
+
     public void deleteOrderById(Long orderId) {
         Order order = getOrderById(orderId);
         orderRepository.deleteById(orderId);

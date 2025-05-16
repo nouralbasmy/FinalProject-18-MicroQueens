@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,10 +80,24 @@ public class OrderController {
     }
 
     @GetMapping("/ordersByStatus/{status}")
-    public List<Order> getOrdersByStatus(@PathVariable OrderStatus status) {
+    public List<Order> getOrdersByStatus(@RequestHeader("Authorization") String authHeader, @PathVariable OrderStatus status) {
         try {
 //            return orderService.getOrdersByStatus(status);
-            return orderService.filterOrders("status",status);
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
+
+            List<Order> allOrdersWithStatus = orderService.filterOrders("status",status);
+
+            List<Order> filteredOrders = new ArrayList<>();
+            for (Order order : allOrdersWithStatus) {
+                if (userId.equals(order.getUserId())) {
+                    filteredOrders.add(order);
+                }
+            }
+            return filteredOrders;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found");
         }
@@ -90,10 +105,22 @@ public class OrderController {
 
 
     @GetMapping("/ordersByDate/{date}")
-    public List<Order> getOrdersByDate(@PathVariable LocalDateTime date) {
+    public List<Order> getOrdersByDate(@RequestHeader("Authorization") String authHeader, @PathVariable LocalDateTime date) {
         try {
 //            return orderService.getOrdersByDate(date);
-            return orderService.filterOrders("date",date);
+            Map<String, String> userInfo = customerClient.decodeToken(authHeader);
+            if (userInfo == null || !userInfo.containsKey("userId")) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+            Long userId = Long.parseLong(userInfo.get("userId"));
+            List<Order> orders = orderService.filterOrders("date",date);
+            List<Order> filteredOrders = new ArrayList<>();
+            for (Order order : orders) {
+                if (userId.equals(order.getUserId())) {
+                    filteredOrders.add(order);
+                }
+            }
+            return filteredOrders;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Date not found");
         }
@@ -139,9 +166,11 @@ public class OrderController {
     @PutMapping("/refundStatus/{orderId}")
     public void refundStatus(@PathVariable Long orderId) {
         try {
-            orderService.updateStatus(orderId);
+            orderService.refundStatus(orderId);
+
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+            //System.out.println(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
@@ -158,7 +187,7 @@ public class OrderController {
             Order order = orderService.updateStatus(orderId);
             return true;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 }

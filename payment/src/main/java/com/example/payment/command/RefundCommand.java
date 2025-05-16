@@ -10,16 +10,17 @@ public class RefundCommand implements PaymentCommand {
     private final double amount;
     private final Long orderId;
 
-    @Autowired
-    CustomerClient customerClient;
 
-    @Autowired
-    OrderClient orderClient;
 
-    public RefundCommand(Long userId, double amount, Long orderId) {
+    private final CustomerClient customerClient;
+    private final OrderClient orderClient;
+
+    public RefundCommand(Long userId, double amount, Long orderId, CustomerClient customerClient, OrderClient orderClient) {
         this.userId = userId;
         this.amount = amount;
         this.orderId = orderId;
+        this.customerClient = customerClient;
+        this.orderClient = orderClient;
     }
 
     @Override

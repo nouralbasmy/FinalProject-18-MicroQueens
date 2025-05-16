@@ -142,4 +142,7 @@ public class Order {
     public void next() {
         getState().next(this);
     }
+    public void refund() {
+        getState().refund(this);
+    }
 }

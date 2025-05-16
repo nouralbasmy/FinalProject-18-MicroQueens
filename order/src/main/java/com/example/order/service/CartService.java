@@ -64,8 +64,15 @@ public class CartService {
         }
 
         Cart cart = optionalCart.get();
-
+        double originalTotalPrice = cart.getCartItemList().stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
         double total = cart.getTotalPrice();
+        //Added to ensure discount is applied only once -N
+        if(originalTotalPrice != total)
+        {
+            throw new RuntimeException("Failed to apply! A discount has already been applied before");
+
+        }
         double discountAmount = total * (discountPercent / 100.0);
         double newTotal = total - discountAmount;
 
@@ -132,6 +139,11 @@ public class CartService {
                 if (existingItem.isPresent()) {
                     // if item exists, add to quantity
                     CartItem item = existingItem.get();
+                    //added inventory check henaaaa kman
+                    if(!menuItemClient.checkInventory(item.getMenuItemId(),item.getQuantity() + cartItemToAdd.getQuantity()))
+                    {
+                        throw new RuntimeException("Insufficient inventory for requested item!");
+                    }
                     item.setQuantity(item.getQuantity() + cartItemToAdd.getQuantity());
                 } else {
                     //if new item, add it to cart

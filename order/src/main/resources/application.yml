@@ -39,7 +39,7 @@ server:
   port: 8090
 
 restaurant:
-  url: ${RESTAURANT_URL:http://localhost:8093}/menuItems
+  url: ${RESTAURANT_URL:http://localhost:8093}/menuitem
 
 payment:
   url: ${PAYMENT_URL:http://localhost:8091}/payment

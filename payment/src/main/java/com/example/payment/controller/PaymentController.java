@@ -128,7 +128,7 @@ public class PaymentController {
         paymentService.setPaymentOrderId(paymentId, orderId);
     }
 
-    @PostMapping("/refund/{orderId}/{amount}")
+    @PostMapping("/refund/{orderId}")
     public String refund(@RequestHeader("Authorization") String authHeader, @PathVariable Long orderId, @RequestParam double amount) {
         Map<String, String> userInfo = customerClient.decodeToken(authHeader);
         if (userInfo == null || !userInfo.containsKey("userId")) {

@@ -121,12 +121,12 @@ public class CartController {
     // (4)
 
     @PostMapping("/applyDiscount")
-    public ResponseEntity<Cart> applyDiscount(@RequestParam String cartId, @RequestParam double discount) {
+    public ResponseEntity<?> applyDiscount(@RequestParam String cartId, @RequestParam double discount) {
         try {
             Cart updatedCart = cartService.applyDiscount(cartId, discount);
             return ResponseEntity.ok(updatedCart);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
