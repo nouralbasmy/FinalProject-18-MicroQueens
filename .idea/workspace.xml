@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/apigateway/apigateway-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/apigateway/apigateway-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/customer/customer-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/notification/notification-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/order/order-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/payment/payment-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-service.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/customer/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/gateway-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: nouralbasmy/apigateway:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_MAIN_WEB_APPLICATION_TYPE
+              value: reactive
+
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_0_ID
+              value: restaurant-service
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_0_URI
+              value: http://restaurant-service:8093
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0
+              value: Path=/restaurant/**, /menuitem/**
+
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_1_ID
+              value: customer-service
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_1_URI
+              value: http://customer-service:8094
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0
+              value: Path=/customer/**, /api/ratings/**
+
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_2_ID
+              value: order-service
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_2_URI
+              value: http://order-service:8090
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0
+              value: Path=/order/**, /cart/**
+
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_3_ID
+              value: payment-service
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_3_URI
+              value: http://payment-service:8091
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0
+              value: Path=/payment/**
+
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_4_ID
+              value: notification-service
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_4_URI
+              value: http://notification-service:8092
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0
+              value: Path=/notifications/**

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customer-service
+  template:
+    metadata:
+      labels:
+        app: customer-service
+    spec:
+      containers:
+        - name: customer-service
+          image: nouralbasmy/customer:1.0
+          ports:
+            - containerPort: 8094
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            #postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://customer-db-0.customer-db:5432/customerDB
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: customer-db-secret
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: customer-db-secret
+                  key: POSTGRES_PASSWORD
+            #rabbitmq
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_USER
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_PASS
+            #service url
+            - name: RESTAURANT_URL
+              value: http://restaurant-service:8093
+            - name: CART_SERVICE_URL
+              value: http://cart-service:8090/cart
+            - name: NOTIFICATION_SERVICE_URL
+              value: http://notification-service:8092/notifications
+            - name: ORDER_SERVICE_URL
+              value: http://order-service:8090/order
