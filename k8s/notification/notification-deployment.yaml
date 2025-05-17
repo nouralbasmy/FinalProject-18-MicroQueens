@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: notification-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: notification-service
@@ -52,4 +52,4 @@ spec:
                   key: MONGO_INITDB_ROOT_PASSWORD
             #service url
             - name: CUSTOMER_SERVICE_URL
-              value: http://customer-service:8094/customer
+              value: http://customer-service:8094

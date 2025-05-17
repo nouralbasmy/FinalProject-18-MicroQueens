@@ -43,3 +43,6 @@ restaurant:
 
 payment:
   url: ${PAYMENT_URL:http://localhost:8091}/payment
+
+customer:
+  url: ${CUSTOMER_URL:http://localhost:8094}/customer

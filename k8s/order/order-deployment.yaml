@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: order-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: order-service
@@ -55,6 +55,8 @@ spec:
               value: "6379"
             #service urls
             - name: RESTAURANT_URL
-              value: http://restaurant-service:8093/menuitem
+              value: http://restaurant-service:8093
             - name: PAYMENT_URL
-              value: http://payment-service:8091/payment
+              value: http://payment-service:8091
+            - name: CUSTOMER_URL
+              value: http://customer-service:8094

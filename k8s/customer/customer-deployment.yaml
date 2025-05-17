@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: customer-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: customer-service
@@ -52,8 +52,8 @@ spec:
             - name: RESTAURANT_URL
               value: http://restaurant-service:8093
             - name: CART_SERVICE_URL
-              value: http://cart-service:8090/cart
+              value: http://cart-service:8090
             - name: NOTIFICATION_SERVICE_URL
-              value: http://notification-service:8092/notifications
+              value: http://notification-service:8092
             - name: ORDER_SERVICE_URL
-              value: http://order-service:8090/order
+              value: http://order-service:8090

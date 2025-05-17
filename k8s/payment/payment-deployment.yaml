@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: payment-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: payment-service
@@ -50,6 +50,6 @@ spec:
                   key: RABBITMQ_DEFAULT_PASS
             #service url
             - name: CUSTOMER_SERVICE_URL
-              value: http://customer-service:8094/customer
+              value: http://customer-service:8094
             - name: ORDER_SERVICE_URL
-              value: http://order-service:8090/order
+              value: http://order-service:8090

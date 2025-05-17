@@ -5,19 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/k8s/apigateway/apigateway-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/apigateway/apigateway-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/customer/customer-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/notification/notification-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/order/order-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/payment/payment-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-service.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/customer/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/order/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/example/order/clients/CustomerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/example/order/clients/CustomerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/payment/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,29 +36,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.CustomerApplication.executor": "Run",
-    "Application.GatewayApplication.executor": "Run",
-    "Application.NotificationApplication.executor": "Run",
-    "Application.OrderApplication.executor": "Run",
-    "Application.PaymentApplication.executor": "Run",
-    "Application.RestaurantApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.NotificationApplication.executor": "Run",
-    "git-widget-placeholder": "Deployment",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/GUC/Semester 10/CSEN1002 - Scalable/Project/Project 3/FinalProject",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.configurations.included.in.services": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.CustomerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NotificationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.OrderApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PaymentApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RestaurantApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.NotificationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Deployment&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GUC/Semester 10/CSEN1002 - Scalable/Project/Project 3/FinalProject&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
