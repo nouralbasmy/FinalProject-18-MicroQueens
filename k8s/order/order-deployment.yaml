@@ -55,8 +55,8 @@ spec:
               value: "6379"
             #service urls
             - name: RESTAURANT_URL
-              value: http://restaurant-service:8093
+              value: http://restaurant-service:8093/menuitem
             - name: PAYMENT_URL
-              value: http://payment-service:8091
+              value: http://payment-service:8091/payment
             - name: CUSTOMER_URL
-              value: http://customer-service:8094
+              value: http://customer-service:8094/customer

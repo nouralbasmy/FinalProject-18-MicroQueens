@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="77581bd9-9fe2-4811-90b3-a6e0d1b26648" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/customer/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/order/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +15,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///JetClient Request Console" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
