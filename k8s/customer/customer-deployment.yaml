@@ -52,7 +52,7 @@ spec:
             - name: RESTAURANT_URL
               value: http://restaurant-service:8093
             - name: CART_SERVICE_URL
-              value: http://cart-service:8090
+              value: http://order-service:8090
             - name: NOTIFICATION_SERVICE_URL
               value: http://notification-service:8092
             - name: ORDER_SERVICE_URL

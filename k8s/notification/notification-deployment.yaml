@@ -52,4 +52,4 @@ spec:
                   key: MONGO_INITDB_ROOT_PASSWORD
             #service url
             - name: CUSTOMER_SERVICE_URL
-              value: http://customer-service:8094
+              value: http://customer-service:8094/customer

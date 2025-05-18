@@ -9,13 +9,7 @@
       <change beforePath="$PROJECT_DIR$/customer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/customer/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/customer/customer-deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/notification/notification-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/order/order-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/payment/payment-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/restaurant/restaurant-deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/order/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/example/order/clients/CustomerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/example/order/clients/CustomerClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/payment/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

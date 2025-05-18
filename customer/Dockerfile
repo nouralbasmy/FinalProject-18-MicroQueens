@@ -9,7 +9,7 @@ COPY target/customer-0.0.1-SNAPSHOT.jar /app/customer.jar
 
 ENV SERVER_PORT=8094 \
     RESTAURANT_URL=http://restaurant-service:8093 \
-    CART_SERVICE_URL=http://cart-service:8090 \
+    CART_SERVICE_URL=http://order-service:8090 \
     NOTIFICATION_SERVICE_URL=http://notification-service:8092 \
     ORDER_SERVICE_URL=http://order-service:8090
 
